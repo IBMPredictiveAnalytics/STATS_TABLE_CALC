@@ -1,0 +1,145 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2013
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-01-11 17:26+Central Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+#: modifyvalues.py:69
+msgid "---"
+msgstr ""
+"---"
+
+#: modifyvalues.py:91
+msgid "Only replace mode can be used in Statistics version 20 or earlier"
+msgstr ""
+"Seul le mode de remplacement peut être utilisé dans Statistics version 20 ou antérieure"
+
+#: modifyvalues.py:95
+msgid "Table Structure"
+msgstr ""
+"Structure du tableau"
+
+#: modifyvalues.py:100
+msgid "Only one of next and previous subtype specifications can be used"
+msgstr ""
+"Une seule des spécifications de sous-type précédentes et suivantes peut être utilisée"
+
+#: modifyvalues.py:102
+msgid "A secondary table can only be used with a custommodule"
+msgstr ""
+"Un tableau secondaire peut être utilisé uniquement avec un module personnalisé"
+
+#: modifyvalues.py:125
+msgid "No tables of the specified type were found to update"
+msgstr ""
+"Aucun tableau du type indiqué à mettre à jour n'a été trouvé"
+
+#: modifyvalues.py:162
+msgid "Secondary table not found: %s"
+msgstr ""
+"Tableau secondaire introuvable : %s"
+
+#: modifyvalues.py:186
+msgid "Target specification must be a sequence of one or more values"
+msgstr ""
+"La spécification cible doit être une séquence d'une ou plusieurs valeurs"
+
+#: modifyvalues.py:189
+msgid "The rows dimension cannot be combined with resizing"
+msgstr ""
+"Les dimensions de ligne ne peuvent pas être combinées avec le redimensionnement"
+
+#: modifyvalues.py:208
+msgid ""
+"Cannot apply command to this table, because it has nested dimensions.\nNumber of dimensions: %s"
+msgstr ""
+"Impossible d'appliquer une commande à ce tableau car il a des dimensions imbriquées.\nNombre de dimensions : %s"
+
+#: modifyvalues.py:215
+msgid "Tables with layers with multiple categories or multiple dimensions are not supported"
+msgstr ""
+"Les tableaux ayant des couches avec des catégories ou des dimensions multiples ne sont pas pris en charge"
+
+#: modifyvalues.py:253
+msgid "Table Labels: %s.  Dimensions: %s, %s"
+msgstr ""
+"Libellés du tableau : %s. Dimensions: %s, %s"
+
+#: modifyvalues.py:300
+msgid "The specified custom module could not be loaded: %s"
+msgstr ""
+"Le module personnalisé indiqué n'a pas pu être chargé : %s"
+
+#: modifyvalues.py:347
+msgid "Repeating locations can only be used with label text"
+msgstr ""
+"La répétition des emplacements est possible uniquement avec un texte de libellé"
+
+#: modifyvalues.py:351
+msgid "A specified row or column label number is outside the table: %s"
+msgstr ""
+"Un numéro de libellé de ligne ou de colonne n'est pas contenu dans le tableau : %s"
+
+#: modifyvalues.py:360
+msgid "Specified target location does not match any existing label: %s"
+msgstr ""
+"L'emplacement cible indiqué ne correspond à aucun libellé existant : %s"
+
+#: modifyvalues.py:381
+msgid "left or up"
+msgstr ""
+"à gauche ou vers le haut"
+
+#: modifyvalues.py:384
+msgid "right or down"
+msgstr ""
+"à droite ou vers le bas"
+
+#: modifyvalues.py:395
+msgid "A specified input label was not found: %s, search direction from target: %s"
+msgstr ""
+"Un libellé d'entrée indiqué est introuvable : %s, direction de recherche à partir de la cible : %s"
+
+#: modifyvalues.py:402
+msgid "A specified relative row or column number is outside the table: %s"
+msgstr ""
+"Un numéro de ligne ou de colonne relatif indiqué ne figure pas dans le tableau : %s"
+
+#: modifyvalues.py:408
+msgid "An absolute cell reference is outside the table: %s"
+msgstr ""
+"Une référence de cellule absolue ne figure pas dans le tableau : %s"
+
+#: modifyvalues.py:543
+msgid "The format or decimals specified for modified cells is not valid: %s, %s"
+msgstr ""
+"Le format, ou les décimales, indiqué pour les cellules modifiées n'est pas valide : %s, %s"
+
+#: modifyvalues.py:668
+msgid "Messages"
+msgstr ""
+"Messages"
+
