@@ -1,0 +1,55 @@
+<!-- ***************************************************************** -->
+<!--                                                                   -->
+<!-- Licensed Materials - Property of IBM                              -->
+<!--                                                                   -->
+<!-- IBM SPSS Products: Statistics Common                              -->
+<!--                                                                   -->
+<!-- (C) Copyright IBM Corp. 1989, 2013                                -->
+<!--                                                                   -->
+<!-- US Government Users Restricted Rights - Use, duplication or       -->
+<!-- disclosure restricted by GSA ADP Schedule Contract with IBM       -->
+<!-- Corp.                                                             -->
+<!--                                                                   -->
+<!-- ***************************************************************** -->
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Jon Peck (SPSS Inc.) -->
+<Command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extension-1.0.xsd" Name="STATS TABLE CALC" Language="Python">
+	<Subcommand Name="" IsArbitrary="False" Occurrence="Optional">
+		<Parameter Name="SUBTYPE" ParameterType="TokenList"/>
+		<Parameter Name="PROCESS" ParameterType="Keyword">
+			<EnumValue Name="PRECEDING"/>
+			<EnumValue Name="ALL"/>
+		</Parameter>
+		<Parameter Name="PRINTLABELS" ParameterType="Keyword">
+			<EnumValue Name="TRUE"/>
+			<EnumValue Name="FALSE"/>
+		</Parameter>
+		<Parameter Name="NEXTSUBTYPE" ParameterType="TokenList"/>
+		<Parameter Name="PREVSUBTYPE" ParameterType="TokenList"/>
+	</Subcommand>
+	<Subcommand Name="TARGET">
+		<Parameter Name="DIMENSION" ParameterType="Keyword">
+			<EnumValue Name="COLUMNS"/>
+			<EnumValue Name="ROWS"/>
+		</Parameter>
+		<Parameter Name="LEVEL" ParameterType="Integer"/>
+		<Parameter Name="LOCATION" ParameterType="TokenList"/>
+		<Parameter Name="REPEATLOC" ParameterType="Keyword"/>
+		<Parameter Name="LABEL" ParameterType="QuotedString"/>
+		<Parameter Name="MODE" ParameterType="Keyword">
+			<EnumValue Name="REPLACE"/>
+			<EnumValue Name="BEFORE"/>
+			<EnumValue Name="AFTER"/>
+		</Parameter>
+		<Parameter Name="HIDEINPUTS" ParameterType="Keyword"/>
+		<Parameter Name="FORMULA" ParameterType="QuotedString"/>
+		<Parameter Name="CUSTOMMODULE" ParameterType="QuotedString"/>
+	</Subcommand>
+	<Subcommand Name="FORMAT">
+		<Parameter Name="WIDTH" ParameterType="Number"/>
+		<Parameter Name="CELLFORMAT" ParameterType="QuotedString"/>
+		<Parameter Name="DECIMALS" ParameterType="Integer"/>
+		<Parameter Name="INVALID" ParameterType="QuotedString"/>
+		<Parameter Name="ALIGN" ParameterType="Keyword"/>
+	</Subcommand>
+	<Subcommand Name="HELP" Occurrence="Optional"/>
+</Command>
