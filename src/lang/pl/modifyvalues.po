@@ -1,0 +1,142 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: modifyvalues.py:70
+msgid "---"
+msgstr ""
+"---"
+
+#: modifyvalues.py:92
+msgid "Only replace mode can be used in Statistics version 20 or earlier"
+msgstr ""
+"W programie Statistics 20 lub w wersji wcześniejszej można korzystać tylko z trybu zastępowania"
+
+#: modifyvalues.py:96
+msgid "Table Structure"
+msgstr ""
+"Struktura tabeli"
+
+#: modifyvalues.py:101
+msgid "Only one of next and previous subtype specifications can be used"
+msgstr ""
+"Można korzystać tylko z jednej następnej lub poprzedniej specyfikacji podtypu"
+
+#: modifyvalues.py:103
+msgid "A secondary table can only be used with a custommodule"
+msgstr ""
+"Tabela pomocnicza może być używana tylko w module niestandardowym"
+
+#: modifyvalues.py:126
+msgid "No tables of the specified type were found to update"
+msgstr ""
+"Nie znaleziono żadnych tabel podanego typu do aktualizacji"
+
+#: modifyvalues.py:163
+msgid "Secondary table not found: %s"
+msgstr ""
+"Nie znaleziono tabeli pomocniczej: %s"
+
+#: modifyvalues.py:187
+msgid "Target specification must be a sequence of one or more values"
+msgstr ""
+"Specyfikacja wyniku musi być sekwencją jednej lub większej liczby wartości"
+
+#: modifyvalues.py:190
+msgid "The rows dimension cannot be combined with resizing"
+msgstr ""
+"Wymiar wierszy nie może być kombinowany ze zmianą rozmiaru"
+
+#: modifyvalues.py:209
+msgid ""
+"Cannot apply command to this table, because it has nested dimensions.\n"
+"Number of dimensions: %s"
+msgstr ""
+"Nie można zastosować komendy do tej tabeli, ponieważ zawiera zagnieżdżone wymiary.\n"
+"Liczba wymiarów: %s"
+
+#: modifyvalues.py:216
+msgid "Tables with layers with multiple categories or multiple dimensions are not supported"
+msgstr ""
+"Tabele z warstwami, które zawierają wiele kategorii lub wiele wymiarów, nie są obsługiwane"
+
+#: modifyvalues.py:254
+msgid "Table Labels: %s.  Dimensions: %s, %s"
+msgstr ""
+"Etykiety tabeli: %s.  Wymiary: %s, %s"
+
+#: modifyvalues.py:301
+msgid "The specified custom module could not be loaded: %s"
+msgstr ""
+"Nie można załadować konkretnego modułu niestandardowego: %s"
+
+#: modifyvalues.py:348
+msgid "Repeating locations can only be used with label text"
+msgstr ""
+"Powtarzanie lokalizacji może być stosowane tylko w przypadku etykiety tekstowej"
+
+#: modifyvalues.py:352
+msgid "A specified row or column label number is outside the table: %s"
+msgstr ""
+"Określony numer etykiety wiersza lub kolumny znajduje się poza tabelą: %s"
+
+#: modifyvalues.py:361
+msgid "Specified target location does not match any existing label: %s"
+msgstr ""
+"Podana lokalizacja docelowa jest niezgodna z żadną istniejącą etykietą: %s"
+
+#: modifyvalues.py:382
+msgid "left or up"
+msgstr ""
+"w lewo lub w górę"
+
+#: modifyvalues.py:385
+msgid "right or down"
+msgstr ""
+"w prawo lub w dół"
+
+#: modifyvalues.py:396
+msgid "A specified input label was not found: %s, search direction from target: %s"
+msgstr ""
+"Nie znaleziono podanej etykiety wejściowej: %s, kierunek wyszukiwania od obiektu wynikowego: %s"
+
+#: modifyvalues.py:403
+msgid "A specified relative row or column number is outside the table: %s"
+msgstr ""
+"Podany względny numer wiersza lub kolumny znajduje się poza tabelą: %s"
+
+#: modifyvalues.py:672
+msgid "Messages"
+msgstr ""
+"Komunikaty"
+
+
+
