@@ -1,0 +1,142 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-05-21 17:51+China Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: modifyvalues.py:70
+msgid "---"
+msgstr ""
+"---"
+
+#: modifyvalues.py:92
+msgid "Only replace mode can be used in Statistics version 20 or earlier"
+msgstr ""
+"In Statistics Version 20 oder früher kann nur der Ersetzungsmodus verwendet werden"
+
+#: modifyvalues.py:96
+msgid "Table Structure"
+msgstr ""
+"Tabellenstruktur"
+
+#: modifyvalues.py:101
+msgid "Only one of next and previous subtype specifications can be used"
+msgstr ""
+"Es kann nur eine der nächsten und vorherigen Untertypspezifikationen verwendet werden"
+
+#: modifyvalues.py:103
+msgid "A secondary table can only be used with a custommodule"
+msgstr ""
+"Eine Sekundärtabelle kann nur mit einem angepassten Modul verwendet werden"
+
+#: modifyvalues.py:126
+msgid "No tables of the specified type were found to update"
+msgstr ""
+"Es wurden keine Tabellen des angegebenen Typs zum Aktualisieren gefunden"
+
+#: modifyvalues.py:163
+msgid "Secondary table not found: %s"
+msgstr ""
+"Sekundärtabelle nicht gefunden: %s"
+
+#: modifyvalues.py:187
+msgid "Target specification must be a sequence of one or more values"
+msgstr ""
+"Zielspezifikation muss ein Wert oder eine Sequenz aus mehreren Werten sein"
+
+#: modifyvalues.py:190
+msgid "The rows dimension cannot be combined with resizing"
+msgstr ""
+"Die Spaltendimension kann nicht mit Größenänderung kombiniert werden."
+
+#: modifyvalues.py:209
+msgid ""
+"Cannot apply command to this table, because it has nested dimensions.\n"
+"Number of dimensions: %s"
+msgstr ""
+"Der Befehl kann nicht auf diese Tabelle angewendet werden, weil er verschachtelte Dimensionen hat.\n"
+"Anzahl der Dimensionen: %s"
+
+#: modifyvalues.py:216
+msgid "Tables with layers with multiple categories or multiple dimensions are not supported"
+msgstr ""
+"Tabellen mit mehreren Kategorien oder mehreren Dimensionen werden nicht unterstützt"
+
+#: modifyvalues.py:254
+msgid "Table Labels: %s.  Dimensions: %s, %s"
+msgstr ""
+"Tabellenbeschriftungen: %s. Dimensionen: %s, %s"
+
+#: modifyvalues.py:301
+msgid "The specified custom module could not be loaded: %s"
+msgstr ""
+"Das angegebene angepasste Modul konnte nicht geladen werden: %s"
+
+#: modifyvalues.py:348
+msgid "Repeating locations can only be used with label text"
+msgstr ""
+"Wiederholte Zielangaben können nur mit Beschriftungstext verwendet werden"
+
+#: modifyvalues.py:352
+msgid "A specified row or column label number is outside the table: %s"
+msgstr ""
+"Eine angegebene Zeilen- oder Spaltenbeschriftungsnummer befindet sich außerhalb der Tabelle: %s"
+
+#: modifyvalues.py:361
+msgid "Specified target location does not match any existing label: %s"
+msgstr ""
+"Die angegebene Zielposition stimmt nicht mit den vorhandenen Beschriftungen überein: %s"
+
+#: modifyvalues.py:382
+msgid "left or up"
+msgstr ""
+"links oder hoch"
+
+#: modifyvalues.py:385
+msgid "right or down"
+msgstr ""
+"rechts oder runter"
+
+#: modifyvalues.py:396
+msgid "A specified input label was not found: %s, search direction from target: %s"
+msgstr ""
+"Eine angegebene Eingabebeschriftung wurde nicht gefunden: %s, Suchrichtung vom Ziel aus: %s"
+
+#: modifyvalues.py:403
+msgid "A specified relative row or column number is outside the table: %s"
+msgstr ""
+"Eine angegebene relative Zeilen- oder Spaltennummer befindet sich außerhalb der Tabelle: %s"
+
+#: modifyvalues.py:672
+msgid "Messages"
+msgstr ""
+"Nachrichten"
+
+
+
