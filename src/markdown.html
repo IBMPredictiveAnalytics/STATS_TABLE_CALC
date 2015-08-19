@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>STATS TABLE CALC Extension Command</title>
+
+<link rel="stylesheet" type="text/css" href="extsyntax.css" />
+
+
+
+
+
+</head>
+
+<body>
+<!-- rmarkdown v1 -->
+
+<h1>STATS TABLE CALC Extension Command</h1>
+
+<p>Do calculations on pivot tables putting the results in either new rows or columns
+or replacing existing values</p>
+<div class="syntax">
+<p>STATS TABLE CALC 
+SUBTYPE=<em>&ldquo;subtypes&rdquo;</em> 
+NEXTSUBTYPE=<em>&ldquo;subtype&rdquo;</em> 
+PREVSUBTYPE=<em>&ldquo;subtype&rdquo;</em>
+PROCESS=PRECEDING<sup>&#42;&#42;</sup> or ALL<br/>
+PRINTLABELS=NO<sup>&#42;</sup> or YES</p>
+
+<p>/TARGET 
+DIMENSION=COLUMNS<sup>&#42;&#42;</sup> or ROWS<br/>
+LEVEL=<em>number</em><br/>
+FORMULA = &ldquo;<em>formula for new values</em>&rdquo;<br/>
+LOCATION=<em>numbers or labels</em> MODE=REPLACE<sup>&#42;&#42;</sup> or BEFORE or AFTER<br/>
+REPEATLOC=NO<sup>&#42;&#42;</sup> or YES<br/>
+LABEL = &ldquo;<em>label text</em>&rdquo;<br/>
+CUSTOMMODULE= &ldquo;<em>module name</em>&rdquo;<br/>
+HIDEINPUTS = NO<sup>&#42;&#42;</sup> or YES</p>
+
+<p>/FORMAT 
+WIDTH=<em>number in points</em> 
+CELLFORMAT = &ldquo;<em>format expression</em>&rdquo;<br/>
+DECIMALS=<em>number</em> 
+INVALID = &ldquo;<em>symbol for invalid values</em>&rdquo; 
+ALIGN = ASIS<sup>&#42;&#42;</sup> or LEFTTOP or CENTER or RIGHTBOTTOM</p>
+
+<p>/HELP</p>
+
+<p><sup>&#42;</sup> Required<br/>
+<sup>&#42;&#42;</sup> Default</p>
+</div>
+
+<p>/HELP displays this text and does nothing else.</p>
+
+<pre class="example"><code>STATS TABLE CALC SUBTYPE=&quot;custom table&quot;
+/TARGET DIMENSION=columns LEVEL=-2 LOCATION=0 MODE=before LABEL=&quot;clerical+manager&quot;
+FORMULA=&quot;x[-&#39;Clerical&#39;] + x[-&#39;Manager&#39;]&quot;.
+</code></pre>
+
+<p>While it works with most pivot tables, this cannot be used when
+there is true nesting of dimensions in the specified dimension except when using replace.
+Note that although Custom Tables output may appear to be nested, those tables do not have true
+nesting.  Tables with multiple layer dimensions or multiple categories in one layer dimension
+are not supported.</p>
+
+<p><strong>SUBTYPE</strong> is the OMS table subtype   It specifies which types of tables to process.
+You can find the subtype by right clicking in the outline on an instance 
+or from <em>Utilties &gt; OMS identifiers</em>.
+The subtype name should be in quotes.  Any extra matching outer quotes are removed.
+Case and white space do not matter.  Multiple subtypes can be specified.
+<code>SUBTYPE=&quot;*&quot;</code> processes tables regardless of subtype.</p>
+
+<p>By default, the immediately preceding procedure output is processed.  Specify
+<strong>PROCESS</strong>=ALL to process all existing tables matching the specified subtypes.</p>
+
+<p>By default, when selecting by the row or column header text, the lowest or
+innermost text is tested.  <strong>LEVEL</strong> can be specified to use outer layers
+of the labels.  LEVEL=-1, the default, is the innermost layer.  More negative
+numbers move out.  Positive numbers  count in from the outside.
+LEVEL=1 is usually the first visible cell (level 0 is the dimension label).</p>
+
+<p>In some cases, there may be invisible levels in-between
+what you see, so some experimentation may be required to find the level
+you need.  The level specification only affects text matching.  Column and row
+numbers always count at the innermost level.</p>
+
+<p>Use <strong>PRINTLABELS</strong>=TRUE to display the full label structure of selected tables
+in the specified dimension in order to assist in specifying the level.</p>
+
+<h2>TARGET</h2>
+
+<p><strong>DIMENSION</strong>=COLUMNS, the default, indicates operating on columns.
+<strong>DIMENSION</strong>=ROWS causes rows to be operated on.</p>
+
+<p><strong>LOCATION</strong> specifies where the results should go.  It can be one or more
+row or column numbers, or it can refer to the label value at the specified level.
+E.g., LOCATION=3 refers to the fourth column or row.  LOCATION=&ldquo;Total&rdquo;
+refers to the column or row labelled &ldquo;Total&rdquo;.  LOCATION=&ldquo;Total&rdquo; &ldquo;Total&rdquo;
+refers to the first two columns or rows labelled Total.
+All label references are case sensitive.</p>
+
+<p><strong>REPEATLOC</strong> specifies whether the specified location or sequence of
+locations should be repeated for all instances of the LOCATION specification
+For example, if <code>LOCATION = &#39;a&#39; &#39;b&#39;</code> and REPEATLOC=YES, the location
+specification would be treate as <code>&#39;a&#39; &#39;b&#39; &#39;a&#39; &#39;b&#39; ...</code> until the end of the dimension.
+It does not make sense to specify YES if the LOCATION specification is numeric.</p>
+
+<p><strong>MODE</strong> specifies how the location is interpreted.
+If MODE=REPLACE, the values at column or row LOCATION are replaced.<br/>
+Only this mode can be used in Statistics version 20 or earlier.
+If MODE=BEFORE, a new column or row is inserted at that location,
+and every later column or row is moved over by one.  Use this mode to
+create a new first column or row with LOCATION=0.
+If MODE=AFTER, a new column or row is inserted after that location.
+Use this mode to create a new last column or row.</p>
+
+<p><strong>LABEL</strong> specifies the label text for the target row or column.</p>
+
+<p><strong>FORMULA</strong> specifies the computation to be carried out.  For COLUMNS, it
+is applied to each row, and for ROWS, it is applied to each column.  The entire
+formula must be enclosed in quotation marks.</p>
+
+<p>The formula can use the standard arithmetic operators (use <code>**</code> for power) and 
+standard mathematical functions such as min, max, mod, trunc, abs, exp, 
+log (base e, use log(x,10) for base 10).
+It must be valid Python syntax except as explained below.  See the Python 
+documentation, including the math module, for a complete list.  The
+math module is automatically imported so that functions such as
+math.sqrt can be used.</p>
+
+<p>Row or coumn values in the table can be referred to in three ways.  All of these
+are evaulated BEFORE any items are added to the tables.
+References of the form <code>xn</code>, where n is an integer e.g., <code>x2</code>, refer to the absolute 
+column or row.  Numbering starts from zero, so <code>x0</code> is the first column or row.</p>
+
+<p>References of the form <code>x[n]</code> or <code>x[-n]</code> refer to values to the left or right (above or below)
+of the target location.  E.g., <code>x[-1]</code> refers to the location immediately left of the target location
+if using columns or immediately above it for rows.  <code>x[1]</code> is the location immediately to the right.
+<code>x[0]</code> is the target location itself (before the target is inserted).</p>
+
+<p>Example:  suppose there are columns with labels a, b, and c, and the target
+location is c.  Then <code>x[0]</code> refers to the value at c, <code>x[-1]</code> refers to b, and <code>x[-2]</code>
+refers to a, regardless of the mode setting.</p>
+
+<p>References of the form <code>x[&#39;string&#39;]</code> or <code>x[-&#39;string&#39;]</code> refer to values to the left or right
+(above or below) of the target location where string is the value of the label at 
+the specified level.  E.g., <code>x[-&quot;Clerical&quot;]</code> refers to the nearest column to the left 
+of the target location that is labelled &ldquo;Clerical&rdquo;.  </p>
+
+<p>Note that the strings must be quoted.  The bracket notation does NOT refer to
+Python dictionaries but is used here to refer to locations.</p>
+
+<p>If a reference looks like a number, it is interpreted accordingly.  So you can&#39;t refer
+to a label that is actually numeric.  Such labels are typically data values, so you can
+get around this by assigning a value label.  Here is an example using the
+employee data.sav file shipped with Statistics.  The table has the education values
+in the rows, and the table calc command inserts a subtotal of grades 8 and 12
+after the newly labelled value of 12.  Of course this presumes that there are exactly
+two numbers to sum.  Note also that the target location, &ldquo;HS&rdquo;, is repeated so that
+the calculation is done twice.</p>
+
+<pre class="example"><code>value labels educ 12 &quot;HS&quot;.
+CTABLES
+  /TABLE minority &gt;educ [COUNT F40.0] BY jobcat
+  /CATEGORIES VARIABLES=minority educ jobcat ORDER=A TOTAL=YES.
+
+STATS TABLE CALC SUBTYPE=&quot;custom table&quot; PROCESS=ALL
+/TARGET DIMENSION=rows LEVEL=-1 LOCATION=&quot;HS&quot; &quot;HS&quot; &quot;HS&quot; MODE=after LABEL=&quot;HS Subtotal&quot;
+FORMULA=&quot;x[0] + x[-1]&quot; .
+</code></pre>
+
+<p><strong>CUSTOMMODULE</strong> can specify a Python module whose functions can be
+used in the formula.  This can be useful when you need to refer to values
+outside the row or column of the current cell.  See the example below.
+To refer to a function defined in a begin program block in the current session,
+use <code>__main__</code>&ldquo; as the module name.</p>
+
+<p><strong>HIDEINPUTS</strong>=YES causes the input rows or columns in the formula to be hidden.</p>
+
+<p>Specify <strong>WIDTH</strong>=number to set the width of the target
+columns to the specified values in points (one point = 1/72 inch).
+WIDTH cannot be used with DIMENSION=ROWS.</p>
+
+<h2>FORMAT</h2>
+
+<p>This subcommand specifies the format for the column or row.</p>
+
+<p><strong>CELLFORMAT</strong>=&quot;asis&rdquo;, which is the default leaves the format unchanged in 
+REPLACE mode and uses the default format for new columns or rows.
+Other formats are as specified in the Cell Formats dialog box list in the pivot table
+editor.  Examples include
+<code>&quot;#,###.##&quot;</code> and <code>&quot;##.#%&quot;</code>.
+The number of decimal places can be specified with the DECIMALS keyword.</p>
+
+<p><strong>ALIGN</strong> can be used to set the label alignment to top, center, or bottom for
+columns and left, center, or right for rows.  However, this keyword has no
+effect in Statistics 21.0.0.0 or earlier.</p>
+
+<p><strong>INVALID</strong> specifies the symbol to be used when a value cannot be computed.
+By default, it is a blank.</p>
+
+<h3>Using a Custom Module in a Formula</h3>
+
+<p>A custom module can have access to the entire pivot table and/or a secondary table.  Here is an
+example where the total in a crosstabs table is used in calculation for each row.</p>
+
+<pre class="examplenobefore"><code>CROSSTABS  /TABLES=jobcat BY gender  /CELLS=COUNT.
+STATS TABLE CALC SUBTYPE=&#39;Crosstabulation&#39;
+/TARGET DIMENSION=COLUMNS LEVEL=-1 LOCATION=&quot;Total&quot; MODE=REPLACE LABEL=&quot;Ratio&quot;
+CUSTOMMODULE=&quot;customexample&quot; 
+FORMULA = &quot;customexample.custom(datacells, ncells, datacells.GetValueAt(roworcol, 0))&quot;. 
+</code></pre>
+
+<p>Here is the function in the customexample module:</p>
+
+<pre class="examplenobefore"><code>def custom(datacells, ncells, value):
+  &#39;&#39;&#39;Calculate percent of total&#39;&#39;&#39;
+
+  x = float(datacells.GetUnformattedValueAt(ncells-1,2))  # total
+  return  float(value) / x
+</code></pre>
+
+<p>Notes:
+The following variables are available for use in the formula as function parameters.</p>
+
+<ul>
+<li>pt - the pivot table object </li>
+<li>datacells - the datacells object of the pivot table</li>
+<li>labels - the row or column labels object corresponding to the DIMENSION setting</li>
+<li>ncells - the number of rows or columns in the datacells object.  I.e., if DIMENSION
+is columns, it is the number or rows.</li>
+<li>roworcol - the current row or column in the table.</li>
+<li>currentloc - the current target column or row in the table</li>
+<li>arg - a dictionary that the custom function can use to store items across
+calls.  It contains at least two entries initially.  These are solely for use by the user
+function and have no effect on operation of this command.
+
+<ul>
+<li>&ldquo;firstload&rdquo; - True.</li>
+<li>&ldquo;firsttable&rdquo; - set to True each time a new table is evaluated.
+It is up to the user code to set these to False appropriately.
+See below for additional contents.</li>
+</ul></li>
+</ul>
+
+<p>The GetUnformattedValueAt method returns a Unicode string.  It must
+be converted to a float for computations.</p>
+
+<h3>Using a Secondary Table</h3>
+
+<p>A nearby table can be used in parallel with the primary table in
+computing new values.
+Use <strong>PREVSUBTYPE</strong> or <strong>NEXTSUBTYPE</strong> to select the nearest previous or
+following table of the specified OMS subtype.  The values in that table
+can be combined with or replace values in the first table by using a custom function.<br/>
+Here is an example that copies significance results from CTABLES into new columns
+in the primary table.</p>
+
+<pre class="example"><code>CTABLES  /TABLE gender BY jobcat  /COMPARETEST TYPE=PROP.
+
+STATS TABLE CALC SUBTYPE=&#39;customtable&#39; NEXTSUBTYPE  =&#39;Comparisons of Proportions&#39;
+/TARGET DIMENSION=COLUMNS LEVEL =-1 LOCATION=&quot;Count&quot; &quot;Count&quot; &quot;Count&quot; MODE=AFTER LABEL=&quot;Sig.&quot;
+CUSTOMMODULE=&quot;customexample&quot;
+FORMULA = &quot;customexample.usesecondary(arg)&quot;.
+</code></pre>
+
+<p>Here is the custom function in customexample.py</p>
+
+<pre class="examplenobefore"><code>def usesecondary(arg):
+  return arg[&#39;sdatacells&#39;].GetValueAt(arg[&#39;roworcol&#39;], arg[&#39;resultnumber&#39;])
+</code></pre>
+
+<p>arg is a dictionary containing the following fields.  Note that by passing
+arg, the other parameters such as seen above are not necessary, because
+those values are included in the arg dictionary.</p>
+
+<ul>
+<li>pt - the pivot table object </li>
+<li>datacells - the datacells object of the primary pivot table</li>
+<li>labels - the row or column labels object corresponding to the DIMENSION setting</li>
+<li>ncells - the number of rows or columns in the datacells object.  I.e., if DIMENSION
+is columns, it is the number or rows.</li>
+<li>roworcol - the current row or column in the table.
+Two entries initially.  These are solely for use by the user
+function and have no effect on operation of this command.
+
+<ul>
+<li>&ldquo;firstload&rdquo; - True.</li>
+<li>&ldquo;firsttable&rdquo; - set to True each time a new table is evaluated.
+It is up to the user code to set these to False appropriately.
+Additional user values can be preserved between calls by saving them in arg.</li>
+</ul></li>
+</ul>
+
+<p>For secondary tables,  </p>
+
+<ul>
+<li>ncells2 - the number of rows or columns in the secondary table data cells</li>
+<li>sdatacells - the secondary data cells object</li>
+<li>resultnumber - the number starting at zero of the target location</li>
+</ul>
+
+<p>Columns or row locations are sequenced in the order they are 
+specified in the LOCATION keyword.</p>
+
+<p>In this example the formula specifies get a call to the custom function, but it
+can be combined with other value constructs.</p>
+
+<p>Additional arguments can be supplied to the custom function in the style of the first
+example.  If the formula specifies</p>
+
+<pre class="examplenobefore"><code>FORMULA = &quot;customexample.usesecondary(arg, fred=100)&quot;.
+</code></pre>
+
+<p>Then the function would be declared as
+<code>usesecondary(arg, fred)</code><br/>
+and the value of fred would be 100 when the function is called.</p>
+
+<p>&copy; Copyright IBM Corp. 1989, 2014</p>
+
+</body>
+
+</html>
+
