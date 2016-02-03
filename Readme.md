@@ -1,11 +1,13 @@
 # STATS_TABLE_CALC
 ## Calculate with pivot table cells
- This command calculates values using cells in a pivot tab
+ This command calculates values using cells in a pivot table and saves the result in existing or new columns and rows of the table.
 
 ---
 Requirements
 ----
-- IBM SPSS Statistics 18 or later
+- IBM SPSS Statistics 18 or later and the corresponding IBM SPSS Statistics-Integration Plug-in for Python. Insertions require IBM SPSS Statistics version 21 or higher.
+
+Note: For users with IBM SPSS Statistics version 22 or higher, the STATS TABLE CALC extension is installed as part of IBM SPSS Statistics-Essentials for Python.
 
 ---
 Installation intructions
