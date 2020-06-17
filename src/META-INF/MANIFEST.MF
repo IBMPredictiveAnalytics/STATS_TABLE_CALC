@@ -1,16 +1,19 @@
 Name: STATS_TABLE_CALC
 Dialog-Specs: STATS_TABLE_CALC.spd
 Command-Specs: STATS_TABLE_CALC.xml
-Code-Files: STATS_TABLE_CALC.py,customexample.py,modifyvalues.py
-Misc-Files: extsyntax.css,markdown.html,IBMdialogicon.png
+Code-Files: customexample.py,STATS_TABLE_CALC.py,modifyvalues.py
+Misc-Files: extsyntax.css,Readme.md,IBMdialogicon.png,LICENSE,markdown
+ .html,default.png
 Summary: Calculate with pivot table cells
 Description: This command calculates values using cells in a pivot tab
  le and saves the result in existing or new columns and rows of the ta
  ble.
 Author: JKP, IBM SPSS
-Version: 1.2.8
-Product-Version: 18
+Version: 2.0.0
+Product-Version: 24
 Date: 1/2/2014
+Product-Version-Maximum: 99
 Categories: pivottables, utilities
 Plugins: Python
+Python-Version: 3
 Translation-Catalogues: lang

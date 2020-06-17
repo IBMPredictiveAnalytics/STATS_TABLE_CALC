@@ -3,7 +3,7 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2014
+# * (C) Copyright IBM Corp. 1989, 2020
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
@@ -280,7 +280,7 @@ and the value of fred would be 100 when the function is called.
 def Run(args):
     """Execute the STATS TABLE CALC extension command"""
 
-    args = args[args.keys()[0]]
+    args = args[list(args.keys())[0]]
 
     oobj = Syntax([
         Template("SUBTYPE", subc="",  ktype="str", var="subtype", islist=True),
@@ -308,7 +308,7 @@ def Run(args):
         Template("HELP", subc="", ktype="bool")])
 
     # A HELP subcommand overrides all else
-    if args.has_key("HELP"):
+    if "HELP" in args:
         #print helptext
         helper()
     else:

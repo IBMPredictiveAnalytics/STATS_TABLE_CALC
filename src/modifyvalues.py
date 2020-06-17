@@ -3,14 +3,14 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2015
+# * (C) Copyright IBM Corp. 1989, 2020
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
 # ************************************************************************/
 
 # format specific rows or columns in a pivot table of given type
-from __future__ import with_statement
+
 
 __author__ = "JKP, IBM SPSS"
 
@@ -265,7 +265,7 @@ def attributesFromDict(d):
     # based on Python Cookbook, 2nd edition 6.18
 
     self = d.pop('self')
-    for name, value in d.iteritems():
+    for name, value in d.items():
         setattr(self, name, value)
 
 class Formula(object):
@@ -499,7 +499,7 @@ class Formula(object):
         # sort insert points descending and corresponding results for ease of insertion
         # then unzip the results
         insertsandresults = sorted(zip(self.insertpoint, self.results), reverse=True)
-        self.insertpoint, self.results = zip(*insertsandresults)
+        self.insertpoint, self.results = list(zip(*insertsandresults))
         
         templabel = str(random.random())  # need to find out where column was actually put
         for i, loc in enumerate(self.insertpoint):
@@ -695,7 +695,7 @@ def _isseq(obj):
         
         Will be False if obj is a string or basic data type"""
         
-        if isinstance(obj, basestring):
+        if isinstance(obj, str):
                 return False
         else:
                 try:
