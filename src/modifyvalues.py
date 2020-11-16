@@ -340,7 +340,7 @@ class Formula(object):
         loclen = len(location)  # length before any implied extension
         # If repeating locations, extend location list to the number of labels
         if repeatloc:
-            self.location = ((self.labelsize + loclen-1) / loclen) * location
+            self.location = ((self.labelsize + loclen-1) // loclen) * location
             self.location = self.location[:self.labelsize]
             
         for i, item in enumerate(self.location):
@@ -454,6 +454,7 @@ class Formula(object):
             self.custom.update({"pt": self.pt, "datacells": self.datacells, "labels": self.labels, 
                 "ncells": ncells,"secondary": self.secondary, "ncells2": ncells2, "resultnumber": resultnumber,
                 "currentloc": self.location[resultnumber],
+                "insertpoint": self.insertpoint[resultnumber],
                 'sdatacells':self.secondary and self.secondary.DataCellArray() or None})
         for roworcol in range(ncells):
             for input in inputs:   # build dictionary of input values
