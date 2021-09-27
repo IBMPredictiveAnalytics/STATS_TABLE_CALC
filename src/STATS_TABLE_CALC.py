@@ -3,7 +3,7 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2020
+# * (C) Copyright IBM Corp. 1989, 2014
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
@@ -17,11 +17,21 @@ It delegates the implementation to the modifyvalues.py module."""
 __author__ = "SPSS, JKP"
 __version__ = "1.1.3"
 
+# debugging
+        # makes debug apply only to the current thread
+try:
+    import wingdbstub
+    import threading
+    wingdbstub.Ensure()
+    wingdbstub.debugger.SetDebugThreads({threading.get_ident(): 1})
+except:
+    pass
 # history
 # sept-01-12 original version
 # jan-02-13 enhancements for secondary tables, handle more table types, REPEATLOC, and ALIGN
 # feb-20-13 add currentloc access for custom functions
-
+# 30-may-2017 add outlevel parameter
+# nov-28-18 make LABEL parameter a list so the label can differ for each column
 from extension import Template, Syntax, processcmd
 
 import modifyvalues
@@ -286,18 +296,19 @@ def Run(args):
         Template("SUBTYPE", subc="",  ktype="str", var="subtype", islist=True),
         Template("PROCESS", subc="", ktype="str", var="process", islist=False),
         Template("PRINTLABELS", subc="", ktype="bool", var="printlabels"),
-        Template("NEXTSUBTYPE", subc="", ktype="str", var="nextsubtype", islist=False),
-        Template("PREVSUBTYPE", subc="", ktype="str", var="prevsubtype", islist=False),
+        Template("NEXTSUBTYPE", subc="", ktype="str", var="nextsubtype", islist=True),
+        Template("PREVSUBTYPE", subc="", ktype="str", var="prevsubtype", islist=True),
         
         Template("DIMENSION", subc="TARGET", ktype="str", var="dimension", vallist=["columns","rows"]),
         Template("LEVEL", subc="TARGET", ktype="int", var= "level"),
         Template("LOCATION", subc="TARGET", ktype="literal", var="location", islist=True),
         Template("REPEATLOC", subc="TARGET", ktype="bool", var="repeatloc"),
-        Template("LABEL", subc="TARGET", ktype="literal", var="targetlabel"),
+        Template("LABEL", subc="TARGET", ktype="literal", var="targetlabel", islist=True),
         Template("MODE", subc="TARGET", ktype="str", var="mode", vallist=["replace", "before", "after"]),
         Template("FORMULA", subc="TARGET", ktype="literal", var="formula"),
         Template("CUSTOMMODULE", subc="TARGET", ktype="literal", var="custommodule"),
         Template("HIDEINPUTS", subc="TARGET", ktype="bool", var="hide", islist=False),
+        Template("OUTLEVEL", subc="TARGET", ktype="int", var="outlevel"),
 
         Template("WIDTH", subc="FORMAT", ktype="int", var="width", vallist=(0,), islist=False),
         Template("CELLFORMAT", subc="FORMAT", ktype="literal", var="cellformat"),
@@ -328,7 +339,7 @@ def helper():
     # webbrowser.open seems not to work well
     browser = webbrowser.get()
     if not browser.open_new(helpspec):
-        print("Help file not found:" + helpspec)
+        print(("Help file not found:" + helpspec))
 try:    #override
     from extension import helper
 except:

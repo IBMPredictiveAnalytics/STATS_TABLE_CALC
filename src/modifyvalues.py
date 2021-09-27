@@ -3,7 +3,7 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2020
+# * (C) Copyright IBM Corp. 1989, 2021
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
@@ -21,13 +21,18 @@ __author__ = "JKP, IBM SPSS"
 # 24-jul-2012 handle invalid input values better
 # 16-niv-2014 make math module accessible in formulas
 # 30-mar-2015 Force sysmis values to not operate arithmetically
-
+# 29-may-2017 Allow any number of trailing log blocks
+# 30-may-2017 Allow user control of level of output label
+# 10-jun-2017 Allow multiple secondary tables
+# 28-nov-2018 Make labels for replacement a list
+# 07-sep-2021 Generalize selection for multiple secondary tables
 
 
 import spss, SpssClient, spssaux
 from extension import  _isseq
 import re, sys, copy, operator, random, math
 import gc
+from itertools import cycle
 
 v21001ok = spss.__version__.split(".") >= "21.0.0.1".split(".")  # need the bugfix in insert apis
 SYSMIS = -1.7976931348623157e+308  # used to force SYSMIS values not to compute as arithmetic
@@ -37,7 +42,7 @@ def modify(subtype, location, formula, targetlabel, mode="replace",
            skiplog=True, process="preceding", dimension='columns',
            level=-1, hide=False, width=None, cellformat="asis", decimals=2, repeatloc=False,
            printlabels=False, floatfail="", custommodule=None, nextsubtype=None, prevsubtype=None,
-           align = "asis"):
+           align = "asis", outlevel=None):
     """Apply a hide or show action to specified columns or rows of the specified subtype or resize columns
 
     subtype is the OMS subtype of the tables to process or a sequence of subtypes
@@ -86,18 +91,20 @@ def modify(subtype, location, formula, targetlabel, mode="replace",
         #import thread
         #wingdbstub.debugger.SetDebugThreads({thread.get_ident(): 1}, default_policy=0)
         ## for V19 use
-        ##    ###SpssClient._heartBeat(False)
+        ###    ###SpssClient._heartBeat(False)
     #except:
         #pass
 
     if spssaux.GetSPSSMajorVersion() < 21 and mode != "replace":
         raise ValueError(_("""Only replace mode can be used in Statistics version 20 or earlier"""))
     applied = False
+    if mode == "replace" and outlevel is not None:
+        raise ValueError(_("""Outlevel cannot be used in replace mode"""))
     SpssClient.StartClient()
     try:
         info = NonProcPivotTable("TABLESTRUCTURE", tabletitle=_("Table Structure"))
         c = PtColumns(dimension, level, hide, width, location, targetlabel, mode,
-            formula, cellformat, decimals, printlabels, floatfail, custommodule, align, repeatloc)
+            formula, cellformat, decimals, printlabels, floatfail, custommodule, align, repeatloc, outlevel)
         subtype = cleansubtypes(subtype)
         if nextsubtype and prevsubtype:
             raise ValueError(_("""Only one of next and previous subtype specifications can be used"""))
@@ -108,18 +115,24 @@ def modify(subtype, location, formula, targetlabel, mode="replace",
 
         items = SpssClient.GetDesignatedOutputDoc().GetOutputItems()
         itemcount = items.Size()
-        if skiplog and items.GetItemAt(itemcount-1).GetType() == SpssClient.OutputItemType.LOG:
+        c.formula.secondary = None
+        #if skiplog and items.GetItemAt(itemcount-1).GetType() == SpssClient.OutputItemType.LOG:
+            #itemcount -= 1
+        while skiplog and items.GetItemAt(itemcount-1).GetType() == SpssClient.OutputItemType.LOG and itemcount > 0:
             itemcount -= 1
         for itemnumber in range(itemcount-1, -1, -1):
             item = items.GetItemAt(itemnumber)
-            if process == "preceding" and item.GetTreeLevel() <= 1:
-                break
+
             if item.GetType() == SpssClient.OutputItemType.PIVOT and\
                (subtype[0] == "*" or "".join(item.GetSubType().lower().split()) in subtype):
                 c.thetable = item.GetSpecificType()
                 applied = True
                 c.formula.secondary = getsecondary(items, nextsubtype, prevsubtype, itemnumber, itemcount)
-                c.applyaction(c.thetable, info) 
+                c.applyaction(c.thetable, info)
+            # if there is more than one secondary table, the search is allowed to continue outside the
+            # preceding procedure even with the preceding option as there may be other tables inbetween
+            if process == "preceding" and applied:    ###and item.GetTreeLevel() <= 1:
+                break                
 
     finally:
         info.generate()
@@ -143,7 +156,7 @@ def cleansubtypes(subtype):
     return subtype
 
 def getsecondary(items, nextsubtype, prevsubtype, itemnumber, itemcount):
-    """Return secondary table if requested or None
+    """Return list of secondary tables if requested or None
     
     items is the Viewer item list
     nextsubtype or prevsubtype are lists that indicate the OMS subtype and direction.
@@ -154,15 +167,21 @@ def getsecondary(items, nextsubtype, prevsubtype, itemnumber, itemcount):
     if not (nextsubtype[0] or prevsubtype[0]):
         return None
     direction = nextsubtype[0] and 1 or -1  # look forward or backward
-    itemtype = nextsubtype[0] or prevsubtype[0]
+    itemtypes = nextsubtype or prevsubtype
     
-    # look for table of specified type forward or back relative to current item
+    # look for table(s) of specified type forward or back relative to current item
+    # list will be in the order that itemtypes lists them
+    sectables = []
     for i in range(itemnumber + direction, direction == 1 and itemcount+1 or 0, direction):
         item = items.GetItemAt(i)
-        if item.GetType() == SpssClient.OutputItemType.PIVOT and\
-           ("".join(item.GetSubType().lower().split()) == itemtype):
-            return item.GetSpecificType()
-    raise ValueError(_("""Secondary table not found: %s""") % itemtype)
+        if item.GetType() == SpssClient.OutputItemType.PIVOT:
+            ptype = "".join(item.GetSubType().lower().split())
+            if ptype in itemtypes:
+                sectables.append([itemtypes.index(ptype), item.GetSpecificType()])
+    if len(sectables) != len(itemtypes):
+        raise ValueError(_("""One or more secondary tables not found: %s""") % " ".join(itemtypes))
+    sectables = list(zip(*sorted(sectables)))[1]
+    return sectables
 
 
 class PtColumns(object):
@@ -170,7 +189,7 @@ class PtColumns(object):
 
     def __init__(self, dimension, level, hide,
             width, location, targetlabel, mode, formula, cellformat, decimals,
-            printlabels, floatfail, custommodule, align, repeatloc):
+            printlabels, floatfail, custommodule, align, repeatloc, outlevel):
         """location is a sequence of targe locations to modify or insert.
         It can include positive or negative numbers (or things that can be converted to these) and
         strings that will be matched to the lowest level of the column labels ignoring case.
@@ -238,9 +257,13 @@ Number of dimensions: %s""") % ndim)
 
         try:
             pt.SetUpdateScreen(False)
+            if self.outlevel is None:
+                self.outlevel = self.level            
             if self.level < 0:
                 self.level += last   # convert to absolute form
-            self.formula.bind(pt, self.location, self.level, self.mode, self.dimension, self.repeatloc)
+            if self.outlevel < 0:
+                self.outlevel += last
+            self.formula.bind(pt, self.location, self.level, self.mode, self.dimension, self.repeatloc, self.outlevel)
             self.formula.evaluate()
             # update the table, inserting or replacing results
             self.formula.updatetable(pt)
@@ -304,7 +327,7 @@ class Formula(object):
         self.custom = {}   # for use by a custom function
         self.custom["firstload"] = True
 
-    def bind(self, pt, location, level, mode, dimension, repeatloc):
+    def bind(self, pt, location, level, mode, dimension, repeatloc, outlevel):
         """bind references to the current table and prepare for evaluation
         
         pt is the pivot table
@@ -319,7 +342,12 @@ class Formula(object):
         self.results = []   #each list item is the set of results for one occurrence
         
         self.datacells = pt.DataCellArray()
-        self.secondarydatacells = self.secondary and self.secondary.DataCellArray() or None
+        #self.secondarydatacells = self.secondary and self.secondary.DataCellArray() or None
+        self.secondarydatacells = self.secondary and [item.DataCellArray() for item in self.secondary] or None
+        # for compatibility with older versions, if there is only one secondary, pass it directly rather than as a list
+        if self.secondarydatacells is not None and len(self.secondarydatacells) == 1:
+            self.secondarydatacells = self.secondarydatacells[0]
+            self.secondary = self.secondary[0]
         self.labelvalues = []
         if dimension == "columns":
             self.labels = pt.ColumnLabelArray()
@@ -340,7 +368,7 @@ class Formula(object):
         loclen = len(location)  # length before any implied extension
         # If repeating locations, extend location list to the number of labels
         if repeatloc:
-            self.location = ((self.labelsize + loclen-1) // loclen) * location
+            self.location = ((self.labelsize + loclen-1) // loclen) * location  #9-1-2021
             self.location = self.location[:self.labelsize]
             
         for i, item in enumerate(self.location):
@@ -437,25 +465,44 @@ class Formula(object):
         comes from the missing setting"""
         
         results = []
+        ncells2 = None
+        # messy - secondary spec might be None, a single item, or a list of items (because of compatibility requirement)
         if self.dimension == "columns":
             ncells = self.datacells.GetNumRows()
             cols = True
-            ncells2 = self.secondarydatacells and self.secondarydatacells.GetNumRows() or None
+            if self.secondarydatacells:
+                if isinstance(self.secondarydatacells, (list, tuple)):
+                    ncells2 = [items.GetNumRows() for items in self.secondarydatacells]
+                else:
+                    ncells2 = self.secondarydatacells.GetNumRows()         
+            ###ncells2 = self.secondarydatacells and self.secondarydatacells.GetNumRows() or None
         else:
             ncells = self.datacells.GetNumColumns()
             cols = False
-            ncells2 = self.secondarydatacells and self.secondarydatacells.GetNumColumns() or None
+            if self.secondarydatacells:
+                if isinstance(self.secondarydatacells, (list, tuple)):
+                    ncells2 = [items.GetNumColumns() for items in self.secondarydatacells]
+                else:
+                    ncells2 = self.secondarydatacells.GetNumColumns()
+            
+            ###ncells2 = self.secondarydatacells and self.secondarydatacells.GetNumColumns() or None
         inputvalues = {"pt": self.pt, "datacells": self.datacells, "labels": self.labels, "ncells": ncells,
             "arg" : self.custom, "currentloc": self.location[resultnumber], "math":math}
         if self.custommodule:
             # redundantly, parameters can be passed via syntax specification or through
             # a custom dictionary that is automatically created
             inputvalues[self.custommodule] = self.thecustommodule
+            sdatacells = None
+            if self.secondary:
+                if isinstance(self.secondary, (list, tuple)):
+                    sdatacells = [items.DataCellArray() for items in self.secondary]
+                else:
+                    sdatacells = self.secondary.DataCellArray()
+
             self.custom.update({"pt": self.pt, "datacells": self.datacells, "labels": self.labels, 
                 "ncells": ncells,"secondary": self.secondary, "ncells2": ncells2, "resultnumber": resultnumber,
                 "currentloc": self.location[resultnumber],
-                "insertpoint": self.insertpoint[resultnumber],
-                'sdatacells':self.secondary and self.secondary.DataCellArray() or None})
+                'sdatacells':sdatacells, "insertpoints": self.insertpoint})
         for roworcol in range(ncells):
             for input in inputs:   # build dictionary of input values
                 if cols:
@@ -502,25 +549,41 @@ class Formula(object):
         insertsandresults = sorted(zip(self.insertpoint, self.results), reverse=True)
         self.insertpoint, self.results = list(zip(*insertsandresults))
         
+        # label list has to be reversed, because insertions work right to left
+        # make a list of labels with length the number of insertion points
+        # labels are recycled as necessary
+        # excess labels are ignored
+        
+        cy = cycle(self.targetlabel)
+        self.targetlabel = []
+        for i, lbl in enumerate(cy):
+            self.targetlabel.append(lbl)
+            if i == len(self.insertpoint) -1:
+                break
+        self.targetlabel.reverse()
+		
         templabel = str(random.random())  # need to find out where column was actually put
         for i, loc in enumerate(self.insertpoint):
             if self.dimension == "columns":
                 #args = [self.level, loc, self.targetlabel]
-                args = [self.level, loc, templabel]
+                args = [self.outlevel, loc, templabel]
             else:
                 #args = [loc, self.level, self.targetlabel]
-                args = [loc, self.level, templabel]
-            if self.mode == "after":
-                self.labels.InsertNewAfter(*args)
-            elif self.mode == "before":
-                self.labels.InsertNewBefore(*args)
-            else:   # replacing values
-                self.labels.SetValueAt(*args)
-                lastlabel = self.level
+                args = [loc, self.outlevel, templabel]
+            try:
+                if self.mode == "after":
+                    self.labels.InsertNewAfter(*args)
+                elif self.mode == "before":
+                    self.labels.InsertNewBefore(*args)
+                else:   # replacing values
+                    self.labels.SetValueAt(*args)
+                    lastlabel = self.level
+            except:
+                raise ValueError(_("""Invalid insert or replace location or level"""))
             if not v21001ok:
                 pt.SetUpdateScreen(True)    # force updated table to be seen
                 pt.SetUpdateScreen(False)
-            targetloc = self.alignroworcol(lastlabel, templabel, self.targetlabel)
+            targetloc = self.alignroworcol(lastlabel, templabel, self.targetlabel[i])
             if self.width:    # can only apply if columns
                 self.datacells.ReSizeColumn(targetloc, self.width)
 

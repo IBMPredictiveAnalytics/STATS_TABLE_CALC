@@ -4,7 +4,7 @@
 <!--                                                                   -->
 <!-- IBM SPSS Products: Statistics Common                              -->
 <!--                                                                   -->
-<!-- (C) Copyright IBM Corp. 1989, 2020                                -->
+<!-- (C) Copyright IBM Corp. 1989, 2013                                -->
 <!--                                                                   -->
 <!-- US Government Users Restricted Rights - Use, duplication or       -->
 <!-- disclosure restricted by GSA ADP Schedule Contract with IBM       -->
@@ -12,7 +12,7 @@
 <!--                                                                   -->
 <!-- ***************************************************************** -->
 <!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Jon Peck (SPSS Inc.) -->
-<Command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extension-1.0.xsd" Name="STATS TABLE CALC" Language="Python" LanguageVersion="3">
+<Command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extension-1.0.xsd" Name="STATS TABLE CALC" Language="Python"  LanguageVersion="3">
 	<Subcommand Name="" IsArbitrary="False" Occurrence="Optional">
 		<Parameter Name="SUBTYPE" ParameterType="TokenList"/>
 		<Parameter Name="PROCESS" ParameterType="Keyword">
@@ -34,7 +34,7 @@
 		<Parameter Name="LEVEL" ParameterType="Integer"/>
 		<Parameter Name="LOCATION" ParameterType="TokenList"/>
 		<Parameter Name="REPEATLOC" ParameterType="Keyword"/>
-		<Parameter Name="LABEL" ParameterType="QuotedString"/>
+		<Parameter Name="LABEL" ParameterType="TokenList"/>
 		<Parameter Name="MODE" ParameterType="Keyword">
 			<EnumValue Name="REPLACE"/>
 			<EnumValue Name="BEFORE"/>
@@ -43,6 +43,7 @@
 		<Parameter Name="HIDEINPUTS" ParameterType="Keyword"/>
 		<Parameter Name="FORMULA" ParameterType="QuotedString"/>
 		<Parameter Name="CUSTOMMODULE" ParameterType="QuotedString"/>
+		<Parameter Name="OUTLEVEL" ParameterType="Integer"/>
 	</Subcommand>
 	<Subcommand Name="FORMAT">
 		<Parameter Name="WIDTH" ParameterType="Number"/>

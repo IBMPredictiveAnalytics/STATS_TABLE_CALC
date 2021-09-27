@@ -24,19 +24,20 @@
 or replacing existing values</p>
 <div class="syntax">
 <p>STATS TABLE CALC 
-SUBTYPE=<em>&ldquo;subtypes&rdquo;</em> 
-NEXTSUBTYPE=<em>&ldquo;subtype&rdquo;</em> 
-PREVSUBTYPE=<em>&ldquo;subtype&rdquo;</em>
+SUBTYPE=<em>:"subtype-a"..."subtype-k"</em><br/> 
+NEXTSUBTYPE=<em>"subtype1" ... "subtype-n"</em> <br/>
+PREVSUBTYPE=<em>"subtype1" ... "subtype-m"</em><br/>
 PROCESS=PRECEDING<sup>&#42;&#42;</sup> or ALL<br/>
 PRINTLABELS=NO<sup>&#42;</sup> or YES</p>
 
 <p>/TARGET 
 DIMENSION=COLUMNS<sup>&#42;&#42;</sup> or ROWS<br/>
 LEVEL=<em>number</em><br/>
+OUTLEVEL = <em>number</em><br/>
 FORMULA = &ldquo;<em>formula for new values</em>&rdquo;<br/>
 LOCATION=<em>numbers or labels</em> MODE=REPLACE<sup>&#42;&#42;</sup> or BEFORE or AFTER<br/>
 REPEATLOC=NO<sup>&#42;&#42;</sup> or YES<br/>
-LABEL = &ldquo;<em>label text</em>&rdquo;<br/>
+LABEL = &ldquo;<em>label text</em>&rdquo;&#42; ...<br/>
 CUSTOMMODULE= &ldquo;<em>module name</em>&rdquo;<br/>
 HIDEINPUTS = NO<sup>&#42;&#42;</sup> or YES</p>
 
@@ -73,7 +74,7 @@ The subtype name should be in quotes.  Any extra matching outer quotes are remov
 Case and white space do not matter.  Multiple subtypes can be specified.
 <code>SUBTYPE=&quot;*&quot;</code> processes tables regardless of subtype.</p>
 
-<p>By default, the immediately preceding procedure output is processed.  Specify
+<p>By default, the immediately preceding table of the specified subtype is processed.  Specify
 <strong>PROCESS</strong>=ALL to process all existing tables matching the specified subtypes.</p>
 
 <p>By default, when selecting by the row or column header text, the lowest or
@@ -117,7 +118,14 @@ create a new first column or row with LOCATION=0.
 If MODE=AFTER, a new column or row is inserted after that location.
 Use this mode to create a new last column or row.</p>
 
-<p><strong>LABEL</strong> specifies the label text for the target row or column.</p>
+<p><strong>OUTLEVEL</strong>, which can only be used with LOCATION=BEFORE or AFTER, specifies
+the level for the label of the new column or row.  By default, it is the same as the
+LEVEL value, and it follows the same value logic.</p>
+
+<p><strong>LABEL</strong> specifies the label text for the target row or column.  The label can
+be a single quoted string or a list of quoted strings.  The labels are applied in order to the
+target columns.  If there are more target columns than labels, the labels are recycled.  For example,
+with LABEL= A B C, if there are four target columns, they will be labelled A B C A.</p>
 
 <p><strong>FORMULA</strong> specifies the computation to be carried out.  For COLUMNS, it
 is applied to each row, and for ROWS, it is applied to each column.  The entire
@@ -204,7 +212,7 @@ By default, it is a blank.</p>
 
 <h3>Using a Custom Module in a Formula</h3>
 
-<p>A custom module can have access to the entire pivot table and/or a secondary table.  Here is an
+<p>A custom module can have access to the entire pivot table and/or one or more secondary tables.  Here is an
 example where the total in a crosstabs table is used in calculation for each row.</p>
 
 <pre class="examplenobefore"><code>CROSSTABS  /TABLES=jobcat BY gender  /CELLS=COUNT.
@@ -233,28 +241,28 @@ The following variables are available for use in the formula as function paramet
 <li>ncells - the number of rows or columns in the datacells object.  I.e., if DIMENSION
 is columns, it is the number or rows.</li>
 <li>roworcol - the current row or column in the table.</li>
-<li>currentloc - the current target column or row in the table</li>
+<li>currentloc - the label of current target column or row in the table</li>
+<li>resultnumber - the number of the value being created</li>
+<li>insertpoints - the row or column numbers for the results before any insertions</li>
 <li>arg - a dictionary that the custom function can use to store items across
-calls.  It contains at least two entries initially.  These are solely for use by the user
-function and have no effect on operation of this command.
+calls.  It contains at least two entries initially: firsttable, which is True at the first call for a table,
+and firstload, which is True for the first call across tables.  These are solely for use by the user
+function and have no effect on operation of this command.  It is up to the user code to set these to False appropriately.  
+It also contains all of the items listed above.  See below for additional contents of use
+with secondary tables.</li>
 
-<ul>
-<li>&ldquo;firstload&rdquo; - True.</li>
-<li>&ldquo;firsttable&rdquo; - set to True each time a new table is evaluated.
-It is up to the user code to set these to False appropriately.
-See below for additional contents.</li>
-</ul></li>
-</ul>
+
 
 <p>The GetUnformattedValueAt method returns a Unicode string.  It must
 be converted to a float for computations.</p>
 
 <h3>Using a Secondary Table</h3>
 
-<p>A nearby table can be used in parallel with the primary table in
+<p>One or more nearby tables can be used in parallel with the primary table in
 computing new values.
 Use <strong>PREVSUBTYPE</strong> or <strong>NEXTSUBTYPE</strong> to select the nearest previous or
-following table of the specified OMS subtype.  The values in that table
+following tables of the specified OMS subtypes.  Don't use the * notation for the main table!  
+The values in the secondary tables
 can be combined with or replace values in the first table by using a custom function.<br/>
 Here is an example that copies significance results from CTABLES into new columns
 in the primary table.</p>
@@ -273,35 +281,26 @@ FORMULA = &quot;customexample.usesecondary(arg)&quot;.
   return arg[&#39;sdatacells&#39;].GetValueAt(arg[&#39;roworcol&#39;], arg[&#39;resultnumber&#39;])
 </code></pre>
 
-<p>arg is a dictionary containing the following fields.  Note that by passing
+<p>arg is a dictionary containing all of the fields listed above.  Note that by passing
 arg, the other parameters such as seen above are not necessary, because
-those values are included in the arg dictionary.</p>
+those values are included in the arg dictionary.  In addition, the following items
+of use for secondary tables are available in arg.</p>
 
 <ul>
-<li>pt - the pivot table object </li>
-<li>datacells - the datacells object of the primary pivot table</li>
-<li>labels - the row or column labels object corresponding to the DIMENSION setting</li>
-<li>ncells - the number of rows or columns in the datacells object.  I.e., if DIMENSION
-is columns, it is the number or rows.</li>
-<li>roworcol - the current row or column in the table.
-Two entries initially.  These are solely for use by the user
-function and have no effect on operation of this command.
-
-<ul>
-<li>&ldquo;firstload&rdquo; - True.</li>
-<li>&ldquo;firsttable&rdquo; - set to True each time a new table is evaluated.
-It is up to the user code to set these to False appropriately.
-Additional user values can be preserved between calls by saving them in arg.</li>
-</ul></li>
+<li>secondary - the secondary pivot table object or objects.  If there is more than one,
+this is a list of objects. </li>
+<li>sdatacells - the datacells object or objects of the secondary pivot table.  If there is more than one,
+this is a list of objects.</li>
+<li>ncells2 - the number of rows or columns in the secondary datacells object.  I.e., if DIMENSION
+is columns, it is the number or rows.  Again, If there is more than one,
+this is a list of objects.</li>
 </ul>
-
-<p>For secondary tables,  </p>
-
-<ul>
-<li>ncells2 - the number of rows or columns in the secondary table data cells</li>
-<li>sdatacells - the secondary data cells object</li>
-<li>resultnumber - the number starting at zero of the target location</li>
-</ul>
+<p>If more than one secondary table is specified, the lists will be in the order
+listed in NEXTSUBTYPE or PREVSUBTYPE, not in the order found in the Viewer.  The
+same subtype should not be listed more than once.  NEXTSUBTYPE and PREVSUBTYPE should
+avoid listing tables of the same type as the main table.  The main table is searched for
+from the end of the Viewer backwards, and it could find the intended secondary table
+if it is the same type.</p>
 
 <p>Columns or row locations are sequenced in the order they are 
 specified in the LOCATION keyword.</p>
@@ -318,6 +317,128 @@ example.  If the formula specifies</p>
 <p>Then the function would be declared as
 <code>usesecondary(arg, fred)</code><br/>
 and the value of fred would be 100 when the function is called.</p>
+
+<p>Following is an example using two secondary tables.  First, CTABLES is run
+and generates a main table and a chi-squared significance table for the categorical
+row variables.  Then ONEWAY is run on the continuous variables.  The first STATS TABLE CALC
+custom function (f) consolidates the mean and count statistics in the same column.  The second
+STATS TABLE CALC command uses another custom function (g) to pick up the chi-squared significance
+values from the first table and the significance values from the ONEWAY table and adds all
+these as a final column of the main CTABLES table.  The typical CTABLES b and c footnotes are removed
+from the significance values as the footnotes themselves are not copied.</p>
+  <p>After that, SPSSINC MODIFY TABLES is
+used to hide the now-redundant Count column in the table.  The data file is employee data.sav,
+which is shipped with Statistics.  The Python custom functions are in a module
+named dotwosecondarytables.py.</p>
+<pre class="example"><code>
+* Using employee data.sav shipped with Statistics.
+* Custom Tables.
+CTABLES
+  /VLABELS VARIABLES=salary minority salbegin gender jobcat DISPLAY=DEFAULT
+  /TABLE salary [MEAN] + minority [COUNT F40.0] + salbegin [MEAN] + gender [COUNT F40.0] BY jobcat
+  /CATEGORIES VARIABLES=minority gender jobcat ORDER=A KEY=VALUE EMPTY=INCLUDE MISSING=EXCLUDE
+  /SIGTEST TYPE=CHISQUARE ALPHA=0.05 INCLUDEMRSETS=YES CATEGORIES=ALLVISIBLE.
+
+* move statistics.
+STATS TABLE CALC SUBTYPE="Custom Table" PROCESS=PRECEDING 
+/TARGET DIMENSION=COLUMNS LEVEL = -1  LOCATION="Mean"
+    custommodule="dotwosecondarytables" formula="dotwosecondarytables.f(arg)"
+    REPEATLOC=YES LABEL="Statistics" MODE=REPLACE.
+
+* p values for continuous variables against jobcat.
+ONEWAY salary salbegin BY jobcat.
+
+* add p values.
+STATS TABLE CALC SUBTYPE="Custom Table" NEXTSUBTYPE='Pearson Chi Square Tests'  'ANOVA' PROCESS=PRECEDING
+/TARGET DIMENSION=COLUMNS LOCATION=-1 OUTLEVEL=1
+custommodule="dotwosecondarytables" formula="dotwosecondarytables.g(arg)" LABEL="P-Value"
+MODE=AFTER.
+
+* hide unwanted columns.
+SPSSINC MODIFY TABLES subtype="custom table"
+SELECT="Count" 
+REGEXP=NO DIMENSION= COLUMNS LEVEL = -1
+PROCESS = PRECEDING HIDE=TRUE 
+/STYLES  APPLYTO=DATACELLS.
+
+------- dotwosecondarytables.py -------
+import re
+
+def f(arg):
+    """Move Count statistic into Mean column
+    
+    arg is the dictionary provided by STATS TABLE CALC and referenced in formula
+    formula="dotwosecondarytables.f(arg)"
+    """
+    
+    datacells = arg['datacells']
+    roworcol = arg['roworcol']
+    resultnumber = arg['resultnumber']
+    # prepare to track result columns
+    # table columns assumed to be for each column category
+    # Mean, Count
+    if arg['firsttable']:
+        arg['firsttable'] = False
+        ll = arg['labels']
+
+    t = arg['insertpoints'][resultnumber]   # current target table location
+    v = datacells.GetValueAt(roworcol, t).rstrip()
+    if v == "":
+        v = datacells.GetValueAt(roworcol, t + 1)
+    return v  
+
+
+def g(arg):
+    """return sig level from secondary tables or None
+    
+    arg is the dictionary from STATS TABLE CALC and referenced as
+    formula="dotwosecondarytables.g(arg)"
+    """
+    
+    if arg['firsttable']:
+        # build dictionary of sig values - first from CTABLES chi-squared table
+        # then from ONEWAY anova table and store in arg dictionary
+        
+        arg['firsttable'] = False
+        sdatacellslist = arg['sdatacells']
+        sptlist = arg['secondary']
+        llseclist = [item.RowLabelArray() for item in sptlist]
+        arg['llseclist'] = llseclist
+        arg['ll'] = arg['pt'].RowLabelArray()   # main table labels
+        srowslist = [item.GetNumRows() for item in llseclist]
+        arg['sigdict'] = {}
+        # first do chi-squared table
+        llsec = llseclist[0]
+        for r in range(srowslist[0]):
+            if llsec.GetValueAt(r, 2) == "Sig.":
+                var = llsec.GetValueAt(r, 1)
+                arg['sigdict'][var] = sdatacellslist[0].GetValueAt(r, 0)
+                
+        # anova table sig values
+        llsec = llseclist[1]
+        sigcol = sdatacellslist[1].GetNumColumns() - 1
+        for r in range(srowslist[1]):
+            sigval = sdatacellslist[1].GetValueAt(r, sigcol)
+            if sigval != "":
+                var = llsec.GetValueAt(r, 1)
+                arg['sigdict'][var] = sigval
+                
+                
+    # return sig value for current row if there is one in the secondary table
+    curlbl = arg['ll'].GetValueAt(arg["roworcol"], 1)    #keyed by second level of row label as first is hidden "ROW"
+    if curlbl == "":
+        curlbl = arg['ll'].GetValueAt(arg["roworcol"], 2)
+    if curlbl in arg['sigdict']:
+        result = arg['sigdict'][curlbl]
+        result = re.sub(r",*b,*|c", "", result)   # remove footnote superscripts, if any
+        del arg['sigdict'][curlbl]    # only return sig value once
+    else:
+        result = ""
+    return result
+
+
+</code></pre>
+
 
 <p>&copy; Copyright IBM Corp. 1989, 2014</p>
 
