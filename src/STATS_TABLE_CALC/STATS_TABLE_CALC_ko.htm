@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>피벗표로 계산</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>피벗표로 계산</h1>이 프로시저는 피벗표에 있는 셀 값을
+  기초로 값을 계산합니다. 결과는 기존 셀 값을 대체할 수 있거나,
+  버전 20보다 신규 Statistics 버전을 실행하는 경우 새 열 또는 행에 배치될 수 있습니다. 이러한 수정 사항과 범위를 적용할 특정 유형의 표를 뷰어에서 선택할 수 있습니다.  <p class="bullet">•버전 19에서 사용할 수 있는
+  경량 표는 편집할 수 없어 이 명령에 영향을 받지 않습니다.</p>
+
+  <p>선택 지정은 다음 항목으로 구성됩니다.</p>
+
+  <ul>
+    <li>처리할 표 유형. 유형은 OMS 표 하위 유형입니다.</li>
+
+    <li>차원: 결과가 지정되는 열 또는 행(기본값은 열)</li>
+
+    <li>특정 목표 행 또는 열</li>
+
+    <li>애플리케이션 범위: 선행 명령만 또는 모든 결과(기본값은 선행 결과)</li>
+  </ul>
+
+  <h2>표, 차원 및 목표 행 또는 열 선택</h2>
+
+  <p><span class="runinhead">표 하위 유형:</span> OMS 표 하위 유형을
+  입력합니다. 하위 유형은 표 인스턴스에서 개요를 마우스 오른쪽 단추로 클릭하고
+  <em>OMS 하위 유형 복사</em>를 선택하여 찾거나 <em>유틸리티&gt;OMS 식별자</em>의
+  목록에서 찾을 수 있습니다. 모든 하위 유형을 선택하려면 *를 입력하십시오(이 명령에서는 자주 사용되지 않음).</p>
+
+  <p class="bullet">• 이 명령으로는 특정 유형의 표를 처리할 수 없습니다. 다중 범주 또는 다중 차원이 있는 레이어가 있는 표는 처리할 수 없습니다. 대체 모드를 제외하고 선택된 차원에서 True 중첩된 표는 처리할 수 없습니다. 중첩된 것으로 표시될 수 있는 사용자 정의 표 결과에서는 실제 true 중첩을 사용하지 않으므로
+  처리될 수 있음을 참고하십시오.</p>
+
+  <p><span class="runinhead">차원:</span> <i>열</i> 또는
+  <i>행</i>을 선택하여 처리할 표의 차원을
+  결정합니다. 열을 선택하면, 표에 있는 각 행에 대해 새 값이 계산되고
+  선택한 열에서 해당 행에 배치됩니다. 행을 선택하면, 각 열에 대해 새 값이 계산되고 선택된 행에
+  배치됩니다. 여러 결과 열 또는 행을
+  지정할 수 있습니다.</p>
+
+  <p><span class="runinhead">목표 열 또는 행</span> 처리할
+  목표 행이나 열을 공백으로 구분된 목록으로 입력합니다. 행 또는 열은 0부터 계산되는 숫자 위치로 또는 따옴표로 묶인 레이블 텍스트로
+  지정될 수 있습니다. 텍스트를 사용하면 첫 번째 매치하는 레이블이 목표 위치를 판별합니다.</p>
+
+  <p class="bullet">• 텍스트 매치에서는 대소문자가 구분됩니다.</p>
+
+  <p><span class="runinhead">전체 차원에 대해 목표 사양 반복
+  </span> 동일한 레이블이 두 번 이상 발생할 수 있는 경우,
+  전체 차원에 걸쳐 레이블 또는 일련의 레이블을 충분히 반복하려면
+  이 선택사항을 선택할 수 있습니다. 예를 들어 표에 변수의 각 범주에 대해
+  "빈도" 레이블이 있을 수 있습니다. 이 상자를 선택하면 "빈도" 목표는 각 범주에 반복됩니다.</p>
+
+  <p class="bullet">• 목표가 숫자가 아니고 레이블로 지정될 경우에만 반복을 사용할 수 있습니다.</p>
+
+  <p><span class="runinhead">레이블 텍스트 매치 수준</span>
+  첫 번째(가장 외부) 행 또는 열은 0입니다. 끝에서부터 거꾸로 계산하려면 음수를 사용하십시오. -1은 마지막(가장 내부) 레이블 행 또는 열입니다. 숫자 및 텍스트 지정을 조합할 수 있습니다.</p>
+
+  <p class="bullet">• 행 또는 열은 표의 가장 안쪽 수준에서 계산됩니다.</p>
+
+  <p><span class="runinhead">프로세스 표 소스</span> 바로 앞 명령 결과의 표만
+  처리할 것인지 아니면 지정된 유형의 뷰어에 있는 모든 표를 처리할 것인지
+  선택하십시오.</p>
+
+  <p><span class="runinhead">표 레이블 인쇄(디버깅용)
+  </span> 선택한 차원의 모든 레이블을 표시하려면 이 상자를 선택하십시오. 대부분의 표에 숨겨진 레이블이 있으므로
+  전체 구조를 보려면 이 기능을 사용합니다.</p>
+
+  <p><span class="runinhead">수식;</span> 수식에서는 수행할 계산을 지정합니다. 열의 경우 각 행에 적용되고, 행의 경우 각 열에 적용됩니다. 따옴표로 묶인 항목을
+  참조하려면 큰따옴표가 아닌 작은따옴표(')를 사용하십시오.</p>
+
+  <p>수식에서는 표준 산술 연산자(거듭제곱의 경우 ** 사용)와 표준
+  Python 연산 함수(예: min, max, mod, trunc, round, abs, exp 및 log (베이스 e,
+  log(베이스 10의 경우 x,10) 사용)를 사용할 수 있습니다. 아래 설명된 내용을 제외하고
+  올바른 Python 명령문이어야 합니다. 전체 목록은 수학 모듈을 포함하여 Python 문서를 참조하십시오.</p>
+
+  <p>표에 있는 행 또는 열 값은 세 가지 방식으로 참조될 수 있습니다. 이 모두는 항목을 표에 추가하기 전 평가됩니다.</p>
+
+  <ul>
+    <li>양식 xn에 대한 참조(여기서 n은 정수, 예: x2)는 절대 열 또는 행을
+    말합니다. 0부터 숫자가 시작되므로 x0이 첫 번째 열 또는 행입니다.</li>
+
+    <li>양식 x[n] 또는 x[-n]의 참조는 목표 위치에서 왼쪽 또는 오른쪽(위 또는 아래) 값을
+    말합니다. 예를 들어 x[-1]은 열을 사용하거나 해당 행 바로 위를 사용하는 경우
+    목표 위치의 바로 왼쪽 위치를 말합니다.       x[1]은 바로 오른쪽 위치입니다. x[0]은 목표 위치입니다(목표가 삽입되기 전).      <p>예제: 레이블 a, b 및 c가 있는 열이 있고 목표 위치가 c라고 가정합니다.     그러면 모드 설정에 관계 없이 x[0]은 c에 있는 값을 말하며, x[-1]은 b를 말하고,
+      x[-2]는 a를 말합니다.</p>
+    </li>
+
+    <li>양식 x['string'] 또는 x[-'string']에 대한 참조는 string이 지정된 레벨의
+    레이블 값인 목표 위치의 왼쪽 또는 오른쪽(위 또는 아래) 값을 말합니다. 예를 들어 x[-'Clerical']은 레이블이 "Clerical"인 목표 위치의 왼쪽 최근접
+    열을 말합니다.      <p>문자열은 따옴표로 묶어야 합니다. 여기서 사용되는 대괄호 표기법은
+      Python 사전을 참조하지 않지만 위치를 참조할 때 사용됩니다.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">수식에서 사용할 사용자 정의 함수가 있는 모듈
+  </span> 표준 수식 표기법은 결과 위치와 동일한 행 또는 열의 값에 대한
+  액세스를 제공합니다. 표에 있는 다른 값(예: 맨 아래에 있는 총계)에 액세스하려면
+  사용자 정의 함수를 작성해야 합니다. 이는 계산이 복잡한 경우 유용할 수 있습니다. 수식에서 사용할 하나 이상의 함수가 들어 있는 Python 모듈 이름을 지정하십시오. 사용자 정의 함수 작성법에 대한 세부사항은 다음을 참조하십시오.</p>
+
+  <p><span class="runinhead">입력 열 또는 행 숨기기</span>
+  수식에서 참조할 입력 행 또는 열 모두(사용자 정의 함수의 참조 제외)를 숨기려면
+  이 상자를 선택하십시오.</p>
+
+  <p><span class="runinhead">목표 열 너비(포인트)</span>
+  목표 열 너비를 지정할 숫자를 입력하십시오. 숫자는 포인트를 말합니다. 72포인트는 1인치입니다.</p>
+
+  <p><span class="runinhead">목표 열 형식</span> 목표 열의 형식을
+  선택하십시오. Asis에서는 목표 모드가 대체되는 경우 현재 형식을 사용합니다. 그렇지 않으면 기본값을 사용합니다. 표시되는 기타 형식은 피벗표 편집기의 셀 형식
+  대화 상자에 표시되는 것과 동일합니다. 날짜 형식은 여기에 표시되지 않지만
+  명령문에서 유효합니다.</p>
+
+  <p><span class="runinhead">소수점이하자리수</span>
+  표시할 소수점 다음의 자릿수를 지정하십시오. 이 설정은 형식이 asis인 경우 적용되지 않습니다.</p>
+
+  <p><span class="runinhead">올바르지 않은 값 표시 방법</span> 입력이 올바르지 않아
+  (예: 결측값 또는 숫자가 아닌 값) 또는 숫자 조건(예: 0으로 나누기)으로 인해 값을
+  계산할 수 없는 경우, 이 설정은 표에 표시되는 내용을 제어합니다. 마지막
+  라디오 단추가 설정되면 사용자 정의 텍스트를 입력할 수 있습니다.</p>
+
+  <h2>수식에서 사용자 정의 모듈 사용</h2>사용자 정의 모듈에는
+  전체 피벗표에 대한 액세스 권한이 있습니다. 다음은 각 행에 대한 계산 시
+  교차 분석표에 있는 총계가 사용되는 예제입니다.  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>이 명령에서는 사용자 정의 함수를 사용하여 표에 있는 전체 총계에 액세스합니다.</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>다음은 customexample 모듈에 있는 함수입니다.</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>참고: 다음 변수는 지정된 사용자 정의 모듈의 입력 모수 및 컨텐츠와 함께 수식에서도
+  사용할 수 있습니다.</p>
+
+  <ul>
+    <li>pt - 피벗표 개체</li>
+
+    <li>datacells - 피벗표의 datacells 개체</li>
+
+    <li>labels - DIMENSION 설정에 해당하는 행 또는 열 레이블 개체</li>
+
+    <li>ncells - datacells 개체에 있는 행 또는 열의 갯수. 즉, DIMENSION이 열인 경우 숫자 또는 행입니다.</li>
+
+    <li>roworcol - 표에서 현재 행 또는 열.</li>
+
+    <li>customdict - 사용자 정의 함수가 호출을 통해 항목을 저장할 때 사용할 수 있는
+    사전. 여기에는 초기에 두 개의 항목이 포함됩니다.       이 항목은 완전히 사용자 함수에서만 사용되기 위한 것이며 이 명령의 조작에는 영향이 없습니다.      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - 새 표를 평가할 때마다 True로 설정됩니다. 사용자 코드에서 이를 적절히 False로 설정해야 합니다.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>GetUnformattedValueAt 메소드는 유니코드 문자열을
+      리턴합니다. 계산을 위해 Float로 변환되어야 합니다.</p>
+      <h2>추가 기능</h2>
+
+      <p>이 대화 상자는 STATS TABLE CALC 확장 명령에 대한 명령문을
+      생성합니다. 이 명령에 대한 도움말을 표시하려면 다음 구문을 실행하십시오.</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>명령 명령문에서 따옴표로 묶은 개별 하위 유형의 목록을 지정할 수 있습니다.      <p>명령문에서는
+      인접 보조 표를 말하며, 계산 시 값을 삽입 또는 사용할 수 있습니다.</p>
+
+      <h2>요구 사항</h2>
+
+      <p>이 대화 상자를 사용하려면 Integration Plug-In for Python과
+      STATS TABLE CALC 확장 명령이 필요합니다. 자세한 정보는
+      IBM SPSS Statistics 도움말 시스템의 Core System &gt; 자주 묻는 질문에서
+      통합 플러그인을 얻는 방법을 참조하십시오. 명령은 확장 번들로 분배됩니다.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

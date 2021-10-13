@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Calcola con tabelle pivot</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Calcola con tabelle pivot</h1>Questa procedura calcola i valori
+  in base ai valori delle celle in una tabella pivot. I risultati possono
+  sostituire i valori delle celle esistenti oppure possono essere inseriti
+in nuove colonne o righe se si esegue una versione di
+Statistics più recente della versione 20. È possibile selezionare
+tipi di tabella specifici nel Visualizzatore ai quali applicare queste modifiche e l'ambito.
+
+  <p class="bullet">• Questo comando non ha effetto
+sulle tabelle semplici, disponibili nella versione 19 perché non possono essere modificate.</p>
+
+  <p>La specifica della selezione include i seguenti elementi:</p>
+
+  <ul>
+    <li>I tipi di tabella da elaborare. I tipi sono i sottotipi della tabella SGO.</li>
+
+    <li>La dimensione: le righe o le colonne (il valore predefinito prevede le colonne) di
+    destinazione dei risultati.</li>
+
+    <li>Le righe o le colonne obiettivo specifiche</li>
+
+    <li>L'ambito dell'applicazione: solo l'output del comando precedente
+o tutto l'output (l'output precedente è selezionato per impostazione predefinita).</li>
+  </ul>
+
+  <h2>Selezione di tabelle, dimensioni e righe o colonne obiettivo</h2>
+
+  <p><span class="runinhead">Sottotipo di tabella:</span> immettere il sottotipo della tabella SGO. Il
+sottotipo può essere individuato facendo clic con il pulsante destro del mouse nello schema
+su un'istanza della tabella e selezionando <em>Copia sottotipo SGO</em>
+oppure dall'elenco visualizzato scegliendo <em>Programmi di utilità&gt;Identificativi SGO</em>. Immettere * per selezionare tutti i sottotipi (non sempre utile con questo comando).</p>
+
+  <p class="bullet">• Alcuni tipi di tabelle non possono essere elaborati
+  da questo comando. Le tabelle con strati che hanno più categorie o più
+  dimensioni non possono essere elaborate. Le tabelle con vera nidificazione nella
+  dimensione selezionata non possono essere elaborate se non in modalità di
+  sostituzione. Si osservi che l'output Tabelle personalizzate, che può presentarsi
+come nidificato, non utilizza una vera nidificazione, quindi, può
+essere elaborato.</p>
+
+  <p><span class="runinhead">Dimensione:</span> Scegliere
+  <i>Colonne</i> o <i>Righe</i> per determinare la dimensione della tabella da elaborare. Se si sceglie Colonne, viene calcolato un
+  nuovo valore per ogni riga nella tabella e viene inserito in tale
+  riga nella colonna selezionata. Se si sceglie Righe, un nuovo valore viene
+  calcolato per ogni colonna e inserito nella riga selezionata. È possibile
+  specificare più colonne o righe di output.</p>
+
+  <p><span class="runinhead">Colonne o righe obiettivo</span> Immettere
+  un elenco separato da spazi delle righe o delle colonne obiettivo da elaborare.
+  Le righe o le colonne possono essere specificate in base alla posizione numerica contando
+  da zero oppure in base al testo dell'etichetta tra virgolette. Con il testo, la prima
+  etichetta corrispondente determina l'ubicazione obiettivo.</p>
+
+  <p class="bullet">• Le corrispondenze di testo sono sensibili al maiuscolo/minuscolo..</p>
+
+  <p><span class="runinhead">Ripetere le specifiche di obiettivo per
+  l'intera dimensione</span> Se la stessa etichetta può ricorrere più
+ di una volta, è possibile selezionare questa casella per ripetere
+l'etichetta o la sequenza di etichette un numero sufficiente di volte
+per coprire l'intera dimensione. Ad esempio, una tabella può avere
+  un'etichetta "Conteggio" per ogni categoria di una variabile.
+  Selezionando questa casella, l'obiettivo
+"Conteggio" viene ripetuto per ogni categoria.</p>
+
+  <p class="bullet">• La ripetizione può essere utilizzata solo quando gli
+  obiettivi vengono specificati come etichette, non quando sono numeri.</p>
+
+  <p><span class="runinhead">Livello per corrispondenza testo etichetta</span>
+  La prima (più esterna) riga o colonna è 0. Utilizzare i numeri negativi
+  per contare in senso inverso dalla fine: -1 è l'ultima (più interna)
+riga o colonna dell'etichetta. È possibile combinare specifiche numeriche e di testo.</p>
+
+  <p class="bullet">• Le righe o le colonne vengono contate al livello più interno della tabella.</p>
+
+  <p><span class="runinhead">Elabora tabelle da</span> Scegliere se
+  elaborare solo le tabelle dall'output del comando immediatamente
+ precedente oppure tutte le tabelle nel Visualizzatore dei tipi
+  specificati.</p>
+
+  <p><span class="runinhead">Stampa etichette tabella (per il  debug)</span> Selezionare questa casella per visualizzare tutte le
+  etichette nella dimensione selezionata. Poiché molte tabelle includono etichette nascoste,
+  utilizzare questa funzione per visualizzare la struttura completa.</p>
+
+  <p><span class="runinhead">Formula.</span> La formula specifica il  calcolo da eseguire. Per le colonne, viene applicata a ciascuna
+  riga e, per le righe, viene applicata a ciascuna colonna. Se al suo
+  interno si fa riferimento ad elementi racchiusi tra virgolette,
+  utilizzare le virgolette semplici ('), non quelle doppie (").</p>
+
+  <p>La formula può utilizzare gli operatori aritmetici standard (utilizzare **
+  per la potenza) e le funzioni matematiche Python standard come
+  min, max, mod, trunc, round, abs, exp e log (base e, utilizzare
+  log(x,10 per base 10). Deve essere della sintassi Python valida, eccetto come
+  spiegato di seguito. Consultare la documentazione di Python, compreso il modulo
+  relativo alla matematica, per un elenco completo.</p>
+
+  <p>Ai valori di riga o colonna nella tabella è possibile fare riferimento
+  in tre modi. Vengono tutti valutati PRIMA che qualsiasi elemento venga
+  aggiunto alle tabelle.</p>
+
+  <ul>
+    <li>I riferimenti in formato xn, dove n è un numero interno, ad esempio. x2,
+    si riferiscono alla colonna o alla riga assoluti. La numerazione
+    inizia da zero, quindi, x0 è la prima colonna o la prima riga.</li>
+
+    <li>I riferimenti in formato x[n] o x[-n] si riferiscono ai valori
+    a sinistra o a destra (sopra o sotto) dell'ubicazione obiettivo. Ad esempio,
+    x[-1] fa riferimento all'ubicazione immediatamente a sinistra
+dell'ubicazione obiettivo, se se si utilizzano colonne, o immediatamente sopra di
+    essa per le righe.
+    x[1] è l'ubicazione immediatamente a destra. x[0] è l'ubicazione obiettivo
+stessa (prima dell'inserimento dell'obiettivo).
+
+      <p>Esempio: si supponga che ci siano delle colonne con etichette a, b
+      e c e che l'ubicazione obiettivo sia c. x[0] fa quindi riferimento
+al valore a c, x[-1] fa riferimento a b e x[-2] fa riferimento ad a
+indipendentemente dall'impostazione della modalità.</p>
+    </li>
+
+    <li>I riferimenti nel formato x['stringa'] o x[-'stringa'] si riferiscono
+ai valori a sinistra o a destra (sopra o sotto) dell'ubicazione obiettivo dove stringa è il valore dell'etichetta
+al livello specificato. Ad esempio, x[-'Impiegato'] si riferisce alla colonna più prossima a sinistra dell'ubicazione
+obiettivo etichettata "Impiegato".
+
+      <p>Le stringhe devono essere tra virgolette. La notazione tra
+      parentesi utilizza qui NON fa riferimento ai dizionari
+      Python, ma viene utilizzata per indicare le ubicazioni.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Modulo con funzioni personalizzate per l'utilizzo
+nella formula</span> La notazione di formula standard fornisce solo l'accesso
+ai valori nella stessa riga o colonna dell'ubicazione del risultato. Per accedere ad altri valori in una tabella, ad esempio i
+  totali nella parte inferiore, è necessario scrivere una funzione
+  personalizzata. Ciò può anche essere utile se il calcolo è complesso.
+  Specificare il nome del modulo Python che contiene una o più funzioni
+  da utilizzare nella formula. Di seguito vengono forniti i dettagli su come scrivere una
+funzione personalizzata.</p>
+
+  <p><span class="runinhead">Nascondi colonne o righe di input</span>
+  Selezionare questa casella per nascondere tutte le righe o le
+colonne di input a cui si fa riferimento nella formula (escludendo i riferimenti in una funzione
+personalizzata).</p>
+
+  <p><span class="runinhead">Larghezza colonne obiettivo</span>
+  Immettere un numero per specificare la larghezza delle colonne obiettivo. Il numero si riferisce ai punti. 72 punti corrispondono a un pollice.</p>
+
+  <p><span class="runinhead">Formato colonna obiettivo</span> Scegliere
+  un formato per le colonne obiettivo. Asis utilizza il formato corrente
+  se la modalità obiettivo è replace; altrimenti, utilizza il valore
+  predefinito. Gli altri formati elencati sono uguali a quelli visualizzati
+ nella finestra di dialogo Formati cella nell'editor di tabelle
+  pivot. I formati di data non sono elencati qui, ma sono validi nella sintassi.</p>
+
+  <p><span class="runinhead">Numero di posizioni decimali</span>
+  Specificare il numero di cifre da visualizzare dopo il punto decimale.
+  Questa impostazione non si applica se il formato è asis.</p>
+
+  <p><span class="runinhead">Mostra valori non validi come</span> Se
+ un valore non può essere calcolato perché l'input non è valido, ad esempio,
+un valore mancante o non numerico o a causa di una condizione
+numerica, ad esempio, una divisione per zero, questa impostazione controlla cosa viene
+visualizzato nella tabella. È possibile immettere un testo personalizzato se è impostato l'ultimo pulsante di scelta.</p>
+
+  <h2>Utilizzo di un modulo personalizzato nella formula</h2>Un modulo personalizzato
+può avere accesso all'intera tabella pivot. Qui viene fornito un esempio in cui il totale in una tabella di contingenza viene
+utilizzato nel calcolo per ciascuna riga.
+
+  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>Questo comando utilizza una funzione personalizzata per accedere al totale globale nella tabella.</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Questa è la funzione nel modulo customexample:</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>Note: le seguenti variabili sono disponibili per essere utilizzate nella formula in
+  aggiunta ai parametri di input e al contenuto del modulo personalizzato
+  specificato.</p>
+
+  <ul>
+    <li>pt - l'oggetto tabella pivot</li>
+
+    <li>datacells - l'oggetto datacells della tabella pivot</li>
+
+    <li>labels - l'oggetto etichette riga o colonna corrispondente
+    all'impostazione DIMENSION</li>
+
+    <li>ncells - il numero di righe o colonne nell'oggetto datacells. Ovvero, se DIMENSION è columns, si tratta del numero di righe.</li>
+
+    <li>roworcol - la riga o la colonna corrente nella tabella.</li>
+
+    <li>customdict - un dizionario che la funzione personalizzata può utilizzare per archiviare gli
+elementi nelle chiamate. Inizialmente, contiene due voci.
+    Sono destinate solo all'utilizzo da parte della funzione utente e non hanno
+    effetto sul funzionamento di questo comando.
+
+      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - impostare su True ogni volta che viene valutata
+        una nuova tabella. Il codice utente imposta questi valori su False in modo appropriato</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Il metodo GetUnformattedValueAt restituisce una stringa Unicode. Deve
+essere convertita in un float per i calcoli.</p>
+      <h2>Funzioni aggiuntive</h2>
+
+      <p>Questa finestra di dialogo genera la sintassi per il comando di estensione STATS TABLE CALC. Per visualizzare la guida per questo comando, utilizzare la sintassi riportata di seguito:</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>Nella
+sintassi del comando è possibile specificare un elenco di sottotipi specificati singolarmente.
+
+      <p>Nella sintassi è possibile fare riferimento a una tabella secondaria prossima e inserire o utilizzare
+      i suoi valori nei calcoli.</p>
+
+      <h2>Requisiti</h2>
+
+      <p>Questa finestra di dialogo richiede Integration Plug-In for Python e il comando di estensione STATS TABLE CALC. Per ulteriori informazioni, consultare Come ottenere i plug-in di integrazione
+in Sistema principale &gt; Domande frequenti nella guida in linea di IBM SPSS Statistics. Il comando viene distribuito come un bundle di estensioni.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

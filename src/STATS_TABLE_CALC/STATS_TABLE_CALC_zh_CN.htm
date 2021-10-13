@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>使用透视表进行计算</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>使用透视表进行计算</h1>此过程根据透视表中的单元格值来计算值。结果可以替换现有的单元格值，如果您运行的是高于 V20 的 Statistics 版本，那么可以将结果放入新的列或行中。您可以在查看器中选择特定类型的表以便对其应用这些修改，并可以选择范围。
+<p class="bullet">• V19 中可用的轻量表不可编辑，因此不受此命令影响。</p>
+
+  <p>选择指定项由下列各项组成：</p>
+
+  <ul>
+    <li>要处理的表的类型。这些类型为 OMS 表子类型。</li>
+
+    <li>维：要存放结果的行或列（缺省为列）。</li>
+
+    <li>特定的目标行或列</li>
+
+    <li>应用范围：仅应用于前一个命令或者应用于所有输出（缺省情况为应用于前一输出）。</li>
+  </ul>
+
+  <h2>选择表、维以及目标行或列</h2>
+
+  <p><span class="runinhead">表子类型：</span>请输入 OMS 表子类型。确定子类型的方法是：右键单击表实例的大纲，然后选择<em>复制
+OMS 子类型</em>，或者从<em>实用程序 &gt; OMS 标识</em>中的列表中进行选择。输入 * 可以选择所有子类型（对于此命令通常用处不大）。</p>
+
+  <p class="bullet">• 此命令无法处理特定类型的表。无法处理其中的层具有多个类别或多个维的表。无法处理所选维中存在真嵌套的表（处于放回方式时除外）。请注意，显示为嵌套的“定制表”输出实际上不使用真嵌套，因此可以进行处理。</p>
+
+  <p><span class="runinhead">维：</span>选择<i>列</i>或<i>行</i>可以确定要处理的表的维。如果选择了“列”，那么将针对表中的每一行计算新值，并将该值放入该行中的所选列。如果选择了“行”，那么将针对每一列计算新值，并将该值放入选择的行。可以指定多个输出列或行。</p>
+
+  <p><span class="runinhead">目标列或行</span> 请输入所要处理的目标行或列的列表，并以空格分隔各个项。可以使用从零开始计数的数字位置或者括在引号内的标签文本来指定行或列。对于文本，目标位置由第一个匹配的标签确定。</p>
+
+  <p class="bullet">• 文本匹配项区分大小写。</p>
+
+  <p><span class="runinhead">对整个维重复目标指定项</span> 如果同一个标签可能多次出现，那么您可以选中此框，以使该标签或标签序列进行足够次数的重复，从而涵盖整个维。例如，在一个表中，某个变量的每个类别可能都具有“Count”标签。选中此框后，将对每个类别重复“Count”目标。</p>
+
+  <p class="bullet">• 仅当将目标指定为标签而非数字时，才能使用重复项。</p>
+
+  <p><span class="runinhead">标签文本匹配级别</span> 首行或首列（最外面的行或列）为 0。使用负数可以从末尾向后计数：-1 表示最后一个（最里面的）标签行或列。可以组合使用数字指定项和文本指定项。</p>
+
+  <p class="bullet">• 在表的最内级别对行或列进行计数。</p>
+
+  <p><span class="runinhead">要处理的表的范围</span> 请选择是仅处理前一个命令输出中的表，还是处理查看器中所有指定类型的表。</p>
+
+  <p><span class="runinhead">打印表标签（用于进行调试）</span>
+选中此框可以查看所选维中的所有标签。由于许多表都有隐藏的标签，因此使用此功能可以看到完整的结构。</p>
+
+  <p><span class="runinhead">公式</span> 公式指定所要执行的计算。对于列，公式将应用于每一行，而对于行，公式将应用于每一列。如果要在公式中引用括在引号内的项，请使用单引号 (')，而不要使用双引号 (")。</p>
+
+  <p>此公式可以使用标准的算术运算符（使用 ** 表示幂）以及标准的 Python 数学函数，例如
+min、max、mod、trunc、round、abs、exp 和 log（底数为 e，使用 log(x,10) 表示底数为
+10）。除了下面说明的情况以外，这必须是有效的 Python 语法。要获取完整的列表，请参阅 Python 文档（包括数学模块）。</p>
+
+  <p>可以通过三种方式引用表中的行值或列值。在将任何项添加到表中之前，系统将先对所有这些值进行求值。</p>
+
+  <ul>
+    <li>格式为 xn 的引用，其中 n 是整数（例如 x2），指的是绝对列或绝对行。编号从 0 开始，因此 x0 是首列或首行。</li>
+
+    <li>格式为 x[n] 或 x[-n] 的引用指的是目标位置左侧或右侧（上方或下方）的值。例如，x[-1]
+指的是正好位于目标位置左侧的位置（如果使用列）或者正好位于目标位置上方的位置（如果使用行）。x[1]
+指的是正好位于目标位置右侧的位置。x[0] 是目标位置本身（在插入目标之前）。
+
+<p>示例：假设存在标签分别为 a、b 和 c 的列，并且目标位置为 c。那么 x[0] 指的是
+c 处的值，x[-1] 指的是 b，x[-2] 指的是 a，这与方式设置无关。</p>
+    </li>
+
+    <li>格式为 x['string'] 或 x[-'string'] 的引用指的是目标位置左侧或右侧（上方或下方）的值，其中 string 是指定级别处的标签值。例如，x[-'Clerical'] 指的是标注为“Clerical”的目标位置左侧最靠近的列。
+
+<p>请注意，字符串必须括在引号内。此处使用的方括号表示法不是指 Python 字典，而是指位置。</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">	包含要在公式中使用的定制函数的模块</span>
+标准公式表示法只能对结果位置所在行或列中的值进行访问。要访问表中的其他值（例如位于底部的总计），您必须编写定制函数。对于复杂的计算，这也非常有用。请指定一个或多个要在公式中使用的函数所在
+Python 模块的名称。请参阅以下内容，以获取有关如何编写定制函数的详细信息。</p>
+
+  <p><span class="runinhead">隐藏输入列或行</span> 选中此框可以隐藏公式中引用的所有输入行或列（不包括定制函数中的引用）。</p>
+
+  <p><span class="runinhead">目标列宽度（点数）</span> 请输入一个数字以指定目标列的宽度。此数字指的是点数。72 个点相当于一英寸。</p>
+
+  <p><span class="runinhead">目标列格式</span> 请选择目标列的格式。“按原样”表示，如果目标方式为替换，那么使用当前格式，否则使用缺省格式。列示的其他格式与透视表编辑器的“单元格格式”对话框中显示的格式相同。此处未列示日期格式，但是日期格式在语法中有效。</p>
+
+  <p><span class="runinhead">小数位数</span> 指定在小数点后显示的位数。如果格式为“按原样”，那么不应用此设置。</p>
+
+  <p><span class="runinhead">无效值的显示方式</span> 在由于输入无效（例如，值缺失或者不是数字）或者数字条件（例如除零）而无法计算值时，此设置用于控制在表中显示的内容。如果设置了最后一个单选按钮，那么您可以输入定制文本。</p>
+
+  <h2>在公式中使用定制模块</h2>定制模块可以对整个透视表进行访问。在以下示例中，每一行的计算都使用了交叉表中的总计。
+<p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>此命令使用定制函数来访问表中的整体总计。</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>以下是 customexample 模块中的函数：</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>注意：在公式中，除了可以使用输入参数以及所指定定制模块的内容以外，还可以使用下列变量。</p>
+
+  <ul>
+    <li>pt - 透视表对象</li>
+
+    <li>datacells - 透视表的 datacells 对象</li>
+
+    <li>labels - 与 DIMENSION 设置相对应的行标签对象或列标签对象</li>
+
+    <li>ncells - datacells 对象中的行数或列数。即，如果 DIMENSION 为 columns，那么这是行数。</li>
+
+    <li>roworcol - 表中的当前行或列。</li>
+
+    <li>customdict - 一个字典，定制函数可以使用此字典跨调用存储各个项。此字典最初包含两个条目。这些条目仅供用户函数使用，不会对此命令的操作产生任何影响。<ul>
+        <li>firstload - True。</li>
+
+        <li>firsttable - 每次对新表进行求值时，都设置为 True。用户代码可以根据需要将其设置为 False</li>
+      </ul>
+    </li>
+  </ul>
+  <p>GetUnformattedValueAt 方法返回一个 Unicode 字符串。您必须将该字符串转换为浮点值以便进行计算。</p>
+      <h2>其他功能部件</h2>
+
+      <p>此对话框将生成 STATS TABLE CALC 扩展命令的语法。要显示此命令的帮助，请运行以下语法：</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP。</p>在命令语法中，可以指定各自括在引号内的子类型的列表。
+
+<p>在语法中，可以引用临近的辅助表，并在计算时插入或使用该表的值。</p>
+
+      <h2>要求</h2>
+
+      <p>此对话框需要 Integration Plug-In for Python 和 STATS TABLE CALC
+扩展命令。有关更多信息，请参阅“IBM SPSS Statistics
+帮助”系统的“核心系统”&gt;“常见问题”中的“如何获取集成插件”。此命令作为扩展束进行分发。</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

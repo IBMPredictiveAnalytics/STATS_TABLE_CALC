@@ -1,145 +1,112 @@
-#/***********************************************************************
-# * Licensed Materials - Property of IBM 
-# *
-# * IBM SPSS Products: Statistics Common
-# *
-# * (C) Copyright IBM Corp. 1989, 2013
-# *
-# * US Government Users Restricted Rights - Use, duplication or disclosure
-# * restricted by GSA ADP Schedule Contract with IBM Corp. 
-# ************************************************************************/
-
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-11 17:26+Central Standard Time\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-10-11 00:34-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: pygettext.py 1.5\n"
-# NLS_ENCODING=UTF-8
-# IBMUPYTH
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
 
-#: modifyvalues.py:69
 msgid "---"
-msgstr ""
-"---"
+msgstr "---"
 
-#: modifyvalues.py:91
 msgid "Only replace mode can be used in Statistics version 20 or earlier"
 msgstr ""
-"In Statistics Version 20 oder früher kann nur der Ersetzungsmodus verwendet werden"
+"In Statistics Version 20 oder früher kann nur der Ersetzungsmodus verwendet "
 
-#: modifyvalues.py:95
 msgid "Table Structure"
-msgstr ""
-"Tabellenstruktur"
+msgstr "Tabellenstruktur"
 
-#: modifyvalues.py:100
 msgid "Only one of next and previous subtype specifications can be used"
 msgstr ""
-"Es kann nur eine der nächsten und vorherigen Untertypspezifikationen verwendet werden"
+"Es kann nur eine der nächsten und vorherigen Untertypspezifikationen verwendet"
+" werden"
 
-#: modifyvalues.py:102
 msgid "A secondary table can only be used with a custommodule"
 msgstr ""
 "Eine Sekundärtabelle kann nur mit einem angepassten Modul verwendet werden"
 
-#: modifyvalues.py:125
 msgid "No tables of the specified type were found to update"
 msgstr ""
 "Es wurden keine Tabellen des angegebenen Typs zum Aktualisieren gefunden"
 
-#: modifyvalues.py:162
 msgid "Secondary table not found: %s"
-msgstr ""
-"Sekundärtabelle nicht gefunden: %s"
+msgstr "Sekundärtabelle nicht gefunden: %s"
 
-#: modifyvalues.py:186
 msgid "Target specification must be a sequence of one or more values"
 msgstr ""
 "Zielspezifikation muss ein Wert oder eine Sequenz aus mehreren Werten sein"
 
-#: modifyvalues.py:189
 msgid "The rows dimension cannot be combined with resizing"
-msgstr ""
-"Die Spaltendimension kann nicht mit Größenänderung kombiniert werden."
+msgstr "Die Spaltendimension kann nicht mit Größenänderung kombiniert werden."
 
-#: modifyvalues.py:208
 msgid ""
-"Cannot apply command to this table, because it has nested dimensions.\nNumber of dimensions: %s"
+"Cannot apply command to this table, because it has nested dimensions.\nNumber "
+"of dimensions: %s"
 msgstr ""
-"Befehl kann nicht auf diese Tabelle angewendet werden, weil er verschachtelte Dimensionen hat.\nAnzahl der Dimensionen: %s"
+"Befehl kann nicht auf diese Tabelle angewendet werden, weil er verschachtelte "
+"Dimensionen hat.\nAnzahl der Dimensionen: %s"
 
-#: modifyvalues.py:215
-msgid "Tables with layers with multiple categories or multiple dimensions are not supported"
+msgid ""
+"Tables with layers with multiple categories or multiple dimensions are not "
 msgstr ""
-"Tabellen mit mehreren Kategorien oder mehreren Dimensionen werden nicht unterstützt"
+"Tabellen mit mehreren Kategorien oder mehreren Dimensionen werden nicht "
 
-#: modifyvalues.py:253
 msgid "Table Labels: %s.  Dimensions: %s, %s"
-msgstr ""
-"Tabellenbeschriftungen: %s. Dimensionen: %s, %s"
+msgstr "Tabellenbeschriftungen: %s. Dimensionen: %s, %s"
 
-#: modifyvalues.py:300
 msgid "The specified custom module could not be loaded: %s"
-msgstr ""
-"Das angegebene angepasste Modul konnte nicht geladen werden: %s"
+msgstr "Das angegebene angepasste Modul konnte nicht geladen werden: %s"
 
-#: modifyvalues.py:347
 msgid "Repeating locations can only be used with label text"
 msgstr ""
 "Wiederholte Zielangaben können nur mit Beschriftungstext verwendet werden"
 
-#: modifyvalues.py:351
 msgid "A specified row or column label number is outside the table: %s"
 msgstr ""
-"Eine angegebene Zeilen- oder Spaltenbeschriftungsnummer befindet sich außerhalb der Tabelle: %s"
+"Eine angegebene Zeilen- oder Spaltenbeschriftungsnummer befindet sich "
+"außerhalb der Tabelle: %s"
 
-#: modifyvalues.py:360
 msgid "Specified target location does not match any existing label: %s"
 msgstr ""
-"Die angegebene Zielposition stimmt nicht mit den vorhandenen Beschriftungen überein: %s"
+"Die angegebene Zielposition stimmt nicht mit den vorhandenen Beschriftungen "
+"überein: %s"
 
-#: modifyvalues.py:381
 msgid "left or up"
-msgstr ""
-"links oder hoch"
+msgstr "links oder hoch"
 
-#: modifyvalues.py:384
 msgid "right or down"
-msgstr ""
-"rechts oder runter"
+msgstr "rechts oder runter"
 
-#: modifyvalues.py:395
-msgid "A specified input label was not found: %s, search direction from target: %s"
+msgid ""
+"A specified input label was not found: %s, search direction from target: %s"
 msgstr ""
-"Eine angegebene Eingabebeschriftung wurde nicht gefunden: %s, Suchrichtung vom Ziel aus: %s"
+"Eine angegebene Eingabebeschriftung wurde nicht gefunden: %s, Suchrichtung vom"
+" Ziel aus: %s"
 
-#: modifyvalues.py:402
 msgid "A specified relative row or column number is outside the table: %s"
 msgstr ""
-"Eine angegebene relative Zeilen- oder Spaltennummer befindet sich außerhalb der Tabelle: %s"
+"Eine angegebene relative Zeilen- oder Spaltennummer befindet sich außerhalb "
+"der Tabelle: %s"
 
-#: modifyvalues.py:408
 msgid "An absolute cell reference is outside the table: %s"
-msgstr ""
-"Eine absolute Zellenreferenz befindet sich außerhalb der Tabelle: %s"
+msgstr "Eine absolute Zellenreferenz befindet sich außerhalb der Tabelle: %s"
 
-#: modifyvalues.py:543
-msgid "The format or decimals specified for modified cells is not valid: %s, %s"
+msgid ""
+"The format or decimals specified for modified cells is not valid: %s, %s"
 msgstr ""
-"Das angegebene Format oder die angegebenen Dezimalstellen für geänderte Zellen ist nicht gültig: %s, %s"
+"Das angegebene Format oder die angegebenen Dezimalstellen für geänderte Zellen"
+" ist nicht gültig: %s, %s"
 
-#: modifyvalues.py:668
 msgid "Messages"
-msgstr ""
-"Nachrichten"
-
+msgstr "Nachrichten"

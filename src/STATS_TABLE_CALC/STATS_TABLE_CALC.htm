@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Calculate with Pivot Tables</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Calculate with Pivot Tables</h1>This procedure calculates
+  values based on cell values in a pivot table. The results can
+  replace existing cell values, or they can be placed in new
+  columns or rows if running a Statistics version newer than
+  version 20. You can select specific types of tables in the Viewer
+  to which to apply these modifications and the scope.
+
+  <p class="bullet">•Lightweight tables, which are available in
+  Version 19, are not affected by this command, since they cannot
+  be edited.</p>
+
+  <p>The selection specification consists of the following
+  items:</p>
+
+  <ul>
+    <li>The types of tables to be processed. Types are the OMS
+    table subtypes.</li>
+
+    <li>The dimension: rows or columns (default is columns) where
+    the results go.</li>
+
+    <li>The particular target rows or columns</li>
+
+    <li>The scope of application: the preceding command only or all
+    output (default is preceding output).</li>
+  </ul>
+
+  <h2>Selecting the Tables, Dimension, and Target Rows or
+  Columns</h2>
+
+  <p><span class="runinhead">Table Subtype:</span> Enter the OMS
+  table subtype. The subtype can be found by right clicking in the
+  outline on an instance of the table and selecting <em>Copy OMS
+  subtype</em> or from the list in <em>Utilities&gt;OMS
+  Identifiers</em>. Enter * to select all subtypes (not often
+  useful with this command).</p>
+
+  <p class="bullet">• Certain types of tables cannot be processed
+  by this command. Tables with layers that have multiple categories
+  or multiple dimensions cannot be processed. Tables with true
+  nesting in the selected dimension cannot be processed except in
+  replace mode. Note that Custom Tables output, which may appear to
+  be nested, does not actually use true nesting and can, therefore,
+  be processed.</p>
+
+  <p><span class="runinhead">Dimension:</span> Choose
+  <i>Columns</i> or <i>Rows</i> to determine the dimension of the
+  table to process. If you choose Columns, a new value is computed
+  for each row in the table and placed in that row in the selected
+  column. If you choose rows, a new value is computed for each
+  column and placed in the selected row. Multiple output columns or
+  rows can be specified.</p>
+
+  <p><span class="runinhead">Target Columns or Rows</span> Enter a
+  blank-separated list of the target rows or columns to process.
+  Rows or columns can be specified by numerical position counting
+  from zero or by the label text in quotes. With text, the first
+  matching label determines the target location.</p>
+
+  <p class="bullet">• Text matches are case sensitive.</p>
+
+  <p><span class="runinhead">Repeat target specifications for
+  entire dimension</span> If the same label may occur more than
+  once, you can check this box to repeat the label or sequence of
+  labels enough times to span the entire dimension. For example, a
+  table might have a "Count" label for each category of a variable.
+  By checking this box, the "Count" target would be repeated for
+  each category.</p>
+
+  <p class="bullet">• Repetition can only be used when the targets
+  are specified as labels, not when they are numbers.</p>
+
+  <p><span class="runinhead">Level for Label Text Matching</span>
+  The first (outermost) row or column is 0. Use negative numbers to
+  count back from the end: -1 is the last (innermost) label row or
+  column. Numerical and text specifications can be combined.</p>
+
+  <p class="bullet">• Rows or columns are counted at the innermost
+  level of the table.</p>
+
+  <p><span class="runinhead">Process tables from</span> Choose
+  whether to process only the tables from the immediately preceding
+  command output or all the tables in the Viewer of the specified
+  types.</p>
+
+  <p><span class="runinhead">Print table labels (for
+  debugging)</span> Check this box in order to see all the labels
+  in the selected dimension. Since many tables have hidden labels,
+  use this feature to see the full structure.</p>
+
+  <p><span class="runinhead">Formula;</span> The formula specifies
+  the computation to be carried out. For columns, it is applied to
+  each row, and for rows, it is applied to each column. If you
+  refer to quoted items in it, use single quotes ('), not double
+  quotes (").</p>
+
+  <p>The formula can use the standard arithmetic operators (use **
+  for power) and standard Python mathematical functions such as
+  min, max, mod, trunc, round, abs, exp, and log (base e, use
+  log(x,10 for base 10). It must be valid Python syntax except as
+  explained below. See the Python documentation, including the math
+  module, for a complete list.</p>
+
+  <p>Row or coumn values in the table can be referred to in three
+  ways. All of these are evaulated BEFORE any items are added to
+  the tables.</p>
+
+  <ul>
+    <li>References of the form xn, where n is an integer e.g., x2,
+    refer to the absolute column or row. Numbering starts from
+    zero, so x0 is the first column or row.</li>
+
+    <li>References of the form x[n] or x[-n] refer to values to the
+    left or right (above or below) of the target location. E.g.,
+    x[-1] refers to the location immediately left of the target
+    location if using columns or immediately above it for rows.
+    x[1] is the location immediately to the right. x[0] is the
+    target location itself (before the target is inserted).
+
+      <p>Example: suppose there are columns with labels a, b, and
+      c, and the target location is c. Then x[0] refers to the
+      value at c, x[-1] refers to b, and x[-2] refers to a,
+      regardless of the mode setting.</p>
+    </li>
+
+    <li>References of the form x['string'] or x[-'string'] refer to
+    values to the left or right (above or below) of the target
+    location where string is the value of the label at the
+    specified level. E.g., x[-'Clerical'] refers to the nearest
+    column to the left of the target location that is labelled
+    "Clerical".
+
+      <p>Note that the strings must be quoted. The bracket notation
+      used here does NOT refer to Python dictionaries but is used
+      to refer to locations.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Module with Custom Functions for Use
+  in Formula</span> The standard formula notation only provides
+  access to values in the same row or column as the result
+  location. In order to access other values in a table, for
+  example, totals at the bottom, you have to write a custom
+  function. This can also be useful if the calculation is complex.
+  Specify the name of the Python module containing one or more
+  functions to be used in the formula. See below for details on how
+  to write a custom function.</p>
+
+  <p><span class="runinhead">Hide input columns or rows</span>
+  Check this box to hide all of the input rows or columns referred
+  to in the formula (excluding references in a custom
+  function.)</p>
+
+  <p><span class="runinhead">Target Columns Width (Points)</span>
+  Enter a number to specify the width of the target columns. The
+  number refers to points. 72 points is one inch.</p>
+
+  <p><span class="runinhead">Target Column Format</span> Choose a
+  format for the target columns. Asis uses the current format if
+  the target mode is replace; otherwise it uses the default. The
+  other formats listed are the same as shown in the Cell Formats
+  dialog box in the pivot table editor. Date formats are not listed
+  here but are valid in syntax.</p>
+
+  <p><span class="runinhead">Number of Decimal Places</span>
+  Specify the number of digits after the decimal point to display.
+  This setting is not applied if the format is asis.</p>
+
+  <p><span class="runinhead">Show Invalid Values As</span> If a
+  value cannot be computed because the input is invalid, for
+  example, a missing or nonnumeric value or because of a numerical
+  condition such as division by zero, this setting controls what is
+  displayed in the table. You can enter custom text if the last
+  radio button is set.</p>
+
+  <h2>Using a Custom Module in the Formula</h2>A custom module can
+  have access to the entire pivot table. Here is an example where
+  the total in a crosstabs table is used in calculation for each
+  row.
+
+  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>This command uses a custom function in order to access the
+  overall total in the table.</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Here is the function in the customexample module:</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>Notes: The following variables are available for use in the
+  formula in addition to the input parameters and the contents of
+  the specified custom module.</p>
+
+  <ul>
+    <li>pt - the pivot table object</li>
+
+    <li>datacells - the datacells object of the pivot table</li>
+
+    <li>labels - the row or column labels object corresponding to
+    the DIMENSION setting</li>
+
+    <li>ncells - the number of rows or columns in the datacells
+    object. I.e., if DIMENSION is columns, it is the number or
+    rows.</li>
+
+    <li>roworcol - the current row or column in the table.</li>
+
+    <li>customdict - a dictionary that the custom function can use
+    to store items across calls. It contains two entries initially.
+    These are solely for use by the user function and have no
+    effect on operation of this command.
+
+      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - set to True each time a new table is
+        evaluated. It is up to the user code to set these to False
+        appropriately</li>
+      </ul>
+    </li>
+  </ul>
+  <p>The GetUnformattedValueAt method returns a Unicode
+      string. It must be converted to a float for computations.</p>
+      <h2>Additional Features</h2>
+
+      <p>This dialog generates syntax for the STATS TABLE CALC
+      extension command. To display help for this command, run the
+      following syntax:</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>In command
+      syntax you can specify a list of individually quoted
+      subtypes.
+
+      <p>In syntax you can refer to a nearby secondary table and
+      insert or use its values in the calculations.</p>
+
+      <h2>Requirements</h2>
+
+      <p>This dialog requires the Integration Plug-In for Python
+      and the STATS TABLE CALC extension command. For more
+      information, see How to Get Integration Plug-Ins, under Core
+      System &gt; Frequently Asked Questions in the IBM SPSS
+      Statistics Help system. The command is distributed as an
+      extension bundle.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

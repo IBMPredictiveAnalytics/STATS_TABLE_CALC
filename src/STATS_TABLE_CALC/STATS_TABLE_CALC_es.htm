@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Calcular con tablas dinámicas</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Calcular con tablas dinámicas</h1>Este procedimiento calcula valores basados en valores de casilla en una tabla dinámica. Los resultados pueden sustituir los valores de casilla existentes, o se pueden sustituir en nuevas columnas o filas si se ejecuta una versión de Statistics más reciente que la versión 20. Puede seleccionar tipos específicos de tablas en el visor para decidir a cuáles aplicar estas modificaciones y el ámbito.
+
+  <p class="bullet">•Las tablas ligeras, que están disponibles en la versión 19, no se ven afectadas por este comando, puesto que no se pueden editar.</p>
+
+  <p>La especificación de selección se compone de los siguientes elementos:</p>
+
+  <ul>
+    <li>Los tipos de tablas que van a procesarse. Los tipos son los subtipos de tabla SGR.</li>
+
+    <li>La dimensión: filas o columnas (el valor predeterminado es columnas) donde van los resultados.</li>
+
+    <li>Las filas o columnas de destino particular.</li>
+
+    <li>El ámbito de la aplicación: sólo el comando precedente o todo el resultado (el valor predeterminado es el resultado precedente).</li>
+  </ul>
+
+  <h2>Selección de las tablas, dimensión y filas o columnas de destino</h2>
+
+  <p><span class="runinhead">Subtipo de tabla:</span> Entre el subtipo de tabla OMS. EL subtipo se puede encontrar pulsando con el botón derecho en los titulares en una instancia de la tabla y seleccionando <em>Copiar subtipo OMS</em> o en la lista en <em>Utilidades&gt;Identificadores OMS</em>. Entre * para seleccionar todos los subtipos (a menudo no es útil con este comando).</p>
+
+  <p class="bullet">• Determinados tipos de tablas no se pueden procesar mediante este comando. Las tablas con capas que tienen varias categorías o varias dimensiones no se pueden procesar. Las tablas con una anidación verdades en la dimensión seleccionada no se pueden procesar excepto en el modo de sustitución. Tenga en cuenta que las tablas personalizadas, que puede parecer que están anidadas, no utilizan realmente la anidación verdadera y, por lo tanto, se pueden procesar.</p>
+
+  <p><span class="runinhead">Dimensión:</span> Elija <i>Columnas</i> o <i>Filas</i> para determinar la dimensión de la tabla para procesar. Si selecciona Columnas, y se calcula un nuevo valor para cada fila en la tabla y se coloca en dicha fila en la columna seleccionada. Si selecciona filas, se calcula un nuevo valor para cada columna y se coloca en la fila seleccionada. Se pueden especificar varias columnas o filas de salida.</p>
+
+  <p><span class="runinhead">Columnas o filas de destino</span> Entre una lista separada por espacios en blanco de las filas o columnas de destino para procesar.
+  Las filas o columnas se pueden especificar mediante una posición numérica que empieza a partir de cero o mediante el texto de la etiqueta entre comillas. Con el texto, la primera etiqueta coincidente determina la ubicación de destino.</p>
+
+  <p class="bullet">• Las coincidencias de texto distinguen entre mayúsculas y minúsculas.</p>
+
+  <p><span class="runinhead">Repetir las especificaciones de destino para toda la dimensión</span> Si se produce la misma etiqueta más de una vez, puede marcar este recuadro para repetir la etiqueta o la secuencia de etiquetas las veces suficientes para abarcar toda la dimensión. Por ejemplo, una tabla podría tener una etiqueta "Recuento" para cada categoría de una variable.
+  Si se marca este recuadro, el destino "Recuento" se repetiría para cada categoría.</p>
+
+  <p class="bullet">• La repetición sólo se puede utilizar cuando los destinos se especifican como etiquetas, no cuando son números.</p>
+
+  <p><span class="runinhead">Nivel para coincidencia de texto de etiqueta</span>   La primera (más externa) fila o columna es 0. Utilice números negativos para volver a contar desde el final: -1 es la última (más interna) fila o columna de etiqueta. Las especificaciones numéricas y de texto se pueden combinar.</p>
+
+  <p class="bullet">• Las filas o columnas se cuentan en el nivel más interno de la tabla.</p>
+
+  <p><span class="runinhead">Procesar tablas desde</span> Elija si va a procesar sólo las tablas de la salida del comando inmediatamente anterior o de todas las tablas del visor de los tipos especificados.</p>
+
+  <p><span class="runinhead">Imprimir etiquetas de tabla (para la depuración)</span> Marque este recuadro para ver todas las etiquetas en la dimensión seleccionada. Puesto que muchas tablas tienen etiquetas ocultas, utilice esta característica para ver la estructura completa.</p>
+
+  <p><span class="runinhead">Fórmula;</span> La fórmula especifica el cálculo que se va a llevar a cabo. Para las columnas, se aplica a cada fila y para las filas, se aplica a cada columna. Si hace referencia los elementos entre comillas en estas, utilice comillas simples ('), no las comillas dobles (").</p>
+
+  <p>La fórmula puede utilizar los operadores aritméticos estándar (utilice ** para la potencia) y funciones matemáticas de Python estándar como mín, máx, mod, trunc, redondeo, abs, exp y log (de base e, utilice el logaritmo(x,10 para la base 10). Debe ser sintaxis Python válida excepto por lo explicado a continuación. Consulte la documentación Python, que incluye el módulo matemático, para ver una lista completa.</p>
+
+  <p>Se puede hacer referencia a los valores de fila o columna de tres formas. Todas estas se evalúan ANTES de que se añadan elementos a las tablas.</p>
+
+  <ul>
+    <li>Las referencias del formato xn, donde n es un entero, por ejemplo, x2, hacen referencia a la columna o fila absoluta. La numeración empieza por cero, así pues x0 es la primera columna o fila.</li>
+
+    <li>Las referencias del formato x[n] o x[-n] hacen referencia a los valores a la izquierda o derecha (arriba o abajo) de la ubicación de destino. Por ejemplo, x[-1] hace referencia a la ubicación inmediatamente a la izquierda de la ubicación de destino si utiliza columnas o inmediatamente por encima para las filas.
+    x[1] es la ubicación inmediatamente a la derecha. x[0] es la propia ubicación de destino (antes de que se inserte el destino).
+
+      <p>Ejemplo: suponga que hay columnas con etiquetas a, b y c, y la ubicación de destino es c. En este caso, x[0] hace referencia al valor en c, x[-1] hace referencia a b, y x[-2] hace referencia a la a, independientemente del valor del modo.</p>
+    </li>
+
+    <li>Las referencias del formato x['cadena'] o x[-'cadena'] hacen referencia a los valores a la izquierda o la derecha (arriba o abajo) de la ubicación de destino, donde la cadena es el valor de la etiqueta en el nivel especificado. Por ejemplo, x[-'Clerical'] hace referencia a la columnas más cercana de la ubicación de destino que está etiquetado como "Clerical".
+
+      <p>Tenga en cuenta que las cadenas deben especificarse entre comillas. La notación entre corchete aquí NO hace referencia a diccionarios Python, pero se utiliza para hacer referencia a ubicaciones.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Módulo con funciones personalizadas para ser utilizadas en la fórmula</span> La notación de fórmula estándar sólo proporciona acceso a valores de la misma fila o columna que la ubicación del resultado. Para poder acceder a otros valores de una tabla, por ejemplo, los totales en la parte inferior, debe grabar una función personalizada. Esto también puede ser útil si el cálculo es complejo.
+  Especifique el nombre del módulo Python que contienen una o más funciones que se van a utilizar en la fórmula. Consulte más abajo para ver detalles sobre cómo grabar una función personalizada.</p>
+
+  <p><span class="runinhead">Ocultar columnas o filas de entrada</span>   Marque este recuadro para ocular todas las filas o columnas de entrada a las que se hace referencia en la fórmula (que excluye las referencias en una función personalizada).</p>
+
+  <p><span class="runinhead">Ancho de columnas de destino (Puntos)</span>   Entre un número para especificar el ancho de las columnas de destino. El número hace referencia a puntos. 72 puntos es una pulgada.</p>
+
+  <p><span class="runinhead">Formato de columna de destino</span> Elija un formato para las columnas de destino. Asis utiliza el formato actual si el modo de destino es sustituir; de lo contrario utiliza el valor predeterminado. Los otros formatos listados son los mismo que se muestran en el recuadro de diálogo Formatos de casilla en el editor de tabla dinámica. Los formatos de fecha no aparecen listados aquí, pero son válidos en la sintaxis.</p>
+
+  <p><span class="runinhead">Número de posiciones decimales</span>   Especifique el número de dígitos detrás del separador decimal para mostrar.
+  Este valor no se aplica si el formato es asis.</p>
+
+  <p><span class="runinhead">Mostrar valores no válidos como</span> Si un valor no se puede calcular porque la entrada no es válida, por ejemplo, un valor perdido o no numérico o debido a una condición numérica como, por ejemplo, una división por cero, este valor controla lo que se visualiza en la tabla. Puede entrar texto personalizado si establece el último botón de opción.</p>
+
+  <h2>Utilización de un módulo personalizado en la fórmula</h2>Un módulo personalizado puede tener acceso a toda la tabla dinámica. Aquí hay un ejemplo donde el total en una tabla de tabulaciones cruzadas se utiliza en el cálculo para cada fila.
+
+  <p class="codeblock">CROSSTABS /TABLES=categoría_trabajo BY género   /CELLS=COUNT.</p>
+
+  <p>Este comando utiliza una función personalizada para poder acceder al total global en la tabla.</p>
+
+  <p class="codeblock">stats table calc   subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace   label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,   datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Aquí está la función en el módulo customexample:</p>
+
+  <p class="codeblock">def custom(datacells, ncells, valor):<br>
+  &nbsp;&nbsp;'''Calcular porcentaje del total'''<br>
+  &nbsp;&nbsp;x =   float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;flotante de devolución(valor) / x<br></p>
+
+  <p>Notas: Las variables siguientes están disponibles para ser utilizadas en la fórmula además de los parámetros de entrada y el contenido del módulo personalizado especificado.</p>
+
+  <ul>
+    <li>pt - el objeto de la tabla dinámica</li>
+
+    <li>datacells - el objetode casillas de datos de la tabla dinámica</li>
+
+    <li>labels - el objeto de etiquetas de fila o columna correspondiente al valor DIMENSION</li>
+
+    <li>ncells - el número de filas o columnas en el objeto de casillas de datos. Es decir, si DIMENSION es columnas, es el número o las filas.</li>
+
+    <li>roworcol - la fila o columna actual en la tabla.</li>
+
+    <li>customdict - un diccionario que puede utilizar la función personalizada para almacenar elementos entre llamadas. Contiene dos entradas de forma inicial.
+    Estas sólo tienen como finalidad ser utilizadas por la función de usuario y no tienen ningún efecto en el funcionamiento de este comando.
+
+      <ul>
+        <li>firstload - Verdadero.</li>
+
+        <li>firsttable - definir en verdadero (True) cada vez que se evalúe una tabla nueva. Es decisión del código de usuario definir estas en falso (False) de forma apropiada.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>El método GetUnformattedValueAt devuelve una cadena Unicode. Se debe convertir a un valor flotante para los cálculos.</p>
+      <h2>Características adicionales</h2>
+
+      <p>Este diálogo genera sintaxis para el comando de extensión STATS TABLE CALC. Para mostrar la ayuda de este comando, ejecute la siguiente sintaxis:</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>En la sintaxis del comando puede especificar una lista de subtipos entrecomillados individualmente.
+
+      <p>En la sintaxis puede hacer referencia a una tabla secundaria cercana e insertar o utilizar sus valores en los cálculos.</p>
+
+      <h2>Requisitos</h2>
+
+      <p>Este diálogo requiere el complemento de integración para Python y el comando de extensión STATS TABLE CALC. Si desea más información, consulte Cómo obtener complementos de integración, en Sistema principal &gt; Preguntas más frecuentes en el sistema de ayuda de IBM SPSS Statistics. El comando se distribuye como un grupo de extensión.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,       2013</p>
+</body>
+</html>

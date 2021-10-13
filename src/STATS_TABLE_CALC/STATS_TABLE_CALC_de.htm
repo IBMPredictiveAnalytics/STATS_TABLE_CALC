@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Mit Pivot-Tabellen berechnen</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Mit Pivot-Tabellen berechnen</h1>Diese Prozedur berechnet Werte basierend auf Zellenwerten in einer Pivot-Tabelle. Die Ergebnisse können vorhandene Zellenwerte ersetzen oder sie können in neuen Spalten oder Zeilen platziert werden, wenn eine neuere Statistics-Version als Version 20 verwendet wird. Sie können im Viewer bestimmte Tabellentypen auswählen, auf die diese Änderungen angewendet werden sollen, sowie den Anwendungsumfang festlegen.
+
+  <p class="bullet">•&nbsp;Tabellen im Light-Format, die in Version 19 verfügbar sind, sind von diesem Befehl nicht betroffen, da sie nicht bearbeitet werden können.</p>
+
+  <p>Die Auswahlspezifikation besteht aus folgenden Elementen:</p>
+
+  <ul>
+    <li>Die zu verarbeitenden Tabellentypen. Mögliche Typen sind OMS-Tabellenuntertypen.</li>
+
+    <li>Die Dimension: Zeilen oder Spalten (Standardvorgabe: Spalten), in die die Ergebnisse geschrieben werden.</li>
+
+    <li>Die Zielzeilen bzw. -spalten</li>
+
+    <li>Der Anwendungsumfang: nur der vorangegangene Befehl oder die gesamte Ausgabe (Standardvorgabe: vorangegangene Ausgabe).</li>
+  </ul>
+
+  <h2>Auswahl der Tabellen, der Dimension sowie der Zielzeilen bzw. -spalten</h2>
+
+  <p><span class="runinhead">Tabellenuntertyp:</span> Geben Sie den OMS-Tabellenuntertyp ein. Sie können den Untertyp festlegen, indem Sie mit der rechten Maustaste in die Gliederung einer Instanz der Tabelle klicken und <em>OMS-Tabellenuntertyp kopieren</em> auswählen oder den Untertyp alternativ über die Liste unter <em>Extras&gt;OMS-IDs</em> auswählen. Geben Sie * ein, um alle Untertypen auszuwählen (bei diesen Befehl oft nicht hilfreich).</p>
+
+  <p class="bullet">•&nbsp;Bestimmte Typen von Tabellen können von diesem Befehl nicht verarbeitet werden. Tabellen mit Schichten, die mehrere Kategorien oder mehrere Dimensionen haben, können nicht verarbeitet werden. Tabellen mit echter Verschachtelung in der ausgewählten Dimension können nur im Ersetzungsmodus verarbeitet werden. Beachten Sie, dass die Ausgabe benutzerdefinierter Tabellen, die möglicherweise verschachtelt zu sein scheint, keine echte Verschachtelung verwendet und daher verarbeitet werden kann.</p>
+
+  <p><span class="runinhead">Dimension:</span> Wählen Sie <i>Spalten</i> oder <i>Zeilen</i> aus, um die Dimension der zu verarbeitenden Tabelle festzulegen. Bei Auswahl von <i>Spalten</i> wird ein neuer Wert für jede Zeile in der Tabelle berechnet und in diese Zeile in der ausgewählten Spalte geschrieben. Bei Auswahl von <i>Zeilen </i> wird ein neuer Wert für jede Spalte berechnet und in die ausgewählte Zeile geschrieben. Es können mehrere Ausgabespalten oder -zeilen angegeben werden.</p>
+
+  <p><span class="runinhead">Zielspalten oder -zeilen:</span> Geben Sie eine durch Leerzeichen getrennte Liste der zu verarbeitenden Zielzeilen oder -spalten an.
+  Zeilen bzw. Spalten können durch die numerische Position beginnend bei Null oder anhand des in Anführungszeichen gesetzten Beschriftungstexts angegeben werden. Bei Text bestimmt die erste übereinstimmende Beschriftung die Zielposition.</p>
+
+  <p class="bullet">•&nbsp;Bei Textübereinstimmungen wird Groß-/Kleinschreibung unterschieden.</p>
+
+  <p><span class="runinhead">Zielspezifikationen für gesamte Dimension wiederholen:</span> Wenn dieselbe Beschriftung mehrmals vorkommt, können Sie dieses Kontrollkästchen auswählen, um die Beschriftung oder die Folge von Beschriftungen ausreichend oft zu wiederholen, dass sie sich über die gesamte Dimension erstreckt. Eine Tabelle kann beispielsweise für jede Kategorie einer Variablen eine Beschriftung "Anzahl" enthalten.
+  Wenn Sie dieses Feld auswählen, würde das Ziel "Anzahl" für jede Kategorie wiederholt.</p>
+
+  <p class="bullet">•&nbsp;Die Wiederholung kann nur verwendet werden, wenn als Ziele Beschriftungen anstelle von Zahlen angegeben sind.</p>
+
+  <p><span class="runinhead">Ebene für Beschriftungstextabgleich:</span> Die erste (äußerste) Zeile bzw. Spalte ist 0. Verwenden Sie negative Zahlen, um ausgehend vom Ende rückwärts zu zählen: -1 ist die letzte (innerste) Zeile bzw. Spalte. Numerische Spezifikationen und Textspezifikationen können kombiniert werden.</p>
+
+  <p class="bullet">•&nbsp;Die Zeilen bzw. Spalten werden auf der innersten Ebene der Tabelle gezählt.</p>
+
+  <p><span class="runinhead">Tabellen verarbeiten aus:</span> Wählen Sie aus, ob nur die Tabellen aus der direkt vorangehenden Befehlsausgabe verwendet werden sollen oder alle Tabellen im Viewer der angegebenen Typen.</p>
+
+  <p><span class="runinhead">Tabellenbeschriftungen ausgeben (für Debugging):</span> Wählen Sie dieses Feld aus, um alle Beschriftungen in der ausgewählten Dimension anzuzeigen. Da viele Tabellen verborgene Beschriftungen enthalten, sollten Sie diese Funktion verwenden, um die vollständige Struktur anzuzeigen.</p>
+
+  <p><span class="runinhead">Formel:</span> Die Formel gibt die durchzuführende Berechnung an. Bei Spalten wird sie auf jede Zeile angewendet, bei Zeilen auf jede Spalte. Wenn Sie darin auf Elemente in Anführungszeichen verweisen, verwenden Sie einfache (') und nicht doppelte Anführungszeichen (").</p>
+
+  <p>Die Formel kann die arithmetischen Standardoperatoren (verwenden Sie ** für Potenz) und mathematische Python-Standardfunktionen wie min, max, mod, trunc, round, abs, exp und log (Basis e - verwenden Sie log(x,10) für Basis 10) verwenden. Es muss gültige Python-Syntax verwendet werden (Ausnahmen siehe unten). Eine vollständige Liste finden Sie in der Python-Dokumentation, einschließlich Mathematikmodul.</p>
+
+  <p>Der Verweis auf Zeilen- oder Spaltenwerte kann auf drei Arten erfolgen. Alle werden ausgewertet, BEVOR Items zu den Tabellen hinzugefügt werden.</p>
+
+  <ul>
+    <li>Verweise der Form xn, wobei n eine ganze Zahl ist, z.&nbsp;B. x2, verweisen auf die absolute Spalte oder Zeile. Die Nummerierung beginnt bei Null; x0 ist also die erste Spalte oder Zeile.</li>
+
+    <li>Verweise der Form x[n] oder x[-n] verweisen auf Werte links oder rechts (bzw. über oder unter) der Zielposition. x[-1] z.&nbsp;B. verweist bei Spalten auf die Position direkt links von der Zielposition, bzw. bei Zeilen auf die Position direkt darüber.
+    x[1] ist die Position direkt rechts davon. x[0] ist die Zielposition selbst (bevor das Ziel eingefügt wird).
+
+      <p>Nehmen wir z.&nbsp;B. an, es gibt Spalten mit den Beschriftungen a, b und c und die Zielposition ist c. x[0] verweist dann auf den Wert in c, x[-1] verweist auf b und x[-2] verweist auf a. Dies ist unabhängig von der Moduseinstellung.</p>
+    </li>
+
+    <li>Verweise der Form x['Zeichenfolge'] oder x[-'Zeichenfolge'] verweisen auf die Werte links oder rechts (bzw. über oder unter) der Zielposition, wobei die Zeichenfolge der Wert der Beschriftung auf der angegebenen Ebene ist. x[-'Büro'] z.&nbsp;B. verweist auf die Spalte direkt links von der Zielposition namens "Büro".
+
+      <p>Zeichenfolgen müssen in Anführungszeichen gesetzt sein. Die hier verwendete Notation mit eckigen Klammern verweist NICHT auf Python-Wörterverzeichnisse, sondern wird zum Verweis auf Positionen verwendet.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Modul mit benutzerdefinierten Funktionen zur Verwendung in Formel:</span> Die Standardformelnotation bietet nur Zugriff auf Werte in derselben Zeile oder Spalte wie die Ergebnisposition. Für den Zugriff auf andere Werte in einer Tabelle, z.&nbsp;B. Summen am Ende, müssen Sie eine benutzerdefinierte Funktion schreiben. Dies kann auch nützlich sein, wenn die Berechnung sehr komplex ist.
+  Geben Sie den Namen des Python-Moduls an, das eine oder mehrere der in der Formel verwendeten Funktionen enthält. Informationen zum Schreiben einer benutzerdefinierten Funktion finden Sie in den Details unten.</p>
+
+  <p><span class="runinhead">Eingabespalten oder -zeilen ausblenden:</span> Wählen Sie dieses Feld aus, um alle in der Formel referenzierten Eingabezeilen oder -spalten auszublenden (mit Ausnahme von Verweisen in einer benutzerdefinierten Funktion).</p>
+
+  <p><span class="runinhead">Zielspaltenbreite (Punkte):</span> Geben Sie eine Zahl ein, um die Breite der Zielspalten festzulegen. Die Breite wird in Punkten angegeben. 72 Punkte entsprechen einem Zoll.</p>
+
+  <p><span class="runinhead">Zielspaltenformat:</span> Wählen Sie ein Format für die Zielspalten aus. AsIs verwendet das aktuelle Format, wenn als Zielmodus Ersetzen verwendet wird; andernfalls verwendet es die Standardeinstellung. Die anderen aufgelisteten Formate entsprechen denen im Dialogfeld <b>Zellenformate</b> im Pivot-Tabellen-Editor. Datumsformate werden hier nicht aufgelistet, sind jedoch in der Syntax zulässig.</p>
+
+  <p><span class="runinhead">Anzahl der Dezimalstellen:</span> Geben Sie die Anzahl der Ziffern an, die nach dem Dezimaltrennzeichen angezeigt werden sollen.
+  Diese Einstellung wird nicht angewendet, wenn das Format AsIs verwendet wird.</p>
+
+  <p><span class="runinhead">Ungültige Werte anzeigen als</span> Wenn ein Wert aufgrund einer ungültigen Eingabe nicht berechnet werden kann, z.&nbsp;B. ein fehlender oder nicht numerischer Wert oder aufgrund einer numerischen Bedingung wie eine Teilung durch null, steuert diese Einstellung, was in der Tabelle angezeigt wird. Wenn das letzte Optionsfeld ausgewählt ist, können Sie benutzerdefinierten Text eingeben.</p>
+
+  <h2>Verwenden eines benutzerdefinierten Moduls in der Formel</h2>Ein benutzerdefiniertes Modul kann Zugriff auf die gesamte Pivot-Tabelle haben. Im Folgenden sehen Sie ein Beispiel, bei dem die Gesamtsumme in einer Kreuztabelle bei der Berechnung für jede Zeile verwendet wird.
+
+  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>Dieser Befehl verwendet eine benutzerdefinierte Funktion, um auf die Gesamtsumme in der Tabelle zuzugreifen.</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Hier sehen Sie die Funktion im Modul 'customexample':</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>Hinweise: Die folgenden Variablen können in der Formel zusätzlich zu den Eingabeparametern und dem Inhalt des angegebenen benutzerdefinierten Moduls verwendet werden.</p>
+
+  <ul>
+    <li>pt - das Pivot-Tabellen-Objekt</li>
+
+    <li>datacells - das Datenzellenobjekt der Pivot-Tabelle</li>
+
+    <li>labels - das Zeilen- oder Spaltenbeschriftungsobjekt, das der DIMENSION-Einstellung entspricht</li>
+
+    <li>ncells - die Anzahl der Zeilen oder Spalte im Datenzellenobjekt. Wenn Spalten als Dimension verwendet werden, ist dies die Anzahl der Zeilen.</li>
+
+    <li>roworcol - die aktuelle Zeile oder Spalte in der Tabelle.</li>
+
+    <li>customdict - ein Wörterbuch, das die benutzerdefinierte Funktion zum Speichern von Elementen über Aufrufe hinweg verwenden kann. Es enthält anfangs zwei Einträge.
+    Diese dienen nur zur Verwendung durch die Benutzerfunktion und haben keine Auswirkung auf die Ausführung dieses Befehls.
+
+      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - wird bei jeder Auswertung einer neuen Tabelle auf 'true' gesetzt. Der Benutzercode muss dieses bei Bedarf auf 'false' setzen.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Die Methode 'GetUnformattedValueAt' gibt eine Unicode-Zeichenfolge zurück. Sie muss für Berechnungen in eine Gleitkommazahl konvertiert werden.</p>
+      <h2>Weitere Funktionen</h2>
+
+      <p>In diesem Dialogfeld wird Syntax für den Erweiterungsbefehl STATS TABLE CALC erzeugt. Führen Sie folgende Syntax aus, um Hilfe für diesen Befehl anzuzeigen:</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>In der Befehlssyntax können Sie eine Liste mit einzelnen aufgeführten Untertypen angeben.
+
+      <p>In der Syntax können Sie auf eine naheliegende Sekundärtabelle verweisen und deren Werte einfügen oder in Berechnungen verwenden.</p>
+
+      <h2>Anforderungen</h2>
+
+      <p>Für dieses Dialogfeld sind Integration Plug-In for Python und der Erweiterungsbefehl "STATS TABLE CALC" erforderlich. Weitere Informationen finden Sie im Hilfesystem zu IBM SPSS Statistics unter "Core-System &gt; Häufig gestellte Fragen" im Thema "Beziehen von Integrations-Plug-ins". Der Befehl wird als Erweiterungsbundle verteilt.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989, 2013</p>
+</body>
+</html>

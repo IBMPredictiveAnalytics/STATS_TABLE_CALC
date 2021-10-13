@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Extension xmlns="http://spss.com/clementine/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="1.0" xsi:schemaLocation="http://spss.com/clementine/extensions http://xml.spss.com/clementine/extensions/CLEFSpecificationFile.xsd">
+	<ExtensionDetails copyright="Licensed Materials - Property of IBM.  IBM SPSS Products: Statistics Common (C) Copyright IBM Corp. 1989, 2013.  US Government Users Restricted Rights - Use, duplication or  disclosure restricted by GSA ADP Schedule Contract with IBM Corp." description="" id="STATS_TABLE_CALC" label="" provider="SPSS, Inc." providerTag="spss" version="1.0"/>
+	<Resources>
+		<Bundle id="bundle1" path="STATS_TABLE_CALC" type="properties"/>
+	</Resources>
+	<CommonObjects>
+		<Actions>
+			<Action id="STATS_TABLE_CALC_action" imagePath="IBMdialogicon.png" label="Calculate with Pivot Table" labelKey="STATS_TABLE_CALC_action.LABEL"/>
+		</Actions>
+	</CommonObjects>
+	<UserInterface>
+		<Controls>
+			<MenuItem action="STATS_TABLE_CALC_action" offset="6" showIcon="true" spssMenu="Utilities"/>
+		</Controls>
+	</UserInterface>
+	<Node id="STATS_TABLE_CALC" label="Calculate with a Pivot Table" labelKey="STATS_TABLE_CALC.LABEL" type="modelBuilder">
+		<Properties>
+			<Property addOns="[Python]" name="STATS_TABLE_CALC" syntax="STATS TABLE CALC %%tablesubtype%% %%process%% %%printlabels%%&#10;/TARGET %%formula%% %%dimension%% %%level%%  %%location%% %%repeatloc%% %%label%% %%mode%% %%custommodule%% %%hide%%&#10;/FORMAT %%cellformat%% %%decimals%%  %%width%% %%invalidvalues%% %%customtext%%.&#10;"/>
+			<Property description="false" name="STATS_TABLE_CALC_modal"/>
+			<Property defaultValue="" description="An OMS table subtype.  Right click on the outline title for one and choose Copy OMS subtype or use Utilities&gt;OMS Identifiers to find it." descriptionKey="tablesubtype_tooltip.LABEL" isRequired="true" label="Table Subtype:" labelKey="tablesubtype.LABEL" name="tablesubtype" syntax="SUBTYPE=&quot;%%ThisValue%%&quot;" valueType="string"/>
+			<Property defaultValue="" description="Enter column numbers or quoted label text" descriptionKey="location_tooltip.LABEL" isRequired="true" label="Target Columns or Rows:" labelKey="location.LABEL" name="location" syntax="LOCATION=%%ThisValue%%" valueType="string"/>
+			<Property defaultValue="Columns" description="Choose whether to calculate rows or columns" descriptionKey="dimension_tooltip.LABEL" label="Dimension:" labelKey="dimension.LABEL" name="dimension" syntax="DIMENSION=%%ThisValue%%" valueType="enum">
+				<Enumeration>
+					<Enum label="Columns" labelKey="Columns.LABEL" syntax="COLUMNS" value="Columns"/>
+					<Enum label="Rows" labelKey="Rows.LABEL" syntax="ROWS" value="Rows"/>
+				</Enumeration>
+			</Property>
+			<Property defaultValue="-1" description="-1 is the innermost level.  +1 is the outermost. -2 is next innermost, +2 is next outermost ..." descriptionKey="level_tooltip.LABEL" isRequired="true" label="Level for Label Text Matching:" labelKey="level.LABEL" max="10" min="-10" name="level" syntax="LEVEL = %%ThisValue%%" valueType="integer"/>
+			<Property defaultValue="Preceding" description="" descriptionKey="process_tooltip.LABEL" label="Process tables from" labelKey="process.LABEL" name="process" syntax="PROCESS=%%ThisValue%%" valueType="enum">
+				<Enumeration>
+					<Enum description="First radio button" descriptionKey="Preceding_tooltip.LABEL" hasSubGroup="false" label="Preceding command output only" labelKey="Preceding.LABEL" mnemonic="M" mnemonicKey="Preceding_mnemonic.VALUE" syntax="PRECEDING" value="Preceding"/>
+					<Enum description="Second radio button" descriptionKey="Alloutput_tooltip.LABEL" hasSubGroup="false" label="All output" labelKey="Alloutput.LABEL" mnemonic="U" mnemonicKey="Alloutput_mnemonic.VALUE" syntax="ALL" value="Alloutput"/>
+				</Enumeration>
+			</Property>
+			<Property defaultValue="false" description="Check this to print the label structure in the specified dimension for matching tables.  This can help to determine the level specification." descriptionKey="printlabels_tooltip.LABEL" label="Print table labels (for debugging)" labelKey="printlabels.LABEL" name="printlabels" syntax="PRINTLABELS=TRUE±" valueType="boolean"/>
+			<Property defaultValue="" description="Enter an expression for the new values.  Use single quotes around string values" descriptionKey="formula_tooltip.LABEL" isRequired="true" label="Formula:" labelKey="formula.LABEL" name="formula" syntax="FORMULA=&quot;%%ThisValue%%&quot;" valueType="string"/>
+			<Property defaultValue="replace" description="" descriptionKey="mode_tooltip.LABEL" label="Target Mode:" labelKey="mode.LABEL" name="mode" syntax="MODE=%%ThisValue%%" valueType="enum">
+				<Enumeration>
+					<Enum label="Replace" labelKey="replace.LABEL" syntax="REPLACE" value="replace"/>
+					<Enum label="Insert Before (Version 21 or later)" labelKey="Iinsertbefore.LABEL" syntax="BEFORE" value="Iinsertbefore"/>
+					<Enum label="Insert After (Version 21 or later)" labelKey="insertafter.LABEL" syntax="AFTER" value="insertafter"/>
+				</Enumeration>
+			</Property>
+			<Property defaultValue="" description="Enter a label for the target columns." descriptionKey="label_tooltip.LABEL" isRequired="true" label="Label for Target Columns:" labelKey="label.LABEL" name="label" syntax="LABEL=&quot;%%ThisValue%%&quot;" valueType="string"/>
+			<Property defaultValue="false" description="Check this to hide the rows or columns referred to in the formula" descriptionKey="hide_tooltip.LABEL" label="Hide input columns or rows" labelKey="hide.LABEL" name="hide" syntax="HIDEINPUTS=YES±HIDEINPUTS=NO" valueType="boolean"/>
+			<Property defaultValue="" description="Enter a width in points (72 pts = 1 inch) to set the target column widths" descriptionKey="width_tooltip.LABEL" label="Target Columns Width (Points):" labelKey="width.LABEL" max="300.000000" min="0.000000" name="width" syntax="WIDTH=%%ThisValue%%" valueType="double"/>
+			<Property defaultValue="asis" description="Select a column format. The items are the same as in the pivot table editor" descriptionKey="cellformat_tooltip.LABEL" label="Target Column Format:" labelKey="cellformat.LABEL" name="cellformat" syntax="CELLFORMAT=&quot;%%ThisValue%%&quot;" valueType="enum">
+				<Enumeration>
+					<Enum label="As Is" labelKey="asis.LABEL" syntax="asis" value="asis"/>
+					<Enum label="#,###.##" labelKey="format_1.LABEL" syntax="#,###.##" value="format_1"/>
+					<Enum label="#.#" labelKey="format_2.LABEL" syntax="#.#" value="format_2"/>
+					<Enum label="#.###,##" labelKey="format_3.LABEL" syntax="#.###,##" value="format_3"/>
+					<Enum label="#.##E+##" labelKey="format_4.LABEL" syntax="#.##E+##" value="format_4"/>
+					<Enum label="##.#%" labelKey="format_5.LABEL" syntax="##.#%" value="format_5"/>
+					<Enum label="$#,###.##" labelKey="format_6.LABEL" syntax="$#,###.##" value="format_6"/>
+				</Enumeration>
+			</Property>
+			<Property defaultValue="" description="Set the display precision" descriptionKey="decimals_tooltip.LABEL" label="Number of Decimal Places:" labelKey="decimals.LABEL" max="16" min="0" name="decimals" syntax="DECIMALS=%%ThisValue%%" valueType="integer"/>
+			<Property defaultValue="blank" description="Set how cells appear when the formula cannot be evaluated" descriptionKey="invalidvalues_tooltip.LABEL" label="Show Invalid Values As" labelKey="invalidvalues.LABEL" name="invalidvalues" syntax="INVALID=%%ThisValue%%" valueType="enum">
+				<Enumeration>
+					<Enum description="" descriptionKey="blank_tooltip.LABEL" hasSubGroup="false" label="Blank" labelKey="blank.LABEL" mnemonic="B" mnemonicKey="blank_mnemonic.VALUE" syntax="&quot;&quot;" value="blank"/>
+					<Enum description="" descriptionKey="dot_tooltip.LABEL" hasSubGroup="false" label="Period" labelKey="dot.LABEL" syntax="&quot;.&quot;" value="dot"/>
+					<Enum description="" descriptionKey="custom_tooltip.LABEL" hasSubGroup="true" label="Custom Text" labelKey="custom.LABEL" mnemonic="S" mnemonicKey="custom_mnemonic.VALUE" value="custom"/>
+				</Enumeration>
+			</Property>
+			<Property defaultValue="" description="" descriptionKey="customtext_tooltip.LABEL" label="Text:" labelKey="customtext.LABEL" name="customtext" syntax="INVALID=&quot;%%ThisValue%%&quot;" valueType="string"/>
+			<Property defaultValue="" description="You can write custom code that can be referenced in the formula.  See Help for details." descriptionKey="custommodule_tooltip.LABEL" label="Module with Custom Functions for Use in Formula:" labelKey="custommodule.LABEL" name="custommodule" syntax="CUSTOMMODULE=&quot;%%ThisValue%%&quot;" valueType="string"/>
+			<Property defaultValue="false" description="Check to duplicate specifications across the entire dimension - only if specifcations are labels" descriptionKey="repeatloc_tooltip.LABEL" label="Repeat target specifications for entire dimension" labelKey="repeatloc.LABEL" name="repeatloc" syntax="REPEATLOC=YES±REPEATLOC=NO" valueType="boolean"/>
+		</Properties>
+		<UserInterface>
+			<Tabs>
+				<Tab helpLink="STATS_TABLE_CALC.htm">
+					<PropertiesPanel>
+						<TextBoxControl mnemonic="T" mnemonicKey="tablesubtype_mnemonic.VALUE" property="tablesubtype">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<TextBoxControl mnemonic="C" mnemonicKey="location_mnemonic.VALUE" property="location">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<ComboBoxControl attr_name="" based_on="variable_names" mnemonic="D" mnemonicKey="dimension_mnemonic.VALUE" property="dimension" target_id="" use_values="false">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+						</ComboBoxControl>
+						<TextBoxControl mnemonic="V" mnemonicKey="level_mnemonic.VALUE" property="level">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="6" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<RadioButtonGroupControl property="process" rows="2" useSubPanel="false">
+							<Layout columnWeight="1.0" fill="both" gridColumn="0" gridRow="7" gridWidth="1" rowWeight="1.0"/>
+							<RadioButton property="Preceding"/>
+							<RadioButton property="Alloutput"/>
+						</RadioButtonGroupControl>
+						<StaticText text="This dialog requires the Integration Plug-In for Python." textKey="item_35.LABEL">
+							<Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="9" gridWidth="1" rowWeight="0.0"/>
+						</StaticText>
+						<CheckBoxControl mnemonic="I" mnemonicKey="printlabels_mnemonic.VALUE" property="printlabels">
+							<Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="8" gridWidth="1" rowWeight="0.0"/>
+						</CheckBoxControl>
+						<TextBoxControl mnemonic="F" mnemonicKey="formula_mnemonic.VALUE" property="formula">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<ComboBoxControl attr_name="" based_on="variable_names" mnemonic="G" mnemonicKey="mode_mnemonic.VALUE" property="mode" target_id="" use_values="false">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="4" gridWidth="1" rowWeight="0.0"/>
+						</ComboBoxControl>
+						<TextBoxControl mnemonic="L" mnemonicKey="label_mnemonic.VALUE" property="label">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="5" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<StaticText text="Notation for input rows or columns: xn, x[n], x[-n], x['text'], or x[-'text']" textKey="item_74.LABEL">
+							<Layout columnWeight="1.0" fill="none" gridColumn="1" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+						</StaticText>
+						<CheckBoxControl mnemonic="H" mnemonicKey="hide_mnemonic.VALUE" property="hide">
+							<Layout columnWeight="1.0" fill="none" gridColumn="1" gridRow="3" gridWidth="1" rowWeight="0.0"/>
+						</CheckBoxControl>
+						<TextBoxControl mnemonic="W" mnemonicKey="width_mnemonic.VALUE" property="width">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="4" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<ComboBoxControl attr_name="" based_on="variable_names" mnemonic="A" mnemonicKey="cellformat_mnemonic.VALUE" property="cellformat" target_id="" use_values="false">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="5" gridWidth="1" rowWeight="0.0"/>
+						</ComboBoxControl>
+						<TextBoxControl mnemonic="N" mnemonicKey="decimals_mnemonic.VALUE" property="decimals">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="6" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<RadioButtonGroupControl property="invalidvalues" rows="3" useSubPanel="false">
+							<Layout columnWeight="1.0" fill="both" gridColumn="1" gridRow="7" gridWidth="1" rowWeight="1.0"/>
+							<RadioButton property="blank"/>
+							<RadioButton property="dot"/>
+							<RadioButton property="custom">
+								<TextBoxControl mnemonic="X" mnemonicKey="customtext_mnemonic.VALUE" property="customtext">
+									<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="0" gridWidth="1" leftIndent="16" rowWeight="1.0"/>
+								</TextBoxControl>
+							</RadioButton>
+						</RadioButtonGroupControl>
+						<TextBoxControl mnemonic="O" mnemonicKey="custommodule_mnemonic.VALUE" property="custommodule">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+						</TextBoxControl>
+						<CheckBoxControl mnemonic="E" mnemonicKey="repeatloc_mnemonic.VALUE" property="repeatloc">
+							<Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="3" gridWidth="1" rowWeight="0.0"/>
+						</CheckBoxControl>
+						<StaticText text="This dialog was created using a later version of PASW Statistics\nand certain features may not function as intended." textKey="v17_warning.LABEL">
+							<Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="10" gridWidth="1" rowWeight="1.0"/>
+						</StaticText>
+					</PropertiesPanel>
+				</Tab>
+			</Tabs>
+		</UserInterface>
+	</Node>
+</Extension>
