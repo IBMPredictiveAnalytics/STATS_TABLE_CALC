@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Calcul avec des tableaux croisés dynamiques</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Calcul avec des tableaux croisés dynamiques</h1>Cette procédure calcule des valeurs en
+fonction des valeurs de cellule d'un tableau croisé dynamique. Les valeurs obtenues peuvent
+remplacer les valeurs de cellule existantes ou être placées dans de nouvelles colonnes ou lignes si
+une version de Statistics antérieure à la version 20 est exécutée. Vous pouvez sélectionner les types de tableaux particuliers dans le visualiseur auxquels appliquer ces modifications et le champ d'application.
+
+  <p class="bullet">•Les tableaux légers, disponibles dans la version 19, ne sont pas affectés par
+cette commande car ils ne peuvent pas être modifiés.</p>
+
+  <p>La spécification de la sélection est constituée des éléments suivants :</p>
+
+  <ul>
+    <li>Les types de tableaux à traiter. Les types sont les sous-types des tableaux OMS.</li>
+
+    <li>La dimension : lignes ou colonnes (par défaut, les colonnes) dans lesquelles sont placés
+les résultats.</li>
+
+    <li>Les lignes ou colonnes cible concernées</li>
+
+    <li>La portée de l'application : la commande précédente uniquement et l'intégralité de la sortie (par défaut, la sortie précédente).</li>
+  </ul>
+
+  <h2>Sélection des tableaux, de la dimension et des lignes ou des colonnes cible</h2>
+
+  <p><span class="runinhead">Sous-type de tableau :</span> Entrez le sous-type de tableau OMS. Pour
+rechercher le sous-type, cliquez avec le bouton droit de la souris sur la légende d'une instance du tableau et
+sélectionnez <em>Copier le sous-type OMS</em> ou recherchez-le dans la liste <em>Utilitaires&gt;Identificateurs OMS</em>. Entrez
+* pour sélectionner tous les sous-types (s'avère rarement utile pour cette commande).</p>
+
+  <p class="bullet">• Certain types de tableaux ne peuvent pas être traités par cette commande. Les
+tableaux ayant des couches avec plusieurs catégories ou dimensions ne peuvent pas être traités. Les
+tableaux avec imbrication réelle dans la dimension sélectionnée ne peuvent pas être traités sauf
+en mode remplacement. La sortie des tableaux personnalisés, qui peut sembler être imbriquée,
+n'utilise en réalité pas d'imbrication réelle et peut, par conséquent, être traitée.</p>
+
+  <p><span class="runinhead">Dimension :</span> Sélectionnez <i>Colonnes</i> ou <i>Lignes</i> pour
+déterminer la dimension du tableau à traiter. Si vous choisissez Colonnes, une nouvelle valeur est
+calculée pour chaque ligne de la table et placée dans cette ligne de la colonne sélectionnée. Si
+vous sélectionnez Lignes, une nouvelle valeur est calculée pour chaque colonne et placée dans la
+ligne sélectionnée. Plusieurs colonnes ou lignes de sortie peuvent être indiquées.</p>
+
+  <p><span class="runinhead">Colonnes ou lignes cible</span> Entrez une liste des lignes ou des
+colonnes cible à traiter, séparées par des espaces.
+  Les lignes ou les colonnes peuvent être indiquées par une position numérique déterminée à partir
+de zéro, ou par le texte du libellé entre guillemets. Pour le texte, le premier libellé
+correspondant détermine l'emplacement cible.</p>
+
+  <p class="bullet">• Les correspondances de texte sont dépendantesmaj/min.</p>
+
+  <p><span class="runinhead">Répéter les spécifications cible pour la totalité de la
+dimension</span> Si le même libellé peut revenir plusieurs fois vous pouvez sélectionner
+cette case à cocher pour répéter le libellé ou des séquences de libellés autant de fois que
+nécessaire pour couvrir toute la dimension. Par exemple, un tableau peut avoir un libellé
+"Effectif" pour chaque catégorie de variable.
+  Lorsque cette case à cocher est sélectionnée, le libellé "Effectif" est répété pour chaque
+catégorie.</p>
+
+  <p class="bullet">• La répétition peut être utilisée uniquement lorsque les cibles sont
+indiquées en tant que libellés et non lorsqu'il s'agit de nombres.</p>
+
+  <p><span class="runinhead">Niveau pour la correspondance des textes de libellé</span> La première ligne ou colonne (la plus externe) est 0. Utilisez des nombres négatifs pour
+effectuer un comptage à rebours à partir de la fin : -1 correspond à la dernière ligne ou colonne
+de libellé (la plus interne). Les spécifications numériques et textuelles peuvent être combinées.</p>
+
+  <p class="bullet">• Les lignes ou les colonnes sont comptabilisées au niveau le plus interne du tableau.</p>
+
+  <p><span class="runinhead">Traiter les tableaux depuis</span> Indiquez si les tableaux sont
+traités à partir de la sortie de la commande précédente immédiate ou si tous les tableaux du
+visualisateur correspondant aux types indiqués sont traités.</p>
+
+  <p><span class="runinhead">Imprimer les libellés de tableau (pour le débogage)</span>
+Sélectionnez cette case à cocher pour afficher tous les libellés dans la dimension sélectionnée. De
+nombreux tableaux ayant des libellés masqués utilisez cette fonction pour afficher
+l'intégralité de la structure.</p>
+
+  <p><span class="runinhead">Formule :</span> La formule indique le calcul à effectuer. Pour les
+colonnes elle s'applique à chaque ligne, et pour chaque ligne à chaque colonne. Pour faire
+référence à des éléments marqués dans cette dernière, utilisez des apostrophes (') et non des
+guillemets (").</p>
+
+  <p>La formule peut utiliser les opérateurs arithmétiques standard (utilisez ** pour la
+puissance) et des fonctions mathématiques Python standard telles que min, max, mod, trunc, round,
+abs, exp et log (base e, utiliser log(x,10 pour base 10). Il doit s'agir d'une syntaxe Python
+valide, sauf dans la situation décrite ci-dessous. Pour obtenir une liste exhaustive, reportez-vous
+à la documentation Python, incluant le module mathématique.</p>
+
+  <p>La référence aux valeurs de ligne ou de colonne dans le tableau peut être effectuée de trois
+manières. Chacune d'elles est évaluée AVANT l'ajout de tout élément aux tableaux.</p>
+
+  <ul>
+    <li>Les références sous la forme xn, où n est un entier, par exemple, x2, renvoient à la colonne ou à la ligne absolue. La numérotation commence à partir de
+zéro, et x0 est par conséquent la première colonne ou ligne.</li>
+
+    <li>Les références sous la forme x[n] ou x[-n] renvoient aux valeurs situées à gauche ou à
+droite (au-dessus ou en dessous) de l'emplacement cible. Par exemple, x[-1] fait référence à
+l'emplacement situé à la gauche immédiate de l'emplacement cible si des colonnes sont utilisées
+ou immédiatement au-dessus pour des lignes.
+    x[1] est l'emplacement situé immédiatement à droite. x[0] correspond à l'emplacement cible
+lui-même (avant insertion de la cible).
+
+      <p>Exemple : supposons qu'il existe des colonnes avec les libellés a, b, c et que
+l'emplacement cible est c. Alors x[0] fait référence à la valeur c, x[-1]
+à b et x[-2] à la valeur a, quel que soit le mode paramétré.</p>
+    </li>
+
+    <li>Les références sous la forme x['string'] ou x[-'string'] renvoient aux valeurs situées à
+gauche ou à droite (au-dessus ou en dessous) de l'emplacement cible où la chaîne est la
+valeur du libellé pour le niveau indiqué. Par exemple, x[-'Clerical'] fait référence à la
+colonne de gauche la plus proche de l'emplacement cible "Clerical".
+
+      <p>Les chaînes doivent être placées entre guillemets. La notation à l'aide de guillemets
+utilisée ici NE FAIT PAS référence à des dictionnaires Python mais aux emplacements.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Module avec fonctions personnalisées à utiliser dans les
+formules</span> La notation de formule standard donne uniquement accès aux valeurs dans la même
+ligne ou colonne que pour l'emplacement de résultat. Pour accéder à d'autres valeurs du
+tableau, par exemple, aux totaux situés en bas, vous devez écrire une fonction personnalisée. Cela
+peut s'avérer utile également lorsque le calcul est complexe.
+  Indiquez le nom du module Python contenant une ou plusieurs fonctions à utiliser dans la
+formule. Reportez-vous aux informations qui suivent pour savoir comment écrire une fonction
+personnalisée.</p>
+
+  <p><span class="runinhead">Masquer les colonnes ou les lignes d'entrée</span> Sélectionnez cette case à cocher pour masquer toutes les lignes ou colonnes d'entrée
+référencées dans la formule (à l'exception des références d'une fonction personnalisée).</p>
+
+  <p><span class="runinhead">Largeur des colonnes cible (Points)</span> Entrez un nombre pour indiquer la largeur des colonnes cible. Ce nombre est exprimé en points, 72
+points correspondant à un pouce.</p>
+
+  <p><span class="runinhead">Format de colonne cible</span> Sélectionnez un format pour les
+colonnes cible. Asis utilise le format courant si le mode cible est remplacement, sinon le format
+par défaut est utilisé. Les autres formats répertoriés ici sont identiques à ceux affichés
+dans la boîte de dialogue Formats de cellule de l'éditeur de tableau croisé dynamique. Les
+formats de date ne sont pas répertoriés ici mais sont acceptés dans la syntaxe.</p>
+
+  <p><span class="runinhead">Nombre de décimales</span> Indiquez le nombre de chiffres à afficher après la virgule.
+  Ce paramètre ne s'applique pas si le format est Asis.</p>
+
+  <p><span class="runinhead">Afficher les valeurs non valides en tant que</span> Si une valeur ne
+peut pas être calculée du fait que l'entrée n'est pas valide, par exemple, si une valeur est
+manquante ou non numérique, ou en présence d'une condition numérique, par exemple une division par
+zéro, ce paramètre définit le contenu affiché dans la table. Vous pouvez entrer du texte
+personnalisé si le dernier bouton d'option est défini.</p>
+
+  <h2>Utilisation d'un module personnalisé dans la formule</h2>Un module personnalisé peut accéder
+à l'intégralité du tableau croisé dynamique. Voici un exemple d'utilisation du total de tableaux
+croisés dans le calcul pour chaque ligne.
+
+  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender /CELLS=COUNT.</p>
+
+  <p>Cette commande utilise une fonction personnalisée pour accéder au total global dans le tableau.</p>
+
+  <p class="codeblock">stats table calc subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Voici la fonction dans le module customexample :</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>Remarque : Les variables suivantes sont utilisables dans la formule en plus des paramètres
+d'entrée et du contenu du module personnalisé indiqué.</p>
+
+  <ul>
+    <li>pt - objet de tableau croisé dynamique</li>
+
+    <li>datacells - objet de cellules de données du tableau croisé dynamique</li>
+
+    <li>labels - objet de libellés de ligne ou de colonne correspondant au paramètre DIMENSION</li>
+
+    <li>ncells - nombre de lignes ou de colonnes dans l'objet de cellules de données. Par
+exemple, si DIMENSION correspond à des colonnes il s'agit du nombre de lignes.</li>
+
+    <li>roworcol - ligne ou colonne active dans le tableau.</li>
+
+    <li>customdict - dictionnaire que la fonction personnalisée peut utiliser pour enregistrer des
+éléments au cours des appels. Il contient initialement deux entrées
+    dont l'utilisation est réservée à
+la fonction utilisateur et qui n'ont aucune incidence sur le fonctionnement de cette commande.
+
+      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - à définir sur True chaque fois qu'un nouveau tableau est évalué. Il
+revient au code utilisateur de définir ces valeurs sur False si besoin est</li>
+      </ul>
+    </li>
+  </ul>
+  <p>La méthode GetUnformattedValueAt renvoie une chaîne Unicode. Elle doit être convertie en
+variable flottante pour les calculs.</p>
+      <h2>Fonctions supplémentaires</h2>
+
+      <p>Cette boîte de dialogue génère une syntaxe pour la commande d'extension STATS TABLE CALC. Pour afficher l'aide de cette commande, exécutez la syntaxe suivante :</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>Dans la syntaxe de commande, vous pouvez
+spécifier une liste des sous-types présentés individuellement.
+
+      <p>Dans la syntaxe vous pouvez faire référence à un tableau secondaire voisin et insérer
+ou utiliser ses valeurs dans les calculs.</p>
+
+      <h2>Conditions requises</h2>
+
+      <p>Cette boîte de dialogue requiert le plug-in d'intégration pour Python et la commande d'extension STATS TABLE CALC. Pour plus d'informations, reportez-vous à
+Comment obtenir des plug-in d'intégration dans Système central &gt; Questions fréquemment posées dans le système d'aide d'IBM SPSS Statistics. La commande est distribuée en tant que bundle d'extension.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989, 2013</p>
+</body>
+</html>

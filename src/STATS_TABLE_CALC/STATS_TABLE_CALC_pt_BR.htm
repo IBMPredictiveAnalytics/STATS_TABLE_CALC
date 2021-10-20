@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Calcular com Tabelas Dinâmicas</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Calcular com Tabelas Dinâmicas</h1>Este procedimento calcula valores com base em valores da célula em uma tabela dinâmica. Os resultados podem substituir os valores da célula existente ou poderão ser substituídos em novas colunas ou linhas, se executar uma versão de Statistics mais recente que a versão 20. Você pode selecionar tipos específicos de tabelas no Visualizador às quais aplicar essas modificações e o escopo.
+
+  <p class="bullet">• As tabelas de ponderação leve, que estão disponíveis na Versão 19, não são afetadas por este comando, desde que elas possam ser editadas.</p>
+
+  <p>A especificação da seleção consiste nos seguintes itens:</p>
+
+  <ul>
+    <li>Os tipos de tabelas a serem processados. Tipos são os subtipos de tabela OMS.</li>
+
+    <li>A dimensão: linhas ou colunas (o padrão é colunas) onde vão os resultados.</li>
+
+    <li>As linhas ou colunas específicas de resposta</li>
+
+    <li>O escopo de aplicativo: apenas o comando precedente ou todas as saídas (o padrão é saída precedente).</li>
+  </ul>
+
+  <h2>Selecionando as Tabelas, a Dimensão e as Linhas ou Colunas de Resposta</h2>
+
+  <p><span class="runinhead">Subtipo de Tabela:</span> Insira o subtipo de tabela OMS. O subtipo pode ser localizado clicando com o botão direito na estrutura de tópicos em uma instância da tabela e selecionando <em>Copiar o Subtipo OMS</em> ou a partir da lista em <em>Utilitários&gt;Identificadores OMS</em>. Insira * para selecionar todos os subtipos (não frequentemente útil com esse comando).</p>
+
+  <p class="bullet">• Determinados tipos de tabelas não podem ser processados por esse comando. As tabelas com camadas que possuem diversas categorias ou diversas dimensões não podem ser processadas. As tabelas com agrupamento verdadeiro na dimensão selecionada não podem ser processadas, exceto no modo de substituição. Observe que a saída Tabelas Customizadas, que pode aparecer para ser agrupada, não usa realmente o agrupamento verdadeiro e pode, portanto, ser processada.</p>
+
+  <p><span class="runinhead">Dimensão:</span> Escolher <i>Colunas</i> ou <i>Linhas</i> para determinar a dimensão da tabela a ser processada. Se você escolher Colunas, um novo valor será calculado para cada linha na tabela e colocada nessa linha na coluna selecionada. Se você escolher linhas, um novo valor será calculado para cada coluna e colocada na linha selecionada. Diversas colunas ou linhas de saída podem ser especificadas.</p>
+
+  <p><span class="runinhead">Colunas ou Linhas de Destino</span> Insira uma lista separada por espaço em branco nas linhas e colunas de resposta a serem processadas.
+  As linhas ou colunas podem ser especificadas pela posição numérica que conta a partir de zero ou pelo texto do rótulo entre aspas. Com o texto, o primeiro rótulo correspondente determina o local de resposta.</p>
+
+  <p class="bullet">• As correspondências do texto fazem distinção entre maiúsculas e minúsculas.</p>
+
+  <p><span class="runinhead">Repita as especificações de destino para a dimensão toda</span> Se o mesmo rótulo puder ocorrer mais de uma vez, será possível marcar essa caixa para repetir o rótulo ou a sequência de rótulos vezes suficientes para abranger toda a dimensão. Por exemplo, uma tabela pode ter um rótulo "Contagem" para cada categoria de uma variável.
+  Marcando essa caixa, a resposta "Contagem" deverá ser repetida para cada categoria.</p>
+
+  <p class="bullet">• A repetição apenas poderá ser usada quando as respostas forem especificadas como rótulos, não quando forem números.</p>
+
+  <p><span class="runinhead">Nível para Texto do Rótulo Correspondente</span> A primeira linha ou coluna (externa) é 0. Use números negativos para contar para trás a partir do término: -1 é a última linha ou coluna (interna) do rótulo. As especificações numéricas e textuais podem ser combinadas.</p>
+
+  <p class="bullet">• As linhas ou colunas são contadas no nível interno da tabela.</p>
+
+  <p><span class="runinhead">Tabelas de Processos de</span> Escolher processar apenas as tabelas da saída de comando que precede imediatamente ou todas as tabelas no Visualizador dos tipos especificados.</p>
+
+  <p><span class="runinhead">Imprimir os rótulos da tabela (para depuração)</span> Marque esta caixa para ver todos os rótulos na dimensão selecionada. Desde que muitas tabelas tenham rótulos ocultos, use este recurso para ver a estrutura integral.</p>
+
+  <p><span class="runinhead">Fórmula;</span> A fórmula especifica o cálculo a ser transportado. Para as colunas, ela é aplica a cada linha e, para as linhas, ela é aplicada a cada coluna. Se você se referir aos itens entre aspas nela, use aspas simples ('), não aspas duplas (").</p>
+
+  <p>A fórmula pode usar os operadores aritméticos padrão (use ** para potência) e funções matemáticas de Python padrão, como min, max, mod, trunc, round, abs, exp, and log (base e, use log(x,10 for base 10). Deve ser uma sintaxe Python válida, exceto conforme explicado a seguir. Consulte a documentação de Python, incluindo o módulo de correspondência, para obter uma lista completa.</p>
+
+  <p>Os valores de linha ou de coluna podem ser referenciados de três maneiras. Todas essas são avaliadas ANTES que quaisquer itens sejam incluídos nas tabelas.</p>
+
+  <ul>
+    <li>Referências do formulário xn, em que n é um número inteiro, por exemplo, x2, se refere à coluna ou linha absoluta. A numeração inicia a partir de zero, portanto, x0 é a primeira coluna ou linha.</li>
+
+    <li>Referências do formulário x[n] ou x[-n], se refere aos valores à esquerda ou direita (acima ou abaixo) do local de resposta. Por exemplo, x[-1], refere-se à localização imediatamente a esquerda do local de resposta, se estiver usando as colunas ou imediatamente acima dela para as linhas.
+    x[1] é a localização imediatamente à direita. x[0] é o próprio local de resposta (antes que a resposta seja inserida).
+
+      <p>Exemplo: suponha que haja colunas com rótulos A, B e C e o local de resposta seja C. Em seguida, x[0] se referirá ao valor em C, x[-1] se referirá a B e x[-2] se referirá a A, independentemente da configuração de modo.</p>
+    </li>
+
+    <li>Referências do formulário x['sequência de caracteres'] ou x[-'sequência de caracteres'] se refere aos valores à esquerda ou à direita (acima ou abaixo) do local de resposta, em que a sequência de caracteres é o valor do rótulo no nível especificado. Por exemplo, x[-'Clerical'] se refere à coluna mais próxima à esquerda do local de resposta que é rotulado "Clerical".
+
+      <p>Observe que as sequências de caracteres devem estar entre aspas. A notação de colchete usada aqui NÃO se refere aos dicionários Python, mas é usada para se referir a locais.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Módulo com Funções Customizadas a Serem Usadas na Fórmula</span> A notação da fórmula padrão fornece acesso apenas aos valores na mesma linha ou coluna que a localização do resultado. Para acessar outros valores em uma tabela, por exemplo, totais na parte inferior, você deve gravar uma função customizada. Isso também poderá ser útil, se o cálculo estiver complexo.
+  Especifique o nome do módulo Python que contém uma ou mais funções a serem usadas na fórmula. Consulte abaixo para obter detalhes sobre como gravar uma função customizada.</p>
+
+  <p><span class="runinhead">Ocultar Colunas ou Linhas de Entrada</span> Marque essa caixa para ocultar todas as linhas ou colunas de entrada referidas na fórmula (excluindo as referências em uma função customizada).</p>
+
+  <p><span class="runinhead">Largura das Colunas de Destino (Pontos)</span> Insira um número para especificar a largura das colunas de resposta. O número se refere aos pontos. 72 pontos é uma polegada.</p>
+
+  <p><span class="runinhead">Formato da Coluna de Destino</span> Escolher um formato para as colunas de resposta. O estado em que se encontra usará o formato atual, se o modo de destino for substituído; caso contrário ele usará o padrão. Os outros formatos listados são iguais, conforme mostrado na caixa de diálogo Formatos de Células no editor de tabela dinâmica. Os formatos de data não são listados aqui, mas são válidos na sintaxe.</p>
+
+  <p><span class="runinhead">Número de Casas Decimais</span> Especifique o número de dígitos após a vírgula decimal a ser exibida.
+  Essa configuração não se aplicará, se o formato estiver no estado em que se encontra.</p>
+
+  <p><span class="runinhead">Mostrar Valores Inválidos Como</span> Se um valor não puder ser calculado por que a entrada é inválida, por exemplo, um valor omisso ou não numérico ou por causa de uma condição numérica, como por exemplo, divisão por zero, essa configuração controlará o que será exibido na tabela. Será possível inserir o texto customizado, se o último botão de opções estiver configurado.</p>
+
+  <h2>Usando um Módulo Customizado na Fórmula</h2>Um módulo customizado pode ter acesso à tabela dinâmica toda. Aqui está um exemplo em que o total em uma tabela crosstabs é usado no cálculo para cada linha.
+
+  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender /CELLS=COUNT.</p>
+
+  <p>Este comando usa uma função customizada para acessar o total geral na tabela.</p>
+
+  <p class="codeblock">stats table calc   subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace   label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,   datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Aqui está a função no módulo customexample:</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =   float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>Notas: As variáveis a seguir estão disponíveis para uso na fórmula além dos parâmetros de entrada e os conteúdos do módulo customizado especificado.</p>
+
+  <ul>
+    <li>pt - o objeto de tabela dinâmica</li>
+
+    <li>datacells - o objeto de datacells da tabela dinâmica</li>
+
+    <li>labels - o objeto dos rótulos de linha ou da coluna que corresponde à configuração DIMENSION</li>
+
+    <li>ncells - o número de linhas ou colunas no objeto de datacells. Por exemplo, se DIMENSION for colunas, será o número ou as linhas.</li>
+
+    <li>roworcol - a linha ou coluna atual na tabela.</li>
+
+    <li>customdict - um dicionário que a função customizada pode usar para armazenar itens em chamadas. Ele contém duas entradas inicialmente.
+    Esses são exclusivamente para uso pela função do usuário e não têm efeito sobre a operação desse comando.
+
+      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - configura como True cada vez que uma nova tabela é avaliada. É até o código do usuário para configurar esses apropriadamente como False</li>
+      </ul>
+    </li>
+  </ul>
+  <p>O método GetUnformattedValueAt retorna uma sequência de caracteres Unicode. Ele deve ser convertido para um valor flutuante para cálculos.</p>
+      <h2>Recursos adicionais</h2>
+
+      <p>Este diálogo gera a sintaxe para o comando de extensão STATS TABLE CALC. Para exibir ajuda para este comando, execute a seguinte sintaxe:</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>Na sintaxe do comando, você pode especificar uma lista de subtipos delimitados individualmente por aspas.
+
+      <p>Na sintaxe é possível se referir a uma tabela secundária próxima e inserir ou usar seus valores nos cálculos.</p>
+
+      <h2>Requisitos</h2>
+
+      <p>Este diálogo requer o Integration Plug-In for Python e o comando de extensão STATS TABLE CALC. Para obter informações adicionais, consulte Como Obter Integration Plug-In, no Sistema Principal &gt; Perguntas mais Frequentes no sistema de ajuda do IBM SPSS Statistics Help. O comando é distribuído como um pacote configurável de extensão.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989, 2013</p>
+</body>
+</html>

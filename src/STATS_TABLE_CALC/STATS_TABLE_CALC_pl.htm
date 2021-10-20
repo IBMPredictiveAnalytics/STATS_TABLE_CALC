@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Oblicz z tabelami przestawnymi</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Oblicz z tabelami przestawnymi</h1>Ta procedura oblicza wartości na podstawie wartości komórek w tabeli przestawnej. Wyniki mogą zastąpić wartości istniejące w komórkach lub mogą być umieszczane w nowych kolumnach lub wierszach, jeśli wykorzystywana jest nowsza niż 20 wersja programu SPSS Statistics. Można wybrać różne typy tabel w oknie wynikowym (Viewer), do których mają się odnosić te modyfikacje i zakres.
+
+  <p class="bullet">•Ta komenda nie ma wpływu na tabele tradycyjne (Lightweight, dostępne w wersji 19), ponieważ tabele te nie mogą być edytowane.</p>
+
+  <p>Specyfikacja wyboru zawiera następujące elementy:</p>
+
+  <ul>
+    <li>Typy tabel do przetworzenia. Typami są podtypy tabel dostępne w komendzie OMS.</li>
+
+    <li>Wymiar: wiersze lub kolumny (domyślnie kolumny), gdzie kierowane są wyniki.</li>
+
+    <li>Konkretne docelowe wiersze lub kolumny</li>
+
+    <li>Zakres zastosowania: tylko poprzedzająca komenda lub wszystkie wyniki (domyślnie: poprzedzający wynik).</li>
+  </ul>
+
+  <h2>Wybór tabel, wymiaru i docelowych wierszy lub kolumn</h2>
+
+  <p><span class="runinhead">Podtyp tabeli:</span> Wprowadź podtyp tabeli OMS. Podtyp można znaleźć, klikając prawym przyciskiem myszy w strukturze raportu na instancji tabeli i wybierając opcję <em>Kopiuj typ tabeli  OMS</em> lub wybrać z menu pozycje <em>Narzędzia&gt;Identyfikatory OMS</em>. Wprowadź znak *, aby wybrać wszystkie podtypy (taki sposób wyboru jest często nieużyteczny w przypadku tej komendy).</p>
+
+  <p class="bullet">• Niektóre typy tabel mogą nie być przetwarzane przez tę komendę. Tabele z warstwami, które zawierają wiele kategorii lub wiele wymiarów, nie mogą być przetwarzane. Tabele z rzeczywistym zagnieżdżeniem w wybranym wymiarze nie mogą być przetwarzane, za wyjątkiem trybu zastępowania. Uwaga: wyniki w tabelach użytkownika, które mogą wyglądać jak zagnieżdżone, nie są w rzeczywistości zagnieżdżone i dlatego mogą być przetwarzane.</p>
+
+  <p><span class="runinhead">Wymiar:</span> Wybierz <i>Kolumny</i> lub <i>Wiersze</i>, aby ustalić wymiar tabeli do przetwarzania. Jeśli wybierzesz opcję kolumny, nowa wartość zostanie obliczona dla każdego wiersza w tabeli i zostanie umieszczona w tym wierszu w wybranej kolumnie. Jeśli wybierzesz wiersze, nowa wartość zostanie obliczona dla każdej kolumny i umieszczona w wybranym wierszu. Możliwe jest określenie wielu kolumn lub wierszy wynikowych.</p>
+
+  <p><span class="runinhead">Docelowe kolumny lub wiersze</span> Wprowadź rozdzielaną spacjami listę docelowych wierszy lub kolumn do przetworzenia.
+  Wiersze lub kolumny można określać według numeru pozycji, licząc od zera, lub według tekstu etykiety w cudzysłowiu. W przypadku tekstu pierwsza etykieta zgodna określa lokalizację docelową.</p>
+
+  <p class="bullet">• W przypadku dopasowywania tekstu rozróżniana jest wielkość liter.</p>
+
+  <p><span class="runinhead">Powtórz specyfikacje docelowe dla całego wymiaru</span> Jeśli ta sama etykieta może pojawiać się więcej niż raz, wówczas można zaznaczyć to pole wyboru, aby powtarzać etykietę lub sekwencję etykiet wystarczającą liczbę razy w celu pokrycia całego wymiaru. Na przykład: dla każdej kategorii zmiennej może istnieć etykieta "Liczebność".
+  Zaznaczenie tego pola spowoduje powtórzenie etykiety "Liczebność" dla każdej kategorii.</p>
+
+  <p class="bullet">• Powtarzanie można stosować, pod warunkiem że obiekty docelowe są określone jako etykiety, a nie można, jeśli są liczbami.</p>
+
+  <p><span class="runinhead">Poziom dla dopasowania tekstu etykiety</span>
+  Pierwszy (najbardziej zewnętrzny) wiersz lub pierwsza kolumna ma wartość 0. Użyj liczb ujemnych, aby odliczać od końca: -1 to ostatni (najbardziej wewnętrzny) wiersz lub ostatnia kolumna dla etykiety. Specyfikacje numeryczne i tekstowe można łączyć.</p>
+
+  <p class="bullet">• Wiersze lub kolumny liczy się od najbardziej wewnętrznego poziomu tabeli.</p>
+
+  <p><span class="runinhead">Przetwarzaj tabele od</span> Wybierz, czy przetwarzane będą tylko tabele z wyników bezpośrednio poprzedzającej komendy, czy wszystkie tabele określonych typów występujące w oknie wynikowym (Viewer).</p>
+
+  <p><span class="runinhead">Wydrukuj etykiety tabeli (dla debugowania)</span> Zaznacz to pole wyboru, aby wyświetlić wszystkie etykiety w wybranym wymiarze. Ponieważ wiele tabel ma ukryte etykiety, należy użyć tej opcji, aby zobaczyć pełną strukturę.</p>
+
+  <p><span class="runinhead">Formuła;</span> Formuła określa operacje obliczeniowe do wykonania. W przypadku kolumn jest stosowana do każdego wiersza, a w przypadku wierszy jest stosowana do każdej kolumny. W celu utworzenia odniesienia do elementów w cudzysłowach, należy użyć pojedynczych cudzysłowów ('), a nie podwójnych (").</p>
+
+  <p>W formule można stosować standardowe operatory arytmetyczne (** do potęgowania) oraz standardowe funkcje matematyczne dostępne w środowisku Python, takie jak min, max, mod, trunc, round, abs, exp i log (podstawa e, dla podstawy 10 użyć log(x,10). Komendy muszą mieć prawidłową składnię języka Python z wyjątkiem sytuacji opisanych poniżej. Pełną listę zawiera dokumentacja Python, a w niej sekcja dotyczącą modułu math.</p>
+
+  <p>Do wartości wierszy lub kolumn w tabeli można tworzyć odwołania na trzy sposoby. Każdy z nich jest oceniany PRZED dodaniem jakichkolwiek elementów do tabel.</p>
+
+  <ul>
+    <li>Odwołania w formie xn, gdzie n jest liczbą całkowitą, np. x2, dotyczą kolumny bezwzględnej lub wiersza bezwzględnego. Numerowanie zaczyna się od zera, więc x0 jest pierwszą kolumną lub pierwszym wierszem.</li>
+
+    <li>Odwołania w formie x[n] lub x[-n] dotyczą wartości w lewo lub w prawo (powyżej lub poniżej) lokalizacji docelowej. Np.:
+    x[-1] odwołuje się do lokalizacji bezpośrednio w lewo od lokalizacji docelowej w przypadku kolumn, albo do lokalizacji bezpośrednio nad lokalizacją docelową w przypadku wierszy.
+    x[1] jest lokalizacją bezpośrednio w prawo. x[0] jest samą lokalizacją docelową (przed wstawieniem obiektu docelowego).
+
+      <p>Przykład: załóżmy, że istnieją kolumny z etykietami a, b oraz c, a lokalizacja docelowa to c. Następnie x[0] odwołuje się do wartości w c, x[-1] odwołuje się do b, a x[-2] odwołuje się do a, bez względu na ustawienie trybu.</p>
+    </li>
+
+    <li>Odwołania w formie x['łańcuch'] lub x[-'łańcuch'] odwołują się do wartości w lewo lub w prawo (powyżej lub poniżej) od lokalizacji docelowej, gdzie łańcuch jest wartością etykiety na określonym poziomie. Np. x[-'Clerical'] odwołuje się do najbliższej kolumny w lewo od lokalizacji docelowej, która ma etykietę "Clerical".
+
+      <p>Uwaga: łańcuchy należy umieszczać w cudzysłowach. Notacja nawiasów stosowana w tym przypadku NIE odwołuje się do słowników Python, ale służy do odwoływania się do lokalizacji.</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">Moduł z funkcjami niestandardowymi do użycia w formule</span> Notacja standardowej formuły zapewnia również dostęp do wartości w tym samym wierszu lub tej samej kolumnie jako lokalizacji wynikowej. W celu uzyskania dostępu do innych wartości w tabeli, np. podsumowań, należy napisać funkcję niestandardową. Taki sposób dostępu może być użyteczny, gdy obliczenie jest złożone.
+  Określ nazwę modułu Python zawierającego jedną lub większą liczbę funkcji do użycia w formule. Szczegółowe informacje na temat pisania funkcji niestandardowych są dostępne poniżej.</p>
+
+  <p><span class="runinhead">Ukryj kolumny lub wiersze danych wejściowych</span>
+  Zaznacz to pole wyboru, aby ukryć wszystkie wiersze lub kolumny danych wejściowych, do których istnieje odwołanie w formule (z wykluczeniem odwołań w funkcji niestandardowej).</p>
+
+  <p><span class="runinhead">Szerokość kolumn docelowych (w punktach)</span>
+  Wprowadź liczbę, aby określić szerokość kolumn docelowych. Liczba określa liczbę punktów. 72 punkty są równe jednemu calowi.</p>
+
+  <p><span class="runinhead">Format kolumny docelowej</span> Wybierz format dla kolumn docelowych. W przypadku wybrania opcji "Tak jak jest" stosowany jest bieżący format, pod warunkiem że wybrany jest tryb zastępowania; w przeciwnym wypadku używany jest format domyślny. Inne formaty widoczne na liście są takie same, jak formaty w oknie dialogowym Format wartości w oknie Właściwości komórki w edytorze tabel przestawnych. Formaty dat nie zostały tutaj wymienione, ale są prawidłowe w komendach.</p>
+
+  <p><span class="runinhead">Liczba miejsc dziesiętnych</span>
+  Określ liczbę miejsc dziesiętnych do wyświetlania po separatorze miejsc dziesiętnych.
+  To ustawienie nie jest stosowane, jeśli wybrany jest format Tak jak jest.</p>
+
+  <p><span class="runinhead">Pokaż wartości nieprawidłowe jako</span> Jeśli wartości nie można obliczyć, ponieważ dane wejściowe są niepoprawne, np. brak wartości, wartość jest nieliczbowa lub pojawił się warunek, taki jak dzielenie przez zero, to ustawienie kontroluje wyświetlanie treści w tabeli. Jeśli ostatni przełącznik zostanie zaznaczony, wówczas możliwe jest wprowadzenie tekstu niestandardowego.</p>
+
+  <h2>Stosowanie modułu niestandardowego w formule</h2>Moduł niestandardowy może mieć dostęp do całej tabeli przestawnej. Oto przykład, w którym suma w tabeli przestawnej jest używana w obliczeniu dla każdego wiersza.
+
+  <p class="codeblock">CROSSTABS/TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>Ta komenda korzysta z funkcji niestandardowej, aby uzyskać dostęp do sumy ogólnej w tabeli.</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>Oto funkcja modułu customexample:</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>Uwaga: Następujące zmienne są dostępne do wykorzystania w formule w uzupełnieniu do parametrów wejściowych  i zawartości określonego modułu niestandardowego.</p>
+
+  <ul>
+    <li>pt - obiekt tabeli przestawnej</li>
+
+    <li>datacells - obiekt datacells tabeli przestawnej</li>
+
+    <li>labels - obiekt etykiet wiersza lub kolumny odpowiadający ustawieniu DIMENSION</li>
+
+    <li>ncells - liczba wierszy lub kolumn w obiekcie datacells. Np. jeśli DIMENSION ma wartość columns, wówczas jest to liczba wierszy.</li>
+
+    <li>roworcol - bieżący wiersz lub bieżąca kolumna w tabeli.</li>
+
+    <li>customdict - słownik, z którego może korzystać funkcja niestandardowa w celu przechowywania elementów między wywołaniami. Początkowo zawiera dwie pozycje.
+    Są one przeznaczone wyłącznie do użytku przez funkcję użytkownika i nie mają wpływu na działanie tej komendy.
+
+      <ul>
+        <li>firstload - True.</li>
+
+        <li>firsttable - ustawiane na wartość True każdorazowo podczas oceny nowej tabeli. W celu poprawnego ustawienia wartości False wymagany jest odpowiedni kod użytkownika</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Metoda GetUnformattedValueAt zwraca łańcuch Unicode. Na potrzeby obliczeń należy go przekształcić na typ float.</p>
+      <h2>Funkcje dodatkowe</h2>
+
+      <p>To okno dialogowe generuje komendę rozszerzającą STATS TABLE CALC. Aby wyświetlić pomoc dotyczącą tej komendy, uruchom następującą komendę:</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>W składni komendy można określić listę podtypów umieszczonych oddzielnie w cudzysłowie.
+
+      <p>W komendach można tworzyć odniesienia do pobliskiej tabeli pomocniczej oraz wstawiać i korzystać z jej wartości w obliczeniach.</p>
+
+      <h2>Wymagania</h2>
+
+      <p>To okno dialogowe wymaga zainstalowania wtyczki integracyjnej dla języka Python oraz komendy rozszerzającej STATS TABLE CALC. W celu uzyskania dalszych informacji, zobacz temat W jaki sposób uzyskać wtyczki integracyjne, wybierając opcję System podstawowy &gt; Często zadawane pytania w systemie pomocy IBM SPSS Statistics. Ta komenda jest dystrybuowana
+  jako pakiet rozszerzeń.</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

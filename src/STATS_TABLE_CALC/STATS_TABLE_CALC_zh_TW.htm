@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>使用樞紐表計算</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>使用樞紐表計算</h1>此程序根據樞紐表中的資料格值計算值。結果可以取代現有的資料格值，或者，如果執行的 Statistics 版本高於第 20 版，也可以將結果放在新欄或新列中。您可以在檢視器中選取要對其套用這些修改及範圍的特定類型的表格。
+  <p class="bullet">•此指令不會影響第 19 版中的輕量型表格，因為無法編輯這些表格。</p>
+
+  <p>選項規格由下列項目組成：</p>
+
+  <ul>
+    <li>要處理的表格類型。類型是 OMS 表格子類型。</li>
+
+    <li>維度：顯示結果的列或欄（預設是欄）。</li>
+
+    <li>特定目標列或欄</li>
+
+    <li>應用範圍：僅前置指令或所有輸出（預設是前置輸出）。</li>
+  </ul>
+
+  <h2>選取表格、維度及目標列或欄</h2>
+
+  <p><span class="runinhead">表格子類型：</span> 輸入 OMS 表格子類型。在表格實例上的大綱中按一下滑鼠右鍵，並選取<em>複製 OMS 子類型</em>，或是從<em>公用程式&gt;OMS ID</em> 中的清單中選取，即可找到子類型。輸入 * 可選取所有子類型（對此指令而言並非經常適用）。</p>
+
+  <p class="bullet">• 此指令無法處理特定類型的表格。無法處理層包含多個種類或多個維度的表格。無法處理在所選維度中具有真實巢套的表格，除非是在取代模式中。請注意，可能以巢套方式顯示的自訂表格輸出不會實際使用真實的巢套，因此可以處理。</p>
+
+  <p><span class="runinhead">維度：</span> 選擇<i>欄</i>或<i>列</i>可決定要處理的表格的維度。如果選擇欄，會針對表格中的每一列計算新值，並將新值放在所選欄的該列中。如果選擇列，會針對每一欄計算新值，並將新值放在選取的列中。可以指定多個輸出欄或列。</p>
+
+  <p><span class="runinhead">目標欄或列</span> 輸入要處理的目標列或欄之以空格區隔的清單。可透過從零開始計數的數字位置或透過用引號括住的標籤文字來指定列或欄。使用文字，第一個符合的標籤會決定目標位置。</p>
+
+  <p class="bullet">• 文字相符項區分大小寫。</p>
+
+  <p><span class="runinhead">重複整個維度的目標規格</span> 如果相同的標籤可以出現多次，就可以勾選此方框，將標籤或標籤序列重複足夠的次數，以跨越整個維度。例如，表格針對變數的每個種類可能具有「計數」標籤。勾選此方框，將針對每個種類重複「計數」目標。</p>
+
+  <p class="bullet">• 重複次數僅可以在目標被指定為標籤時使用，不可以在目標被指定為數字時使用。</p>
+
+  <p><span class="runinhead">標籤文字比對的層次</span>
+  第一（最外層）列或欄是 0。使用負數可從結尾處倒數回來：-1 是最後一個（最內層）標籤列或欄。可組合數字與文字規格。</p>
+
+  <p class="bullet">• 會在表格的最內層對列或欄計數。</p>
+
+  <p><span class="runinhead">處理表格來源</span> 選擇是僅處理來自立即前置指令輸出的表格，還是處理檢視器中指定類型的所有表格。</p>
+
+  <p><span class="runinhead">列印表格標籤（用於除錯）</span> 勾選此方框可查看所選維度中的所有標籤。因為許多表格有隱藏的標籤，使用此功能可查看完整結構。</p>
+
+  <p><span class="runinhead">公式；</span> 公式指定要執行的計算。對於欄，公式會套用至每個列，對於列，公式會套用至每個欄。如果您參照其中用引號括住的項目，請使用單引號 (')，而不是雙引號 (")。</p>
+
+  <p>公式可以使用標準算術運算子（使用 ** 表示冪）和標準 Python 數學函數，例如 min、max、mod、trunc、round、abs、exp 及 log（基底是 e，使用 log(x，10 表示基底是 10）。除了下面的說明以外，它必須為有效的 Python 語法。如需完整清單，請參閱 Python 文件（包括數學模組）。</p>
+
+  <p>可透過三種方式參照表格中的列或欄值。在將任何項目新增至表格之前，都會先對所有這些值求值。</p>
+
+  <ul>
+    <li>參照格式 xn（其中 n 是整數，例如 x2）會參照絕對欄或列。從零開始編號，因此 x0 是第一個欄或列。</li>
+
+    <li>參照格式 x[n] 或 x[-n] 會參照目標位置左側或右側（上方或下方）的值。例如，x[-1] 會參照緊靠目標位置左側的位置（如果使用欄），或緊靠目標位置上方的位置（如果使用列）。
+x[1] 是緊靠右側的位置。x[0] 是目標位置本身（在插入目標之前）。
+
+<p>範例：假設欄的標籤為 a、b 和 c，且目標位置是 c，則 x[0] 會參照 c 處的值，x[-1] 會參照 b，x[-2] 會參照 a，與模式設定無關。</p>
+    </li>
+
+    <li>參照格式 x['字串'] 或 x[-'字串'] 會參照目標位置左側或右側（上方或下方）的值，其中字串為指定層次上的標籤值。例如，x[-'Clerical'] 會參照標記為 "Clerical" 的目標位置左側最近的欄。
+<p>請注意，必須用引號將字串括住。這裡使用的方括弧表示法不參照 Python 字典，但用於參照位置。</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">具有在公式中使用的自訂函數的模組</span> 標準公式表示法僅能存取與結果位置相同的列或欄中的值。為了存取表格中的其他值，例如，底端的總計，您必須撰寫自訂函數。如果是複雜的計算，這也很有用。指定包含要在公式中使用的一或多個函數之 Python 模組的名稱。請參閱下文以取得如何撰寫自訂函數的詳細資料。</p>
+
+  <p><span class="runinhead">隱藏輸入欄或列</span>
+  勾選此方框可隱藏公式中參照的所有輸入列或欄（不包括自訂函數中的參照）。</p>
+
+  <p><span class="runinhead">目標欄寬（點）</span>
+  輸入數字可指定目標欄的寬度。數字會參照點數。72 點為一英吋。</p>
+
+  <p><span class="runinhead">目標欄格式</span> 選擇目標欄的格式。如果目標模式為取代，則 Asis 會使用現行格式；否則會使用預設值。列出的其他格式與樞紐表編輯器中的「資料格格式」對話框中顯示的格式相同。日期格式未在這裡列出，但在語法中有效。</p>
+
+  <p><span class="runinhead">小數位數</span>
+  指定小數點後要顯示的位數。如果格式為 asis，則不套用此設定。</p>
+
+  <p><span class="runinhead">無效值顯示方式</span> 如果因為輸入無效（例如，遺漏值或非數字值）或因為數值條件（例如，除以零）而導致無法計算值，此設定會控制表格中顯示的內容。如果設定了最後一個圓鈕，則可以輸入自訂文字。</p>
+
+  <h2>在公式中使用自訂模組</h2>自訂模組可以存取整個樞紐表。下面是一個範例，其中，交叉資料表中的總計用於對每一列進行計算。
+
+  <p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>此指令使用自訂函數來存取表格中的整體總計。</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>下面是 customexample 模組中的函數：</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>附註：除了輸入參數及指定的自訂模組的內容外，下列變數還可以用在公式中。</p>
+
+  <ul>
+    <li>pt - 樞紐表物件</li>
+
+    <li>datacells - 樞紐表的 datacells 物件</li>
+
+    <li>labels - 對應於 DIMENSION 設定的列或欄標籤物件</li>
+
+    <li>ncells -  datacells 物件中的列數或欄數。即，如果 DIMENSION 是欄，它就是列數。</li>
+
+    <li>roworcol - 表格中的現行列或欄。</li>
+
+    <li>customdict - 自訂函數可用來儲存呼叫中的項目的字典。它最初包含兩個項目。
+這些項目僅由使用者函數使用，並且對此指令的作業沒有影響。
+
+<ul>
+        <li>firstload - True。</li>
+
+        <li>firsttable - 每次對新表格求值時設為 True。由使用者代碼決定將這些適當地設為 False</li>
+      </ul>
+    </li>
+  </ul>
+  <p>GetUnformattedValueAt 方法會傳回 Unicode 字串。必須將它轉換為浮點數進行計算。</p>
+      <h2>其他特性</h2>
+
+      <p>此對話框會產生 STATS TABLE CALC 延伸指令的語法。若要顯示此指令的說明，請執行下列語法：</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP.</p>在指令語法中，您可以指定單獨用引號括住的子類型的清單。
+
+<p>在語法中，您可以參照鄰近的次要表格，並在計算中插入或使用其值。</p>
+
+      <h2>需求</h2>
+
+      <p>此對話框需要 Integration Plug-In for Python 及 STATS TABLE CALC 延伸指令。如需相關資訊，請參閱 IBM SPSS Statistics 說明系統中「核心系統」&gt;「常見問題」下的「如何取得 Integration Plug-In」。指令會作為延伸組合配送。</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

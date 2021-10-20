@@ -1,145 +1,92 @@
-#/***********************************************************************
-# * Licensed Materials - Property of IBM 
-# *
-# * IBM SPSS Products: Statistics Common
-# *
-# * (C) Copyright IBM Corp. 1989, 2013
-# *
-# * US Government Users Restricted Rights - Use, duplication or disclosure
-# * restricted by GSA ADP Schedule Contract with IBM Corp. 
-# ************************************************************************/
-
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-11 17:26+Central Standard Time\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-10-11 00:55-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: pygettext.py 1.5\n"
-# NLS_ENCODING=UTF-8
-# IBMUPYTH
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
 
-#: modifyvalues.py:69
 msgid "---"
-msgstr ""
-"---"
+msgstr "---"
 
-#: modifyvalues.py:91
 msgid "Only replace mode can be used in Statistics version 20 or earlier"
-msgstr ""
-"在 Statistics 第 20 版或更舊版本中只能使用取代模式"
+msgstr "在 Statistics 第 20 版或更舊版本中只能使用取代模式"
 
-#: modifyvalues.py:95
 msgid "Table Structure"
-msgstr ""
-"表格結構"
+msgstr "表格結構"
 
-#: modifyvalues.py:100
 msgid "Only one of next and previous subtype specifications can be used"
-msgstr ""
-"只能使用後面的和先前的子類型規格之一"
+msgstr "只能使用後面的和先前的子類型規格之一"
 
-#: modifyvalues.py:102
 msgid "A secondary table can only be used with a custommodule"
-msgstr ""
-"次要表格只能與 custommodule 搭配使用"
+msgstr "次要表格只能與 custommodule 搭配使用"
 
-#: modifyvalues.py:125
 msgid "No tables of the specified type were found to update"
-msgstr ""
-"找不到指定類型的表格，無法更新"
+msgstr "找不到指定類型的表格，無法更新"
 
-#: modifyvalues.py:162
 msgid "Secondary table not found: %s"
-msgstr ""
-"找不到次要表格：%s"
+msgstr "找不到次要表格：%s"
 
-#: modifyvalues.py:186
 msgid "Target specification must be a sequence of one or more values"
-msgstr ""
-"目標規格必須是一或多個值的序列"
+msgstr "目標規格必須是一或多個值的序列"
 
-#: modifyvalues.py:189
 msgid "The rows dimension cannot be combined with resizing"
-msgstr ""
-"列維度不能與重新調整大小組合"
+msgstr "列維度不能與重新調整大小組合"
 
-#: modifyvalues.py:208
 msgid ""
-"Cannot apply command to this table, because it has nested dimensions.\nNumber of dimensions: %s"
-msgstr ""
-"無法將指令套用至此表格，因為它具有巢套的維度。\n維度數：%s"
+"Cannot apply command to this table, because it has nested dimensions.\nNumber "
+"of dimensions: %s"
+msgstr "無法將指令套用至此表格，因為它具有巢套的維度。\n維度數：%s"
 
-#: modifyvalues.py:215
-msgid "Tables with layers with multiple categories or multiple dimensions are not supported"
-msgstr ""
-"不支援層具有多個種類或多個維度的表格"
+msgid ""
+"Tables with layers with multiple categories or multiple dimensions are not "
+msgstr "不支援層具有多個種類或多個維度的表格"
 
-#: modifyvalues.py:253
 msgid "Table Labels: %s.  Dimensions: %s, %s"
-msgstr ""
-"表格標籤：%s。維度：%s，%s"
+msgstr "表格標籤：%s。維度：%s，%s"
 
-#: modifyvalues.py:300
 msgid "The specified custom module could not be loaded: %s"
-msgstr ""
-"無法載入指定的自訂模組：%s"
+msgstr "無法載入指定的自訂模組：%s"
 
-#: modifyvalues.py:347
 msgid "Repeating locations can only be used with label text"
-msgstr ""
-"重複位置只能與標籤文字搭配使用"
+msgstr "重複位置只能與標籤文字搭配使用"
 
-#: modifyvalues.py:351
 msgid "A specified row or column label number is outside the table: %s"
-msgstr ""
-"指定的列或欄標籤號碼超出表格範圍：%s"
+msgstr "指定的列或欄標籤號碼超出表格範圍：%s"
 
-#: modifyvalues.py:360
 msgid "Specified target location does not match any existing label: %s"
-msgstr ""
-"指定的目標位置不符合任何現有標籤：%s"
+msgstr "指定的目標位置不符合任何現有標籤：%s"
 
-#: modifyvalues.py:381
 msgid "left or up"
-msgstr ""
-"左或上"
+msgstr "左或上"
 
-#: modifyvalues.py:384
 msgid "right or down"
-msgstr ""
-"右或下"
+msgstr "右或下"
 
-#: modifyvalues.py:395
-msgid "A specified input label was not found: %s, search direction from target: %s"
-msgstr ""
-"找不到指定的輸入標籤：%s，目標的搜尋方向：%s"
+msgid ""
+"A specified input label was not found: %s, search direction from target: %s"
+msgstr "找不到指定的輸入標籤：%s，目標的搜尋方向：%s"
 
-#: modifyvalues.py:402
 msgid "A specified relative row or column number is outside the table: %s"
-msgstr ""
-"指定的相對列或欄號碼超出表格範圍：%s"
+msgstr "指定的相對列或欄號碼超出表格範圍：%s"
 
-#: modifyvalues.py:408
 msgid "An absolute cell reference is outside the table: %s"
-msgstr ""
-"絕對資料格參照超出表格範圍：%s"
+msgstr "絕對資料格參照超出表格範圍：%s"
 
-#: modifyvalues.py:543
-msgid "The format or decimals specified for modified cells is not valid: %s, %s"
-msgstr ""
-"為已修改的資料格指定的格式或小數無效：%s，%s"
+msgid ""
+"The format or decimals specified for modified cells is not valid: %s, %s"
+msgstr "為已修改的資料格指定的格式或小數無效：%s，%s"
 
-#: modifyvalues.py:668
 msgid "Messages"
-msgstr ""
-"訊息"
-
+msgstr "訊息"

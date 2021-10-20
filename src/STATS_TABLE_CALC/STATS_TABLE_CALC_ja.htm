@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+
+"text/html; charset=utf-8">
+
+  <title>ピボット テーブルを使用した計算</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>ピボット テーブルを使用した計算</h1>このプロシージャは、ピボット テーブルのセル値に基づいて値を計算します。既存のセル値を計算結果に置き換えるか、または Statistics のバージョンが 20 よりも新しい場合は新規の行または列に計算結果を格納できます。これらの変更および範囲を適用する特定の種類のテーブルをビューアで選択できます。  
+<p class="bullet">•バージョン 19 で使用可能な軽量テーブルは編集不可であるため、このコマンドの影響を受けません。</p>
+
+  <p>選択の指定は次の項目で構成されています。</p>
+
+  <ul>
+    <li>処理するテーブルの種類。種類は OMS テーブル サブタイプです。</li>
+
+    <li>ディメンション: 結果が格納される行または列 (デフォルトは列)。</li>
+
+    <li>特定の対象行または対象列</li>
+
+    <li>アプリケーションの範囲: 先行コマンドの出力のみまたはすべての出力 (デフォルトは先行出力)。</li>
+  </ul>
+
+  <h2>テーブル、ディメンション、および対象の行または列の選択</h2>
+
+  <p><span class="runinhead">テーブル サブタイプ:</span> OMS テーブル サブタイプを入力します。サブタイプを検索するには、テーブルのインスタンスのアウトラインを右クリックして<em>「OMS テーブルのサブタイプをコピー」</em>を選択するか、または<em>「ユーティリティー」&gt;「OMS 識別子」</em>のリストから選択します。すべてのサブタイプを選択するには * を入力します (このコマンドでは有用でないことがよくあります)。</p>
+
+  <p class="bullet">• このコマンドでは処理できないタイプのテーブルがあります。複数のカテゴリまたは複数のディメンションを含む層があるテーブルは処理できません。選択されたディメンションで実際のネストがあるテーブルは、置換モード以外では処理できません。カスタム テーブル出力はネストしているように見えることがありますが、実際のネストを使用していないため、処理可能です。</p>
+
+  <p><span class="runinhead">ディメンション:</span> <i>「列」</i> または<i>「行」</i> を選択し、テーブルの処理対象ディメンションを決定します。「列」を選択すると、テーブルの各行の新規値が計算され、選択された列で該当する行に挿入されます。「行」を選択すると、各列の値が計算され、選択された行に挿入されます。複数の出力列または出力行を指定できます。</p>
+
+  <p><span class="runinhead">対象列または対象行:</span> 処理対象の行または列を空白で区切ったリストを入力します。行または列を指定するには、ゼロから始まる数値で示される位置または引用符で囲んだラベル テキストを使用します。テキストを使用する場合、最初に一致するラベルによって、対象の位置が決まります。</p>
+
+  <p class="bullet">• テキスト一致では大/小文字が区別されます。</p>
+
+  <p><span class="runinhead">ディメンション全体で対象の指定を繰り返す:</span> 同じラベルが複数回出現する場合は、このボックスにチェック マークを付けます。これにより、ディメンション全体にわたる十分な回数でラベルまたはラベルのシーケンスを繰り返すことができます。例えばテーブルで変数の各カテゴリに対して「Count」ラベルがあるとします。このボックスにチェック マークを付けると、カテゴリごとに「Count」対象が繰り返されます。</p>
+
+  <p class="bullet">• 繰り返しを使用できるのは、対象がラベルとして指定されている場合のみです。対象が番号の場合は使用できません。</p>
+
+  <p><span class="runinhead">ラベル テキスト一致レベル:</span>
+ 1 番目 (最外部) の行または列は 0 です。最後から数える場合は負数を使用します。例えば、-1 は最後 (再内部) のラベル行または列です。数値とテキストの指定は組み合わせることができます。</p>
+
+  <p class="bullet">• 行または列は、テーブルの最内部のレベルから数えられます。</p>
+
+  <p><span class="runinhead">次のテーブルを処理:</span> 直前のコマンド出力のテーブルのみを処理するか、または指定されたタイプのビューアのすべてのテーブルを処理するかを指定します。</p>
+
+  <p><span class="runinhead">テーブル ラベルの印刷 (デバッグ用)
+:</span> 選択されているディメンションのラベルをすべて出力するには、このボックスにチェック マークを付けます。多くのテーブルには非表示のラベルがあるため、完全な構造を確認するにはこの機能を使用します。</p>
+
+  <p><span class="runinhead">数式:</span> 数式は、実行する計算を指定します。列の場合は各行に適用され、行の場合は各列に適用されます。式で引用符で囲まれた項目を参照する場合は、二重引用符 (") ではなく単一引用符 (') を使用してください。</p>
+
+  <p>式では標準算術演算子 (べき乗には ** を使用) と標準 Python 数学関数 (min、max、mod、trunc、round、abs、exp、および log (底 e、底 10 の場合は log(x,10 を使用) を使用できます。これは、以下に説明する例を除き有効な Python シンタックスである必要があります。詳細なリストについては Python の資料 (数学モジュールなど) を参照してください。</p>
+
+  <p>テーブルの列と行の値は、3 とおりの方法で参照できます。これらはすべて、項目をテーブルに追加する前に評価されます。</p>
+
+  <ul>
+    <li>xn という形式の参照 (n は整数。例: x2)。これは絶対列または絶対行を参照します。番号はゼロから始まります。したがって 1 番目の行または列は x0 になります。</li>
+
+    <li>x[n] または x[-n] という形式の参照では、対象の位置の左右 (上下) の値を参照します。例えば x[-1] は、列を使用している場合は対象の位置のすぐ左側、行を使用している場合は対象の位置のすぐ上を参照します。
+x[1] は、右隣の位置です。x[0] は、対象の位置自体 (対象の挿入前) です。
+
+<p>例: ラベル a、b、c が付いた列があり、対象の位置が c であるとします。この場合、モード設定に関係なく、x[0] は c の値を参照し、x[-1] は b を参照し、x[-2] は a を参照します。</p>
+    </li>
+
+    <li>x['string'] または x[-'string'] という形式の参照は、string が指定されたレベルにあるラベルの値である対象の位置の左または右 (上または下) の値を指します。例えば x[-'Clerical'] は、「Clerical」というラベルが付いた対象の位置のすぐ左側にある列を参照します。
+<p>文字列は引用符で囲む必要があることに注意してください。ここで使用されている大括弧表記は、Python ディクショナリーを参照するものではなく、位置参照するために使用されています。</p>
+    </li>
+  </ul>
+
+  <p><span class="runinhead">数式に使用するカスタム関数が含まれているモジュール:</span> 標準の数式表記では、結果の位置と同じ行または列の値へのアクセスのみが提供されます。テーブルのその他の値 (下部の合計など) にアクセスするには、カスタム関数を作成する必要があります。これは計算が複雑な場合にも役立ちます。数式で使用する 1 つ以上の関数が含まれている Python モジュールの名前を指定してください。カスタム関数の記述方法について詳しくは、以下の説明を参照してください。</p>
+
+  <p><span class="runinhead">入力列または入力行を非表示にする:</span>
+ 数式で参照する入力行または入力列 (カスタム関数での参照を除く) をすべて非表示にするには、このボックスにチェック マークを付けます。</p>
+
+  <p><span class="runinhead">対象列の幅 (ポイント):</span>
+ 対象列の幅を指定する数値を入力します。この数値はポイント単位です。72 ポイントが 1 インチとなります。</p>
+
+  <p><span class="runinhead">対象列の形式:</span> 対象列の形式を選択します。「そのまま」では、対象モードが「置換」の場合は現行の形式が使用され、それ以外の場合はデフォルトが使用されます。リストされるその他の形式は、ピボット テーブル エディターの「セル書式」ダイアログ ボックスに表示される形式と同じです。日付形式はリストされませんが、シンタックスでは有効です。</p>
+
+  <p><span class="runinhead">小数桁数:</span>
+ 表示する小数点以下の桁数を指定します。この設定は、形式が「そのまま」の場合には適用されません。</p>
+
+  <p><span class="runinhead">無効な値の表示形式:</span> 入力が無効なために値が計算できない場合 (欠損値または非数値、ゼロ除算などの数値条件など)、この設定によりテーブルに表示される内容が制御されます。最後のラジオ ボタンを設定する場合はカスタム テキストを入力できます。</p>
+
+  <h2>数式でのカスタム モジュールの使用</h2>カスタム モジュールはピボット テーブル全体にアクセスできます。クロス集計表テーブルの合計が各行の計算に使用される例を以下に示します。<p class="codeblock">CROSSTABS /TABLES=jobcat BY gender
+  /CELLS=COUNT.</p>
+
+  <p>このコマンドは、カスタム関数を使用してテーブルの合計にアクセスします。</p>
+
+  <p class="codeblock">stats table calc
+  subtype='Crosstabulation'<br>
+  /target dimension=columns level=-1 location="Total" Mode=replace
+  label="Ratio"<br>
+  &nbsp;&nbsp;custommodule="customexample"<br>
+  &nbsp;&nbsp;formula = "customexample.custom(datacells, ncells,
+  datacells.GetValueAt(roworcol, 0))"<br>
+  &nbsp;&nbsp;/format cellformat="#,###.##" decimals=3.<br></p>
+
+  <p>customexample モジュールの関数を以下に示します。</p>
+
+  <p class="codeblock">def custom(datacells, ncells, value):<br>
+  &nbsp;&nbsp;'''Calculate percent of total'''<br>
+  &nbsp;&nbsp;x =
+  float(datacells.GetUnformattedValueAt(ncells-1,2)) # total<br>
+  &nbsp;&nbsp;return float(value) / x<br></p>
+
+  <p>注: 指定されたカスタム モジュールの内容と入力パラメータの他に数式で使用できる変数を以下に示します。</p>
+
+  <ul>
+    <li>pt - ピボット テーブル オブジェクト</li>
+
+    <li>datacells - ピボット テーブルのデータ セル オブジェクト</li>
+
+    <li>labels - DIMENSION 設定に対応する列ラベル オブジェクトまたは行ラベル オブジェクト</li>
+
+    <li>ncells - データ セル オブジェクトの行または列の数。例えば DIMENSION が列の場合、これは行の数です。</li>
+
+    <li>roworcol - テーブルの現在行または現在列。</li>
+
+    <li>customdict - カスタム関数が複数の呼び出しに渡って項目を格納するために使用できるディクショナリー。最初は 2 つのエントリーが含まれています。
+これらのエントリーはユーザー関数専用であり、このコマンドの操作には影響しません。
+<ul>
+        <li>firstload - True。</li>
+
+        <li>firsttable - 新しいテーブルを評価するたびに True に設定されます。False に設定するには、ユーザー コードで適切に設定します。</li>
+      </ul>
+    </li>
+  </ul>
+  <p>GetUnformattedValueAt メソッドは Unicode 文字列を返します。これは、計算のために浮動小数に変換する必要があります。</p>
+      <h2>その他の機能</h2>
+
+      <p>このダイアログでは、STATS TABLE CALC 拡張コマンドのシンタックスが生成されます。このコマンドのヘルプを表示するには、次のシンタックスを実行します。</p>
+
+      <p class="codeblock">STATS TABLE CALC /HELP</p>コマンド シンタックスで、それぞれ引用符で囲んだサブタイプのリストを指定できます。
+<p>シンタックスでは、近傍のセカンダリ テーブルを参照し、そのテーブルの値を計算で使用または挿入できます。</p>
+
+      <h2>要件</h2>
+
+      <p>このダイアログを使用するには、Integration Plug-In for Python と STATS TABLE CALC 拡張コマンドが必要です。詳しくは、IBM SPSS Statistics ヘルプ システムの「コア システム」&gt;「よくある質問」の「Integration Plug-In の取得方法」を参照してください。
+このコマンドは拡張バンドルとして配布されます。</p><br>
+      <hr>
+
+      <p style="font-size:80%;">© Copyright SPSS Inc. 1989,
+      2013</p>
+</body>
+</html>

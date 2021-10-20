@@ -1,145 +1,92 @@
-#/***********************************************************************
-# * Licensed Materials - Property of IBM 
-# *
-# * IBM SPSS Products: Statistics Common
-# *
-# * (C) Copyright IBM Corp. 1989, 2013
-# *
-# * US Government Users Restricted Rights - Use, duplication or disclosure
-# * restricted by GSA ADP Schedule Contract with IBM Corp. 
-# ************************************************************************/
-
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-11 17:26+Central Standard Time\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-10-11 00:36-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: pygettext.py 1.5\n"
-# NLS_ENCODING=UTF-8
-# IBMUPYTH
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
 
-#: modifyvalues.py:69
 msgid "---"
-msgstr ""
-"---"
+msgstr "---"
 
-#: modifyvalues.py:91
 msgid "Only replace mode can be used in Statistics version 20 or earlier"
-msgstr ""
-"Statistics 버전 20 이하에서는 대체 모드만 사용할 수 있습니다."
+msgstr "Statistics 버전 20 이하에서는 대체 모드만 사용할 수 있습니다."
 
-#: modifyvalues.py:95
 msgid "Table Structure"
-msgstr ""
-"표 구조"
+msgstr "표 구조"
 
-#: modifyvalues.py:100
 msgid "Only one of next and previous subtype specifications can be used"
-msgstr ""
-"다음 및 이전 하위 유형 사양 중 하나만 사용할 수 있습니다."
+msgstr "다음 및 이전 하위 유형 사양 중 하나만 사용할 수 있습니다."
 
-#: modifyvalues.py:102
 msgid "A secondary table can only be used with a custommodule"
-msgstr ""
-"보조 표는 custommodule과만 사용할 수 있습니다. "
+msgstr "보조 표는 custommodule과만 사용할 수 있습니다. "
 
-#: modifyvalues.py:125
 msgid "No tables of the specified type were found to update"
-msgstr ""
-"업데이트할 지정된 유형의 표를 찾지 못했습니다."
+msgstr "업데이트할 지정된 유형의 표를 찾지 못했습니다."
 
-#: modifyvalues.py:162
 msgid "Secondary table not found: %s"
-msgstr ""
-"보조 표를 찾을 수 없습니다: %s"
+msgstr "보조 표를 찾을 수 없습니다: %s"
 
-#: modifyvalues.py:186
 msgid "Target specification must be a sequence of one or more values"
-msgstr ""
-"대상 사양은 하나 이상의 값의 시퀀스여야 합니다."
+msgstr "대상 사양은 하나 이상의 값의 시퀀스여야 합니다."
 
-#: modifyvalues.py:189
 msgid "The rows dimension cannot be combined with resizing"
-msgstr ""
-"행 차원은 크기 조정과 결합할 수 없습니다."
+msgstr "행 차원은 크기 조정과 결합할 수 없습니다."
 
-#: modifyvalues.py:208
 msgid ""
-"Cannot apply command to this table, because it has nested dimensions.\nNumber of dimensions: %s"
-msgstr ""
-"중첩된 차원을 가지므로 이 표에 명령문을 적용할 수 없습니다.\n차원 수: %s"
+"Cannot apply command to this table, because it has nested dimensions.\nNumber "
+"of dimensions: %s"
+msgstr "중첩된 차원을 가지므로 이 표에 명령문을 적용할 수 없습니다.\n차원 수: %s"
 
-#: modifyvalues.py:215
-msgid "Tables with layers with multiple categories or multiple dimensions are not supported"
-msgstr ""
-"다중 범주 또는 다중 차원이 있는 레이어가 있는 표는 지원되지 않습니다."
+msgid ""
+"Tables with layers with multiple categories or multiple dimensions are not "
+msgstr "다중 범주 또는 다중 차원이 있는 레이어가 있는 표는 지원되지 않습니다."
 
-#: modifyvalues.py:253
 msgid "Table Labels: %s.  Dimensions: %s, %s"
-msgstr ""
-"표 레이블: %s.  차원: %s, %s"
+msgstr "표 레이블: %s.  차원: %s, %s"
 
-#: modifyvalues.py:300
 msgid "The specified custom module could not be loaded: %s"
-msgstr ""
-"지정된 사용자 정의 모듈을 로드할 수 없습니다. %s"
+msgstr "지정된 사용자 정의 모듈을 로드할 수 없습니다. %s"
 
-#: modifyvalues.py:347
 msgid "Repeating locations can only be used with label text"
-msgstr ""
-"위치 반복은 레이블 텍스트와만 사용할 수 있습니다."
+msgstr "위치 반복은 레이블 텍스트와만 사용할 수 있습니다."
 
-#: modifyvalues.py:351
 msgid "A specified row or column label number is outside the table: %s"
-msgstr ""
-"지정된 행 또는 열 레이블 번호가 표의 외부에 있습니다. %s"
+msgstr "지정된 행 또는 열 레이블 번호가 표의 외부에 있습니다. %s"
 
-#: modifyvalues.py:360
 msgid "Specified target location does not match any existing label: %s"
-msgstr ""
-"지정된 대상 위치가 기존 레이블과 매치하지 않습니다. %s"
+msgstr "지정된 대상 위치가 기존 레이블과 매치하지 않습니다. %s"
 
-#: modifyvalues.py:381
 msgid "left or up"
-msgstr ""
-"왼쪽 또는 위쪽"
+msgstr "왼쪽 또는 위쪽"
 
-#: modifyvalues.py:384
 msgid "right or down"
-msgstr ""
-"오른쪽 또는 아래쪽"
+msgstr "오른쪽 또는 아래쪽"
 
-#: modifyvalues.py:395
-msgid "A specified input label was not found: %s, search direction from target: %s"
-msgstr ""
-"지정된 입력 레이블을 찾지 못했습니다. %s, 대상에서 방향 검색: %s"
+msgid ""
+"A specified input label was not found: %s, search direction from target: %s"
+msgstr "지정된 입력 레이블을 찾지 못했습니다. %s, 대상에서 방향 검색: %s"
 
-#: modifyvalues.py:402
 msgid "A specified relative row or column number is outside the table: %s"
-msgstr ""
-"지정된 상대 행 또는 열 번호가 표의 외부에 있습니다. %s"
+msgstr "지정된 상대 행 또는 열 번호가 표의 외부에 있습니다. %s"
 
-#: modifyvalues.py:408
 msgid "An absolute cell reference is outside the table: %s"
-msgstr ""
-"절대 셀 참조가 표 외부에 있습니다. %s"
+msgstr "절대 셀 참조가 표 외부에 있습니다. %s"
 
-#: modifyvalues.py:543
-msgid "The format or decimals specified for modified cells is not valid: %s, %s"
-msgstr ""
-"수정된 셀에 대해 지정된 형식 또는 소수점이하자리가 올바르지 않습니다. %s, %s"
+msgid ""
+"The format or decimals specified for modified cells is not valid: %s, %s"
+msgstr "수정된 셀에 대해 지정된 형식 또는 소수점이하자리가 올바르지 않습니다. %s, %s"
 
-#: modifyvalues.py:668
 msgid "Messages"
-msgstr ""
-"메시지"
-
+msgstr "메시지"
