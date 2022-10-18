@@ -17,6 +17,20 @@ Installation intructions
 3. Search for the name of the extension and click Ok. Your extension will be available.
 
 ---
+Tutorial
+----
+
+### Installation Location
+
+Utilities →
+
+&nbsp;&nbsp;Calculate with Pivot Table 
+
+### UI
+<img width="954" alt="image" src="https://user-images.githubusercontent.com/19230800/196491580-fab57d3d-5d39-4e9a-ab18-b0bef9ec7b5f.png">
+
+
+---
 License
 ----
 
