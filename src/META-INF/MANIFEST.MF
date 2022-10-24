@@ -1,5 +1,5 @@
 Name: STATS_TABLE_CALC
-Display-Name; Calculate with Pivot Table Cells
+Display-Name: Calculate with Pivot Table Cells
 Dialog-Specs: STATS_TABLE_CALC.spd
 Command-Specs: STATS_TABLE_CALC.xml
 Code-Files: customexample.py,STATS_TABLE_CALC.py,modifyvalues.py,restr
