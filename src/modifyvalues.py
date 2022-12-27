@@ -26,6 +26,7 @@ __author__ = "JKP, IBM SPSS"
 # 10-jun-2017 Allow multiple secondary tables
 # 28-nov-2018 Make labels for replacement a list
 # 07-sep-2021 Generalize selection for multiple secondary tables
+# 06-dec-2021 Add (back) insertpoint as an parameter for a custom function
 
 
 import spss, SpssClient, spssaux
@@ -80,20 +81,13 @@ def modify(subtype, location, formula, targetlabel, mode="replace",
             return msg
 
     # debugging
-    # makes debug apply only to the current thread
-    #try:
-        #import wingdbstub
-        #if wingdbstub.debugger != None:
-            #import time
-            #wingdbstub.debugger.StopDebug()
-            #time.sleep(1)
-            #wingdbstub.debugger.StartDebug()
-        #import thread
-        #wingdbstub.debugger.SetDebugThreads({thread.get_ident(): 1}, default_policy=0)
-        ## for V19 use
-        ###    ###SpssClient._heartBeat(False)
-    #except:
-        #pass
+    try:
+        import wingdbstub
+        import threading
+        wingdbstub.Ensure()
+        wingdbstub.debugger.SetDebugThreads({threading.get_ident(): 1})
+    except:
+        pass
 
     if spssaux.GetSPSSMajorVersion() < 21 and mode != "replace":
         raise ValueError(_("""Only replace mode can be used in Statistics version 20 or earlier"""))
@@ -502,6 +496,7 @@ class Formula(object):
             self.custom.update({"pt": self.pt, "datacells": self.datacells, "labels": self.labels, 
                 "ncells": ncells,"secondary": self.secondary, "ncells2": ncells2, "resultnumber": resultnumber,
                 "currentloc": self.location[resultnumber],
+                "insertpoint": self.insertpoint[resultnumber],
                 'sdatacells':sdatacells, "insertpoints": self.insertpoint})
         for roworcol in range(ncells):
             for input in inputs:   # build dictionary of input values
